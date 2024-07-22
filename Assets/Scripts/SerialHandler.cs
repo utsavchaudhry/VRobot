@@ -60,13 +60,23 @@ public class SerialHandler : MonoBehaviour
 
     private void Update()
     {
-        //Debug.Log(ServoMapper.Instance.GetAngle(ServoMapper.Side.R, ServoMapper.BodyJoint.Elbow));
+        //Debug.Log(ServoMapper.Instance.GetAngle(ServoMapper.Side.R, ServoMapper.BodyJoint.ShoulderLateral));
 
-        SendSerialData(ServoMapper.Instance.GetAngle(ServoMapper.Side.R, ServoMapper.BodyJoint.Finger).ToString() + "," +
+        string servoMessage = ServoMapper.Instance.GetAngle(ServoMapper.Side.R, ServoMapper.BodyJoint.Finger).ToString() + "," +
             ServoMapper.Instance.GetAngle(ServoMapper.Side.R, ServoMapper.BodyJoint.Wrist).ToString() + "," +
             ServoMapper.Instance.GetAngle(ServoMapper.Side.R, ServoMapper.BodyJoint.Palm).ToString() + "," +
             ServoMapper.Instance.GetAngle(ServoMapper.Side.R, ServoMapper.BodyJoint.Elbow).ToString() + "," +
             ServoMapper.Instance.GetAngle(ServoMapper.Side.R, ServoMapper.BodyJoint.ShoulderLateral).ToString() + "," +
-            ServoMapper.Instance.GetAngle(ServoMapper.Side.R, ServoMapper.BodyJoint.ShoulderForward).ToString());
+            ServoMapper.Instance.GetAngle(ServoMapper.Side.R, ServoMapper.BodyJoint.ShoulderForward).ToString() + "," +
+            ServoMapper.Instance.GetAngle(ServoMapper.Side.L, ServoMapper.BodyJoint.Finger).ToString() + "," +
+            ServoMapper.Instance.GetAngle(ServoMapper.Side.L, ServoMapper.BodyJoint.Wrist).ToString() + "," +
+            ServoMapper.Instance.GetAngle(ServoMapper.Side.L, ServoMapper.BodyJoint.Palm).ToString() + "," +
+            ServoMapper.Instance.GetAngle(ServoMapper.Side.L, ServoMapper.BodyJoint.Elbow).ToString() + "," +
+            ServoMapper.Instance.GetAngle(ServoMapper.Side.L, ServoMapper.BodyJoint.ShoulderLateral).ToString() + "," +
+            ServoMapper.Instance.GetAngle(ServoMapper.Side.L, ServoMapper.BodyJoint.ShoulderForward).ToString();
+
+        SendSerialData(servoMessage);
+
+        VRobotSim.Instance.Set(servoMessage);
     }
 }
