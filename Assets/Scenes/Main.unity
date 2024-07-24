@@ -679,7 +679,7 @@ GameObject:
   - component: {fileID: 191859065}
   m_Layer: 0
   m_Name: CenterEyeAnchor
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3315,6 +3315,8 @@ MonoBehaviour:
     axis: 2
     offset: 0
     flip: 0
+  avatar: {fileID: 432608896}
+  headPositionOffset: {x: 0, y: 0, z: 0}
 --- !u!4 &867426070
 Transform:
   m_ObjectHideFlags: 0
@@ -5380,7 +5382,7 @@ GameObject:
   - component: {fileID: 1751794054}
   m_Layer: 0
   m_Name: CenterEyeAnchor
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

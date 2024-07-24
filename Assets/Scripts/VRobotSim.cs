@@ -62,10 +62,19 @@ public class VRobotSim : MonoBehaviour
     }
 
     [SerializeField] private ServoSim[] joints;
+    [SerializeField] private Transform avatar;
+    [SerializeField] private Vector3 headPositionOffset;
+
+    private Transform head;
 
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        head = Camera.main.transform;
     }
 
     public void Set(string servoMessage)
@@ -75,6 +84,19 @@ public class VRobotSim : MonoBehaviour
         for (int i = 0; i < maxIndex; i++)
         {
             joints[i].Set(angles[i]);
+        }
+    }
+
+    private void Update()
+    {
+        if (head)
+        {
+            transform.position = head.transform.position + headPositionOffset;
+        }
+
+        if (avatar)
+        {
+            transform.forward = avatar.forward;
         }
     }
 }

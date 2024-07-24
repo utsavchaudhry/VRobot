@@ -73,7 +73,9 @@ public class SerialHandler : MonoBehaviour
             ServoMapper.Instance.GetAngle(ServoMapper.Side.L, ServoMapper.BodyJoint.Palm).ToString() + "," +
             ServoMapper.Instance.GetAngle(ServoMapper.Side.L, ServoMapper.BodyJoint.Elbow).ToString() + "," +
             ServoMapper.Instance.GetAngle(ServoMapper.Side.L, ServoMapper.BodyJoint.ShoulderLateral).ToString() + "," +
-            ServoMapper.Instance.GetAngle(ServoMapper.Side.L, ServoMapper.BodyJoint.ShoulderForward).ToString();
+            ServoMapper.Instance.GetAngle(ServoMapper.Side.L, ServoMapper.BodyJoint.ShoulderForward).ToString() + "," +
+            ServoMapper.Instance.GetHeadAngle(ServoMapper.HeadAxis.Pitch).ToString() + "," +
+            ServoMapper.Instance.GetHeadAngle(ServoMapper.HeadAxis.Yaw).ToString();
 
         SendSerialData(servoMessage);
 

@@ -6,6 +6,7 @@ public class ServoMapper : MonoBehaviour
 {
     public enum Side { L, R }
     public enum BodyJoint { ShoulderForward, ShoulderLateral, Elbow, Palm, Wrist, Finger }
+    public enum HeadAxis { Pitch, Yaw }
 
     [System.Serializable]
     private class Arm
@@ -100,6 +101,8 @@ public class ServoMapper : MonoBehaviour
     [SerializeField] private Arm leftArm;
     [SerializeField] private Arm rightArm;
 
+    private Transform head;
+
     private void Awake()
     {
         Instance = this;
@@ -109,10 +112,41 @@ public class ServoMapper : MonoBehaviour
     {
         leftArm.Initialize(avatar, Side.L);
         rightArm.Initialize(avatar, Side.R);
+
+        head = Camera.main.transform;
     }
 
     public int GetAngle(Side side, BodyJoint joint)
     {
         return side == Side.L ? leftArm.GetAngle(joint) : rightArm.GetAngle(joint);
+    }
+
+    public int GetHeadAngle(HeadAxis axis)
+    {
+        if (!head)
+        {
+            return 90;
+        }
+
+        float angle = 90f;
+
+        switch (axis)
+        {
+            case HeadAxis.Pitch:
+                angle = head.eulerAngles.x;
+                break;
+            case HeadAxis.Yaw:
+                angle = head.eulerAngles.y;
+                break;
+            default:
+                break;
+        }
+
+        if (angle > 180f)
+        {
+            angle -= 360f;
+        }
+
+        return Mathf.RoundToInt(angle + 90f);
     }
 }
