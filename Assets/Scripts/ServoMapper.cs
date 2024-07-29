@@ -41,7 +41,13 @@ public class ServoMapper : MonoBehaviour
             switch (joint)
             {
                 case BodyJoint.ShoulderForward:
-                    angle = joints[0].localEulerAngles.y + 90f;
+                    angle = joints[0].localEulerAngles.y;
+                    if (angle > 180)
+                    {
+                        angle -= 360f;
+                    }
+                    angle += 90f;
+                    angle = 180f - angle;
                     break;
                 case BodyJoint.ShoulderLateral:
                     angle = joints[1].localEulerAngles.z;
@@ -52,7 +58,7 @@ public class ServoMapper : MonoBehaviour
                     angle -= 52f;
                     break;
                 case BodyJoint.Elbow:
-                    angle = Vector3.Angle(joints[3].position - joints[2].position, joints[1].position - joints[2].position);
+                    angle = 180f - Vector3.Angle(joints[3].position - joints[2].position, joints[1].position - joints[2].position);
                     break;
                 case BodyJoint.Wrist:
                     angle = joints[3].localEulerAngles.z + 5f;
@@ -122,6 +128,13 @@ public class ServoMapper : MonoBehaviour
             angle -= 360f;
         }
 
-        return Mathf.RoundToInt(angle + 90f);
+        angle += 90f;
+
+        if (axis == HeadAxis.Yaw)
+        {
+            angle = 180f - angle;
+        }
+
+        return Mathf.RoundToInt(angle);
     }
 }

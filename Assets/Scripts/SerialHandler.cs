@@ -49,7 +49,7 @@ public class SerialHandler : MonoBehaviour
             if (serialPort.WriteLF(serialMessage))
             {
                 previousSentData = serialMessage;
-                //Debug.Log(previousSentData);
+                Debug.Log(previousSentData);
             }
         }
         catch (System.Exception e)
@@ -72,8 +72,8 @@ public class SerialHandler : MonoBehaviour
             ServoMapper.Instance.GetAngle(ServoMapper.Side.L, ServoMapper.BodyJoint.Elbow).ToString() + "," +
             ServoMapper.Instance.GetAngle(ServoMapper.Side.L, ServoMapper.BodyJoint.ShoulderLateral).ToString() + "," +
             ServoMapper.Instance.GetAngle(ServoMapper.Side.L, ServoMapper.BodyJoint.ShoulderForward).ToString() + "," +
-            ServoMapper.Instance.GetHeadAngle(ServoMapper.HeadAxis.Pitch).ToString() + "," +
-            ServoMapper.Instance.GetHeadAngle(ServoMapper.HeadAxis.Yaw).ToString();
+            ServoMapper.Instance.GetHeadAngle(ServoMapper.HeadAxis.Yaw).ToString() + "," +
+            ServoMapper.Instance.GetHeadAngle(ServoMapper.HeadAxis.Pitch).ToString();
 
         SendSerialData(servoMessage);
 
