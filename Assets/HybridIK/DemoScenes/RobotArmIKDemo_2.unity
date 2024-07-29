@@ -1,0 +1,1565 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!29 &1
+OcclusionCullingSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_OcclusionBakeSettings:
+    smallestOccluder: 5
+    smallestHole: 0.25
+    backfaceThreshold: 100
+  m_SceneGUID: 00000000000000000000000000000000
+  m_OcclusionCullingData: {fileID: 0}
+--- !u!104 &2
+RenderSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 9
+  m_Fog: 0
+  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_FogMode: 3
+  m_FogDensity: 0.01
+  m_LinearFogStart: 0
+  m_LinearFogEnd: 300
+  m_AmbientSkyColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+  m_AmbientEquatorColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+  m_AmbientGroundColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+  m_AmbientIntensity: 1
+  m_AmbientMode: 3
+  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
+  m_SkyboxMaterial: {fileID: 0}
+  m_HaloStrength: 0.5
+  m_FlareStrength: 1
+  m_FlareFadeSpeed: 3
+  m_HaloTexture: {fileID: 0}
+  m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
+  m_DefaultReflectionMode: 0
+  m_DefaultReflectionResolution: 128
+  m_ReflectionBounces: 1
+  m_ReflectionIntensity: 1
+  m_CustomReflection: {fileID: 0}
+  m_Sun: {fileID: 0}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_UseRadianceAmbientProbe: 0
+--- !u!157 &4
+LightmapSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 11
+  m_GIWorkflowMode: 1
+  m_GISettings:
+    serializedVersion: 2
+    m_BounceScale: 1
+    m_IndirectOutputScale: 1
+    m_AlbedoBoost: 1
+    m_EnvironmentLightingMode: 0
+    m_EnableBakedLightmaps: 1
+    m_EnableRealtimeLightmaps: 0
+  m_LightmapEditorSettings:
+    serializedVersion: 10
+    m_Resolution: 1
+    m_BakeResolution: 50
+    m_AtlasSize: 1024
+    m_AO: 1
+    m_AOMaxDistance: 1
+    m_CompAOExponent: 1
+    m_CompAOExponentDirect: 0
+    m_Padding: 2
+    m_LightmapParameters: {fileID: 0}
+    m_LightmapsBakeMode: 1
+    m_TextureCompression: 0
+    m_FinalGather: 0
+    m_FinalGatherFiltering: 1
+    m_FinalGatherRayCount: 256
+    m_ReflectionCompression: 2
+    m_MixedBakeMode: 1
+    m_BakeBackend: 0
+    m_PVRSampling: 1
+    m_PVRDirectSampleCount: 32
+    m_PVRSampleCount: 512
+    m_PVRBounces: 2
+    m_PVRFilterTypeDirect: 0
+    m_PVRFilterTypeIndirect: 0
+    m_PVRFilterTypeAO: 0
+    m_PVRFilteringMode: 0
+    m_PVRCulling: 1
+    m_PVRFilteringGaussRadiusDirect: 1
+    m_PVRFilteringGaussRadiusIndirect: 5
+    m_PVRFilteringGaussRadiusAO: 2
+    m_PVRFilteringAtrousPositionSigmaDirect: 0.5
+    m_PVRFilteringAtrousPositionSigmaIndirect: 2
+    m_PVRFilteringAtrousPositionSigmaAO: 1
+    m_ShowResolutionOverlay: 1
+  m_LightingDataAsset: {fileID: 0}
+  m_UseShadowmask: 0
+--- !u!196 &5
+NavMeshSettings:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_BuildSettings:
+    serializedVersion: 2
+    agentTypeID: 0
+    agentRadius: 0.5
+    agentHeight: 2
+    agentSlope: 45
+    agentClimb: 0.4
+    ledgeDropHeight: 0
+    maxJumpAcrossDistance: 0
+    minRegionArea: 2
+    manualCellSize: 0
+    cellSize: 0.16666666
+    manualTileSize: 0
+    tileSize: 256
+    accuratePlacement: 0
+    debug:
+      m_Flags: 0
+  m_NavMeshData: {fileID: 0}
+--- !u!1001 &129924328
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4142360397194720, guid: dbcf2afda3278994d923cf2b0092828a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142360397194720, guid: dbcf2afda3278994d923cf2b0092828a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142360397194720, guid: dbcf2afda3278994d923cf2b0092828a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142360397194720, guid: dbcf2afda3278994d923cf2b0092828a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142360397194720, guid: dbcf2afda3278994d923cf2b0092828a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 128.93399
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142360397194720, guid: dbcf2afda3278994d923cf2b0092828a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -0.000015258789
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142360397194720, guid: dbcf2afda3278994d923cf2b0092828a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -0.000015258789
+      objectReference: {fileID: 0}
+    - target: {fileID: 4653904487374346, guid: dbcf2afda3278994d923cf2b0092828a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.2688465
+      objectReference: {fileID: 0}
+    - target: {fileID: 4653904487374346, guid: dbcf2afda3278994d923cf2b0092828a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.969054
+      objectReference: {fileID: 0}
+    - target: {fileID: 4653904487374346, guid: dbcf2afda3278994d923cf2b0092828a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.084894
+      objectReference: {fileID: 0}
+    - target: {fileID: 4653904487374346, guid: dbcf2afda3278994d923cf2b0092828a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4653904487374346, guid: dbcf2afda3278994d923cf2b0092828a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4653904487374346, guid: dbcf2afda3278994d923cf2b0092828a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4653904487374346, guid: dbcf2afda3278994d923cf2b0092828a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4653904487374346, guid: dbcf2afda3278994d923cf2b0092828a, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dbcf2afda3278994d923cf2b0092828a, type: 3}
+--- !u!1 &180302166
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 180302171}
+  - component: {fileID: 180302170}
+  - component: {fileID: 180302168}
+  - component: {fileID: 180302167}
+  - component: {fileID: 180302173}
+  m_Layer: 0
+  m_Name: Main Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!81 &180302167
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180302166}
+  m_Enabled: 1
+--- !u!124 &180302168
+Behaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180302166}
+  m_Enabled: 1
+--- !u!20 &180302170
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180302166}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0.019607844}
+  m_projectionMatrixMode: 1
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_GateFitMode: 2
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 1
+  far clip plane: 60
+  field of view: 35.8
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 0
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!4 &180302171
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180302166}
+  m_LocalRotation: {x: -0, y: 0.3768986, z: -0, w: -0.9262546}
+  m_LocalPosition: {x: 6.1, y: -1.1, z: -20}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1268045071}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: -44.283, z: 0}
+--- !u!114 &180302173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180302166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd026706e81db0440add962177d87b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &215103484 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4142360397194720, guid: dbcf2afda3278994d923cf2b0092828a,
+    type: 3}
+  m_PrefabInstance: {fileID: 129924328}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &215103485 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114121669840486112, guid: dbcf2afda3278994d923cf2b0092828a,
+    type: 3}
+  m_PrefabInstance: {fileID: 129924328}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c7a022be76393744b9f1a13d09311ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &473219156
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 473219157}
+  m_Layer: 0
+  m_Name: TargetTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &473219157
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473219156}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.55, y: 9.132, z: -5.01}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &479682045
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 479682047}
+  - component: {fileID: 479682046}
+  m_Layer: 0
+  m_Name: RobotArmIK
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &479682046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 479682045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec18f272cdf3e704196131d48566ee83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootNode: {fileID: 215103484}
+  endNode: {fileID: 1281289882}
+  initializePoseFrom: 0
+  nodeRadius: 0.5
+  targetTransform: {fileID: 473219157}
+  mode: 0
+  numIterations: 10
+  constrainEndOrientation: 0
+  constrainInGlobalSpace: 0
+  nodes:
+  - jointTransform: {fileID: 215103484}
+    initialRotation: {x: 0, y: 0, z: 0, w: 1}
+    initialPosition: {x: -1.297, y: -1.6807, z: 1.6713}
+    initialPositionWorld: {x: -0.6112448, y: 3.1095872, z: -0.22388005}
+    previousPositionWorld: {x: -0.6112448, y: 3.1095872, z: -0.22388005}
+    targetPosition: {x: -0.6112448, y: 3.1095872, z: -0.22388005}
+    targetLocalPosition: {x: 0, y: 0, z: 0}
+    stretchedTargetPosition: {x: 0, y: 0, z: 0}
+    isStretchNode: 0
+    IsEndNode: 0
+    childIndex: 1
+    parentIndex: -1
+    boneLength: 0
+    toParent: {x: 0, y: 0, z: 0}
+    oldVecInitialized: 0
+    oldVec: {x: 0, y: 1, z: 0}
+    rotationIK: {x: 0, y: 0, z: 0, w: 0}
+    jointRadius: 0.5
+    jointLimit: {fileID: 215103485}
+    isPositionConstrained: 0
+    isRotationConstrained: 0
+    overrideConstraint: 0
+    constraint:
+      jointTransform: {fileID: 215103484}
+      targetTransform: {fileID: 0}
+      targetPosition: {x: 0, y: 0, z: 0}
+      targetLocalPosition: {x: 0, y: 0, z: 0}
+      targetRotation: {x: 0, y: 0, z: 0, w: 1}
+      constrainPosition: 1
+      constrainRotation: 1
+      positionKeys:
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: 0.24369483, y: -1.4780518, z: 2.4534266}
+        constraintPositionValue: {x: -0.6112448, y: 3.1095872, z: -0.22388005}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -1.2940003, y: 0.95430213, z: 5.1133075}
+        constraintPositionValue: {x: -0.6112448, y: 3.1095872, z: -0.22388005}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -3.0727563, y: -1.9209547, z: 2.4107883}
+        constraintPositionValue: {x: -0.6112448, y: 3.1095872, z: -0.22388005}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -1.2939994, y: -0.11905479, z: 2.338746}
+        constraintPositionValue: {x: -0.6112448, y: 3.1095872, z: -0.22388005}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -1.2940003, y: 0.7221069, z: 0.58588517}
+        constraintPositionValue: {x: -0.6112448, y: 3.1095872, z: -0.22388005}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -1.2940003, y: -1.7940152, z: 6.004631}
+        constraintPositionValue: {x: -0.6112447, y: 3.1095893, z: -0.22387838}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+    targetIKSpace: {fileID: 8066031824029405689}
+    enableKeyframeConstraints: 1
+    cachedPosition: {x: -1.297, y: -1.6807, z: 1.6713}
+    cachedRotation: {x: 0.9023354, y: -0, z: -0, w: 0.4310345}
+    targetRotation: {x: 0, y: 0, z: 0, w: 1}
+    keyedRotations:
+    - {x: 0.8767919, y: -0, z: -0, w: 0.4808701}
+    - {x: 0.86518943, y: -0, z: -0, w: 0.50144523}
+    - {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+    - {x: 0.31010854, y: -0, z: -0, w: 0.9507012}
+    - {x: 0.90233546, y: -0, z: -0, w: 0.43103454}
+    keyedPositions:
+    - {x: -1.297, y: -1.6807014, z: 1.6713014}
+    - {x: -1.297, y: -1.6807008, z: 1.6713006}
+    - {x: -1.297, y: -1.6807005, z: 1.6713005}
+    - {x: -1.297, y: -1.6807003, z: 1.6713003}
+    - {x: -1.297, y: -1.6807001, z: 1.6713003}
+    keyedLocalPositions:
+    - {x: -1.297, y: -1.6807, z: 1.6713}
+    - {x: -1.297, y: -1.6807, z: 1.6713}
+    - {x: -1.297, y: -1.6807, z: 1.6713}
+    - {x: -1.297, y: -1.6807, z: 1.6713}
+    - {x: -1.297, y: -1.6807, z: 1.6713}
+    zeroRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+    zeroPosition: {x: -1.297, y: -1.6807, z: 1.6713}
+    lastFrameRotation: {x: 0, y: 0, z: 0, w: 0}
+    lastFramePosition: {x: 0, y: 0, z: 0}
+    enableStretch: 0
+    inwardsStretch: 0
+    outwardsStretch: 0
+    stretchAxis: {x: 0, y: 0, z: 1}
+    stretchLimits:
+      targetSpace: {fileID: 0}
+      minStretchLimits: {x: 0, y: 0, z: 0}
+      maxStretchLimits: {x: 0, y: 0, z: 0}
+      maxForward: 0
+      maxBackward: 0
+      maxLeft: 0
+      maxRight: 0
+      maxDown: 0
+      maxUp: 0
+  - jointTransform: {fileID: 1058133171}
+    initialRotation: {x: -0, y: -0, z: -0, w: 1}
+    initialPosition: {x: 0.032, y: 1.13, z: 0.055}
+    initialPositionWorld: {x: -0.5549613, y: 3.206325, z: -2.211395}
+    previousPositionWorld: {x: -0.5549613, y: 3.206325, z: -2.211395}
+    targetPosition: {x: -0.5549613, y: 3.206325, z: -2.211395}
+    targetLocalPosition: {x: 0, y: 0, z: 0}
+    stretchedTargetPosition: {x: 0, y: 0, z: 0}
+    isStretchNode: 0
+    IsEndNode: 0
+    childIndex: 2
+    parentIndex: 0
+    boneLength: 1.9906636
+    toParent: {x: 0, y: 0, z: 0}
+    oldVecInitialized: 0
+    oldVec: {x: 0, y: 1, z: 0}
+    rotationIK: {x: 0, y: 0, z: 0, w: 0}
+    jointRadius: 0.5
+    jointLimit: {fileID: 1058133172}
+    isPositionConstrained: 0
+    isRotationConstrained: 0
+    overrideConstraint: 0
+    constraint:
+      jointTransform: {fileID: 1058133171}
+      targetTransform: {fileID: 0}
+      targetPosition: {x: 0, y: 0, z: 0}
+      targetLocalPosition: {x: 0, y: 0, z: 0}
+      targetRotation: {x: 0, y: 0, z: 0, w: 1}
+      constrainPosition: 1
+      constrainRotation: 1
+      positionKeys:
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: 0.24369483, y: -1.4780518, z: 2.4534266}
+        constraintPositionValue: {x: -0.5549613, y: 4.733553, z: 0.926038}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -1.2940003, y: 0.95430213, z: 5.1133075}
+        constraintPositionValue: {x: -0.5549613, y: 5.0971026, z: -0.12714219}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -3.0727563, y: -1.9209547, z: 2.4107883}
+        constraintPositionValue: {x: -0.5549613, y: 4.786047, z: 0.84806275}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -1.2939994, y: -0.11905479, z: 2.338746}
+        constraintPositionValue: {x: -0.5549613, y: 5.0971026, z: -0.12714219}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -1.2940003, y: 0.7221069, z: 0.58588517}
+        constraintPositionValue: {x: -0.5549613, y: 4.3596396, z: -1.7720869}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -1.2940003, y: -1.7940152, z: 6.004631}
+        constraintPositionValue: {x: -0.5549612, y: 4.594837, z: 1.100363}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+    targetIKSpace: {fileID: 8066031824029405689}
+    enableKeyframeConstraints: 1
+    cachedPosition: {x: 0.032, y: 1.13, z: 0.055}
+    cachedRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+    targetRotation: {x: 0, y: 0, z: 0, w: 1}
+    keyedRotations:
+    - {x: 0.0000001192093, y: 0.19232471, z: -0.00000007450581, w: 0.98133135}
+    - {x: -0.0000001210719, y: 0.99776185, z: 0.00000014901158, w: 0.06686844}
+    - {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+    - {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+    - {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+    keyedPositions:
+    - {x: -1.2650001, y: -2.3344882, z: 2.594607}
+    - {x: -1.2650001, y: -2.290154, z: 2.6244512}
+    - {x: -1.2650001, y: -1.7357014, z: 2.8013017}
+    - {x: -1.2650001, y: -0.8004683, z: 2.3820171}
+    - {x: -1.2650001, y: -2.4335964, z: 2.5157363}
+    keyedLocalPositions:
+    - {x: 0.032, y: 1.13, z: 0.055}
+    - {x: 0.032, y: 1.13, z: 0.055}
+    - {x: 0.032, y: 1.13, z: 0.055}
+    - {x: 0.032, y: 1.13, z: 0.055}
+    - {x: 0.032, y: 1.13, z: 0.055}
+    zeroRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+    zeroPosition: {x: 0.032, y: 1.13, z: 0.055}
+    lastFrameRotation: {x: 0, y: 0, z: 0, w: 0}
+    lastFramePosition: {x: 0, y: 0, z: 0}
+    enableStretch: 0
+    inwardsStretch: 0
+    outwardsStretch: 0
+    stretchAxis: {x: 0, y: 0, z: 1}
+    stretchLimits:
+      targetSpace: {fileID: 0}
+      minStretchLimits: {x: 0, y: 0, z: 0}
+      maxStretchLimits: {x: 0, y: 0, z: 0}
+      maxForward: 0
+      maxBackward: 0
+      maxLeft: 0
+      maxRight: 0
+      maxDown: 0
+      maxUp: 0
+  - jointTransform: {fileID: 1065282022}
+    initialRotation: {x: -0, y: -0, z: -0, w: 1}
+    initialPosition: {x: 0.076, y: 1.234, z: -0.029}
+    initialPositionWorld: {x: -0.42128766, y: 3.1553178, z: -4.3818307}
+    previousPositionWorld: {x: -0.42128766, y: 3.1553178, z: -4.3818307}
+    targetPosition: {x: -0.42128766, y: 3.1553178, z: -4.3818307}
+    targetLocalPosition: {x: 0, y: 0, z: 0}
+    stretchedTargetPosition: {x: 0, y: 0, z: 0}
+    isStretchNode: 0
+    IsEndNode: 0
+    childIndex: 3
+    parentIndex: 1
+    boneLength: 2.1751463
+    toParent: {x: 0, y: 0, z: 0}
+    oldVecInitialized: 0
+    oldVec: {x: 0, y: 1, z: 0}
+    rotationIK: {x: 0, y: 0, z: 0, w: 0}
+    jointRadius: 0.5
+    jointLimit: {fileID: 1065282023}
+    isPositionConstrained: 0
+    isRotationConstrained: 0
+    overrideConstraint: 0
+    constraint:
+      jointTransform: {fileID: 1065282022}
+      targetTransform: {fileID: 0}
+      targetPosition: {x: 0, y: 0, z: 0}
+      targetLocalPosition: {x: 0, y: 0, z: 0}
+      targetRotation: {x: 0, y: 0, z: 0, w: 1}
+      constrainPosition: 1
+      constrainRotation: 1
+      positionKeys:
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: 0.24369483, y: -1.4780518, z: 2.4534266}
+        constraintPositionValue: {x: -0.45042956, y: 6.6162767, z: 2.010331}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -1.2940003, y: 0.95430213, z: 5.1133075}
+        constraintPositionValue: {x: -0.6059681, y: 7.26754, z: -0.26081586}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -3.0727563, y: -1.9209547, z: 2.4107883}
+        constraintPositionValue: {x: -0.69424593, y: 6.6530504, z: 1.955384}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -1.2939994, y: -0.11905479, z: 2.338746}
+        constraintPositionValue: {x: -0.6059681, y: 7.26754, z: -0.26081586}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -1.2940003, y: 0.7221069, z: 0.58588517}
+        constraintPositionValue: {x: -0.6059681, y: 5.5314546, z: -3.6038926}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -1.2940003, y: -1.7940152, z: 6.004631}
+        constraintPositionValue: {x: -0.605968, y: 6.3671713, z: 2.3603237}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+    targetIKSpace: {fileID: 8066031824029405689}
+    enableKeyframeConstraints: 1
+    cachedPosition: {x: 0.076, y: 1.234, z: -0.029}
+    cachedRotation: {x: -0, y: -0, z: -0, w: 1}
+    targetRotation: {x: 0, y: 0, z: 0, w: 1}
+    keyedRotations:
+    - {x: 3.6289544e-10, y: 0.00000004470348, z: -0.45879227, w: 0.8885436}
+    - {x: -0.00000012669378, y: 0.00000006705521, z: -0.4009505, w: 0.9160997}
+    - {x: -0.00000016391272, y: -0.000000029802312, z: -0.42619064, w: 0.90463346}
+    - {x: -0.000000014901158, y: -0, z: -0.2909816, w: 0.95672864}
+    - {x: -0, y: -0, z: -0, w: 1}
+    keyedPositions:
+    - {x: -1.2055687, y: -2.9509623, z: 3.6650314}
+    - {x: -1.3441902, y: -2.9197211, z: 3.685937}
+    - {x: -1.294, y: -1.6597009, z: 4.035303}
+    - {x: -1.294, y: 0.24100362, z: 3.0482514}
+    - {x: -1.294, y: -3.149946, z: 3.5233953}
+    keyedLocalPositions:
+    - {x: 0.076, y: 1.234, z: -0.029}
+    - {x: 0.076, y: 1.234, z: -0.029}
+    - {x: 0.076, y: 1.234, z: -0.029}
+    - {x: 0.076, y: 1.234, z: -0.029}
+    - {x: 0.076, y: 1.234, z: -0.029}
+    zeroRotation: {x: -0, y: -0, z: -0, w: 1}
+    zeroPosition: {x: 0.076, y: 1.234, z: -0.029}
+    lastFrameRotation: {x: 0, y: 0, z: 0, w: 0}
+    lastFramePosition: {x: 0, y: 0, z: 0}
+    enableStretch: 0
+    inwardsStretch: 0
+    outwardsStretch: 0
+    stretchAxis: {x: 0, y: 0, z: 1}
+    stretchLimits:
+      targetSpace: {fileID: 0}
+      minStretchLimits: {x: 0, y: 0, z: 0}
+      maxStretchLimits: {x: 0, y: 0, z: 0}
+      maxForward: 0
+      maxBackward: 0
+      maxLeft: 0
+      maxRight: 0
+      maxDown: 0
+      maxUp: 0
+  - jointTransform: {fileID: 2025615591}
+    initialRotation: {x: -0, y: -0, z: -0, w: 1}
+    initialPosition: {x: 1.355, y: 0.96, z: 0}
+    initialPositionWorld: {x: 1.9619709, y: 3.1553175, z: -6.070339}
+    previousPositionWorld: {x: 1.9619709, y: 3.1553175, z: -6.070339}
+    targetPosition: {x: 1.9619709, y: 3.1553175, z: -6.070339}
+    targetLocalPosition: {x: 0, y: 0, z: 0}
+    stretchedTargetPosition: {x: 0, y: 0, z: 0}
+    isStretchNode: 0
+    IsEndNode: 0
+    childIndex: 4
+    parentIndex: 2
+    boneLength: 2.9207845
+    toParent: {x: 0, y: 0, z: 0}
+    oldVecInitialized: 0
+    oldVec: {x: 0, y: 1, z: 0}
+    rotationIK: {x: 0, y: 0, z: 0, w: 0}
+    jointRadius: 0.5
+    jointLimit: {fileID: 2025615592}
+    isPositionConstrained: 0
+    isRotationConstrained: 0
+    overrideConstraint: 0
+    constraint:
+      jointTransform: {fileID: 2025615591}
+      targetTransform: {fileID: 0}
+      targetPosition: {x: 0, y: 0, z: 0}
+      targetLocalPosition: {x: 0, y: 0, z: 0}
+      targetRotation: {x: 0, y: 0, z: 0, w: 1}
+      constrainPosition: 1
+      constrainRotation: 1
+      positionKeys:
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: 0.24369483, y: -1.4780518, z: 2.4534266}
+        constraintPositionValue: {x: 2.1022587, y: 6.3615026, z: 0.6139598}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -1.2940003, y: 0.95430213, z: 5.1133075}
+        constraintPositionValue: {x: -0.60596836, y: 8.956048, z: -2.6440752}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -3.0727563, y: -1.9209547, z: 2.4107883}
+        constraintPositionValue: {x: -3.526095, y: 6.3174815, z: 1.3237097}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -1.2939994, y: -0.11905479, z: 2.338746}
+        constraintPositionValue: {x: -0.6059686, y: 6.504938, z: -3.0802896}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -1.2940003, y: 0.7221069, z: 0.58588517}
+        constraintPositionValue: {x: -0.6059686, y: 3.2178175, z: -5.386607}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -1.2940003, y: -1.7940152, z: 6.004631}
+        constraintPositionValue: {x: -0.6059685, y: 9.178307, z: 1.5675347}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+    targetIKSpace: {fileID: 8066031824029405689}
+    enableKeyframeConstraints: 1
+    cachedPosition: {x: 1.355, y: 0.96, z: 0}
+    cachedRotation: {x: -0, y: -0, z: -0, w: 1}
+    targetRotation: {x: 0, y: 0, z: 0, w: 1}
+    keyedRotations:
+    - {x: -0.00000004435396, y: -0.000000019883219, z: -0.3488752, w: 0.93716925}
+    - {x: -0.00000008280438, y: -0.000000047065114, z: -0.3636772, w: 0.93152505}
+    - {x: -0.0000001624956, y: -0.00000017078565, z: -0.40457642, w: 0.91450423}
+    - {x: -0.00000000737123, y: -0.00000002902659, z: -0.28028995, w: 0.95991546}
+    - {x: -0, y: -0, z: -0, w: 1}
+    keyedPositions:
+    - {x: 0.24576038, y: -2.1570566, z: 3.52018}
+    - {x: -2.954236, y: -2.560583, z: 3.4951494}
+    - {x: -1.2940003, y: -0.05669082, z: 3.6017268}
+    - {x: -1.2940003, y: 1.2545649, z: 1.732835}
+    - {x: -1.2940003, y: -2.6992064, z: 5.121663}
+    keyedLocalPositions:
+    - {x: 1.355, y: 0.96, z: 0}
+    - {x: 1.355, y: 0.96, z: 0}
+    - {x: 1.355, y: 0.96, z: 0}
+    - {x: 1.355, y: 0.96, z: 0}
+    - {x: 1.355, y: 0.96, z: 0}
+    zeroRotation: {x: -0, y: -0, z: -0, w: 1}
+    zeroPosition: {x: 1.355, y: 0.96, z: 0}
+    lastFrameRotation: {x: 0, y: 0, z: 0, w: 0}
+    lastFramePosition: {x: 0, y: 0, z: 0}
+    enableStretch: 0
+    inwardsStretch: 0
+    outwardsStretch: 0
+    stretchAxis: {x: 0, y: 0, z: 1}
+    stretchLimits:
+      targetSpace: {fileID: 0}
+      minStretchLimits: {x: 0, y: 0, z: 0}
+      maxStretchLimits: {x: 0, y: 0, z: 0}
+      maxForward: 0
+      maxBackward: 0
+      maxLeft: 0
+      maxRight: 0
+      maxDown: 0
+      maxUp: 0
+  - jointTransform: {fileID: 1281289882}
+    initialRotation: {x: 0, y: 0, z: 0, w: 1}
+    initialPosition: {x: 1.259, y: 0.118, z: 0}
+    initialPositionWorld: {x: 4.1763787, y: 3.1553173, z: -6.277885}
+    previousPositionWorld: {x: 4.1763787, y: 3.1553173, z: -6.277885}
+    targetPosition: {x: 4.1763787, y: 3.1553173, z: -6.277885}
+    targetLocalPosition: {x: 0, y: 0, z: 0}
+    stretchedTargetPosition: {x: 0, y: 0, z: 0}
+    isStretchNode: 0
+    IsEndNode: 1
+    childIndex: -1
+    parentIndex: 3
+    boneLength: 2.2241127
+    toParent: {x: 0, y: 0, z: 0}
+    oldVecInitialized: 0
+    oldVec: {x: 0, y: 1, z: 0}
+    rotationIK: {x: 0, y: 0, z: 0, w: 0}
+    jointRadius: 0.5
+    jointLimit: {fileID: 0}
+    isPositionConstrained: 0
+    isRotationConstrained: 0
+    overrideConstraint: 0
+    constraint:
+      jointTransform: {fileID: 1281289882}
+      targetTransform: {fileID: 0}
+      targetPosition: {x: 0, y: 0, z: 0}
+      targetLocalPosition: {x: 0, y: 0, z: 0}
+      targetRotation: {x: 0, y: 0, z: 0, w: 1}
+      constrainPosition: 1
+      constrainRotation: 1
+      positionKeys:
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: 0.24369483, y: -1.4780518, z: 2.4534266}
+        constraintPositionValue: {x: 2.0986257, y: 4.4852347, z: -0.5803132}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -1.2940003, y: 0.95430213, z: 5.1133075}
+        constraintPositionValue: {x: -0.6059686, y: 9.163594, z: -4.8584833}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -3.0727563, y: -1.9209547, z: 2.4107883}
+        constraintPositionValue: {x: -3.7345557, y: 4.410243, z: 0.19869184}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -1.2939994, y: -0.11905479, z: 2.338746}
+        constraintPositionValue: {x: -0.6059669, y: 4.283531, z: -2.9706001}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -1.2940003, y: 0.7221069, z: 0.58588517}
+        constraintPositionValue: {x: -0.60596836, y: 1.200491, z: -4.450087}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+      - endTargetKeyTransform: {fileID: 0}
+        constraintKeyTransform: {fileID: 0}
+        endTargetPositionKey: {x: -1.2940003, y: -1.7940152, z: 6.004631}
+        constraintPositionValue: {x: -0.6059685, y: 10.731326, z: -0.024573565}
+        constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+        cachedWeight: 0
+        cachedFade: 0
+        targetSpace: {fileID: 8066031824029405689}
+    targetIKSpace: {fileID: 8066031824029405689}
+    enableKeyframeConstraints: 0
+    cachedPosition: {x: 1.259, y: 0.118, z: 0}
+    cachedRotation: {x: 0, y: 0, z: 0, w: 1}
+    targetRotation: {x: 0, y: 0, z: 0, w: 1}
+    keyedRotations:
+    - {x: 0, y: 0, z: 0, w: 1}
+    - {x: 0, y: 0, z: 0, w: 1}
+    - {x: 0, y: 0, z: 0, w: 1}
+    - {x: 0, y: 0, z: 0, w: 1}
+    - {x: 0, y: 0, z: 0, w: 1}
+    keyedPositions:
+    - {x: 0.24369483, y: -1.4780518, z: 2.4534266}
+    - {x: -3.0727563, y: -1.9209547, z: 2.4107883}
+    - {x: -1.2939994, y: -0.11905479, z: 2.338746}
+    - {x: -1.2940003, y: 0.7221069, z: 0.58588517}
+    - {x: -1.2940003, y: -1.7940152, z: 6.004631}
+    keyedLocalPositions:
+    - {x: 1.259, y: 0.118, z: 0}
+    - {x: 1.259, y: 0.118, z: 0}
+    - {x: 1.259, y: 0.118, z: 0}
+    - {x: 1.259, y: 0.118, z: 0}
+    - {x: 1.259, y: 0.118, z: 0}
+    zeroRotation: {x: 0, y: 0, z: 0, w: 1}
+    zeroPosition: {x: 1.259, y: 0.118, z: 0}
+    lastFrameRotation: {x: 0, y: 0, z: 0, w: 0}
+    lastFramePosition: {x: 0, y: 0, z: 0}
+    enableStretch: 0
+    inwardsStretch: 0
+    outwardsStretch: 0
+    stretchAxis: {x: 0, y: 0, z: 1}
+    stretchLimits:
+      targetSpace: {fileID: 0}
+      minStretchLimits: {x: 0, y: 0, z: 0}
+      maxStretchLimits: {x: 0, y: 0, z: 0}
+      maxForward: 0
+      maxBackward: 0
+      maxLeft: 0
+      maxRight: 0
+      maxDown: 0
+      maxUp: 0
+  enableJointLimits: 1
+  jointLimitStrength: 1
+  useStrictLimits: 1
+  enableStretch: 0
+  enableKeyframeConstraints: 1
+  strictlyProjectToKeyframeSpace: 0
+  constraints:
+  - jointTransform: {fileID: 215103484}
+    targetTransform: {fileID: 0}
+    targetPosition: {x: 0, y: 0, z: 0}
+    targetLocalPosition: {x: 0, y: 0, z: 0}
+    targetRotation: {x: 0, y: 0, z: 0, w: 1}
+    constrainPosition: 1
+    constrainRotation: 1
+    positionKeys:
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: 0.24369483, y: -1.4780518, z: 2.4534266}
+      constraintPositionValue: {x: -0.6112448, y: 3.1095872, z: -0.22388005}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: -3.0727563, y: -1.9209547, z: 2.4107883}
+      constraintPositionValue: {x: -0.6112448, y: 3.1095872, z: -0.22388005}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: -1.2939994, y: -0.11905479, z: 2.338746}
+      constraintPositionValue: {x: -0.6112448, y: 3.1095872, z: -0.22388005}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: -1.2940003, y: 0.7221069, z: 0.58588517}
+      constraintPositionValue: {x: -0.6112448, y: 3.1095872, z: -0.22388005}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: -1.2940003, y: -1.7940152, z: 6.004631}
+      constraintPositionValue: {x: -0.6112447, y: 3.1095893, z: -0.22387838}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+  - jointTransform: {fileID: 1058133171}
+    targetTransform: {fileID: 0}
+    targetPosition: {x: 0, y: 0, z: 0}
+    targetLocalPosition: {x: 0, y: 0, z: 0}
+    targetRotation: {x: 0, y: 0, z: 0, w: 1}
+    constrainPosition: 1
+    constrainRotation: 1
+    positionKeys:
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: 0.24369483, y: -1.4780518, z: 2.4534266}
+      constraintPositionValue: {x: -0.5549613, y: 4.733553, z: 0.926038}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: -3.0727563, y: -1.9209547, z: 2.4107883}
+      constraintPositionValue: {x: -0.5549613, y: 4.786047, z: 0.84806275}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: -1.2939994, y: -0.11905479, z: 2.338746}
+      constraintPositionValue: {x: -0.5549613, y: 5.0971026, z: -0.12714219}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: -1.2940003, y: 0.7221069, z: 0.58588517}
+      constraintPositionValue: {x: -0.5549613, y: 4.3596396, z: -1.7720869}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: -1.2940003, y: -1.7940152, z: 6.004631}
+      constraintPositionValue: {x: -0.5549612, y: 4.594837, z: 1.100363}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+  - jointTransform: {fileID: 1065282022}
+    targetTransform: {fileID: 0}
+    targetPosition: {x: 0, y: 0, z: 0}
+    targetLocalPosition: {x: 0, y: 0, z: 0}
+    targetRotation: {x: 0, y: 0, z: 0, w: 1}
+    constrainPosition: 1
+    constrainRotation: 1
+    positionKeys:
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: 0.24369483, y: -1.4780518, z: 2.4534266}
+      constraintPositionValue: {x: -0.45042956, y: 6.6162767, z: 2.010331}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: -3.0727563, y: -1.9209547, z: 2.4107883}
+      constraintPositionValue: {x: -0.69424593, y: 6.6530504, z: 1.955384}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: -1.2939994, y: -0.11905479, z: 2.338746}
+      constraintPositionValue: {x: -0.6059681, y: 7.26754, z: -0.26081586}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: -1.2940003, y: 0.7221069, z: 0.58588517}
+      constraintPositionValue: {x: -0.6059681, y: 5.5314546, z: -3.6038926}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: -1.2940003, y: -1.7940152, z: 6.004631}
+      constraintPositionValue: {x: -0.605968, y: 6.3671713, z: 2.3603237}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+  - jointTransform: {fileID: 2025615591}
+    targetTransform: {fileID: 0}
+    targetPosition: {x: 0, y: 0, z: 0}
+    targetLocalPosition: {x: 0, y: 0, z: 0}
+    targetRotation: {x: 0, y: 0, z: 0, w: 1}
+    constrainPosition: 1
+    constrainRotation: 1
+    positionKeys:
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: 0.24369483, y: -1.4780518, z: 2.4534266}
+      constraintPositionValue: {x: 2.1022587, y: 6.3615026, z: 0.6139598}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: -3.0727563, y: -1.9209547, z: 2.4107883}
+      constraintPositionValue: {x: -3.526095, y: 6.3174815, z: 1.3237097}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: -1.2939994, y: -0.11905479, z: 2.338746}
+      constraintPositionValue: {x: -0.6059686, y: 6.504938, z: -3.0802896}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: -1.2940003, y: 0.7221069, z: 0.58588517}
+      constraintPositionValue: {x: -0.6059686, y: 3.2178175, z: -5.386607}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: -1.2940003, y: -1.7940152, z: 6.004631}
+      constraintPositionValue: {x: -0.6059685, y: 9.178307, z: 1.5675347}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+  - jointTransform: {fileID: 1281289882}
+    targetTransform: {fileID: 0}
+    targetPosition: {x: 0, y: 0, z: 0}
+    targetLocalPosition: {x: 0, y: 0, z: 0}
+    targetRotation: {x: 0, y: 0, z: 0, w: 1}
+    constrainPosition: 1
+    constrainRotation: 1
+    positionKeys:
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: 0.24369483, y: -1.4780518, z: 2.4534266}
+      constraintPositionValue: {x: 2.0986257, y: 4.4852347, z: -0.5803132}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: -3.0727563, y: -1.9209547, z: 2.4107883}
+      constraintPositionValue: {x: -3.7345557, y: 4.410243, z: 0.19869184}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: -1.2939994, y: -0.11905479, z: 2.338746}
+      constraintPositionValue: {x: -0.6059669, y: 4.283531, z: -2.9706001}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: -1.2940003, y: 0.7221069, z: 0.58588517}
+      constraintPositionValue: {x: -0.60596836, y: 1.200491, z: -4.450087}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+    - endTargetKeyTransform: {fileID: 0}
+      constraintKeyTransform: {fileID: 0}
+      endTargetPositionKey: {x: -1.2940003, y: -1.7940152, z: 6.004631}
+      constraintPositionValue: {x: -0.6059685, y: 10.731326, z: -0.024573565}
+      constraintRotationValue: {x: 0, y: 0, z: 0, w: 0}
+      cachedWeight: 0
+      cachedFade: 0
+      targetSpace: {fileID: 8066031824029405689}
+--- !u!4 &479682047
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 479682045}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.151646, y: 5.635455, z: 0.8627973}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &625982406
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 625982410}
+  - component: {fileID: 625982409}
+  - component: {fileID: 625982408}
+  - component: {fileID: 625982407}
+  m_Layer: 0
+  m_Name: Plane
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!64 &625982407
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 625982406}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &625982408
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 625982406}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &625982409
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 625982406}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &625982410
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 625982406}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5.3725886, y: -6.471525, z: -6.003299}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1268045071}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &839183453
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 839183454}
+  - component: {fileID: 839183455}
+  m_Layer: 0
+  m_Name: Directional Light2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &839183454
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839183453}
+  m_LocalRotation: {x: 0.8039863, y: -0.48508155, z: 0.33781895, w: -0.06465415}
+  m_LocalPosition: {x: 19.575657, y: 13.351333, z: -5.4761276}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1268045071}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 12.931001, y: 141.56, z: 237.68399}
+--- !u!108 &839183455
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839183453}
+  m_Enabled: 1
+  serializedVersion: 8
+  m_Type: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 0.5
+  m_Range: 10
+  m_SpotAngle: 30
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+--- !u!4 &1058133171 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4830903398993668, guid: dbcf2afda3278994d923cf2b0092828a,
+    type: 3}
+  m_PrefabInstance: {fileID: 129924328}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1058133172 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114461940092940550, guid: dbcf2afda3278994d923cf2b0092828a,
+    type: 3}
+  m_PrefabInstance: {fileID: 129924328}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c7a022be76393744b9f1a13d09311ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1065282022 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4970568605837322, guid: dbcf2afda3278994d923cf2b0092828a,
+    type: 3}
+  m_PrefabInstance: {fileID: 129924328}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1065282023 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114998928574161392, guid: dbcf2afda3278994d923cf2b0092828a,
+    type: 3}
+  m_PrefabInstance: {fileID: 129924328}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c7a022be76393744b9f1a13d09311ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1268045070
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1268045071}
+  m_Layer: 0
+  m_Name: Environment
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1268045071
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268045070}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.314343, y: 6.768668, z: 5.8535423}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 625982410}
+  - {fileID: 1965966975}
+  - {fileID: 839183454}
+  - {fileID: 180302171}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1281289882 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4085142248069130, guid: dbcf2afda3278994d923cf2b0092828a,
+    type: 3}
+  m_PrefabInstance: {fileID: 129924328}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1965966974
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1965966975}
+  - component: {fileID: 1965966976}
+  m_Layer: 0
+  m_Name: Directional Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1965966975
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965966974}
+  m_LocalRotation: {x: 0.19108406, y: 0.054875836, z: 0.11192697, w: 0.9736262}
+  m_LocalPosition: {x: 19.575657, y: 13.351333, z: -5.4761276}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1268045071}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 21.088001, y: 9.229, z: 14.837001}
+--- !u!108 &1965966976
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965966974}
+  m_Enabled: 1
+  serializedVersion: 8
+  m_Type: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 0.8
+  m_Range: 10
+  m_SpotAngle: 30
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+--- !u!4 &2025615591 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4812092732484762, guid: dbcf2afda3278994d923cf2b0092828a,
+    type: 3}
+  m_PrefabInstance: {fileID: 129924328}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2025615592 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114667384009260574, guid: dbcf2afda3278994d923cf2b0092828a,
+    type: 3}
+  m_PrefabInstance: {fileID: 129924328}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c7a022be76393744b9f1a13d09311ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &8066031824029405689 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4704736235650960, guid: dbcf2afda3278994d923cf2b0092828a,
+    type: 3}
+  m_PrefabInstance: {fileID: 129924328}
+  m_PrefabAsset: {fileID: 0}

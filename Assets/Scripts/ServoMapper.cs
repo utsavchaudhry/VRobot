@@ -5,24 +5,18 @@ using UnityEngine.XR;
 public class ServoMapper : MonoBehaviour
 {
     public enum Side { L, R }
-    public enum BodyJoint { ShoulderForward, ShoulderLateral, Elbow, Palm, Wrist, Finger }
+    public enum BodyJoint { ShoulderForward, ShoulderLateral, Elbow, Wrist, Finger }
     public enum HeadAxis { Pitch, Yaw }
 
     [System.Serializable]
     private class Arm
     {
-        [SerializeField] private Transform shoulder;
-        [SerializeField] private Transform elbow;
-        [SerializeField] private Transform wrist;
-        [SerializeField] private Transform finger;
+        [SerializeField] private Transform[] joints;
 
-        private Transform avatar;
         private InputDevice inputDevice;
 
-        public void Initialize(Transform _avatar, Side side)
+        public void Initialize(Side side)
         {
-            avatar = _avatar;
-
             List<InputDevice> devices = new();
 
             if (side == Side.L)
@@ -42,42 +36,26 @@ public class ServoMapper : MonoBehaviour
 
         public int GetAngle(BodyJoint joint)
         {
+            float angle = 90f;
+
             switch (joint)
             {
                 case BodyJoint.ShoulderForward:
-                    if (shoulder && avatar)
-                    {
-                        Vector3 shoulderDirection = Vector3.ProjectOnPlane(-shoulder.right, avatar.right);
-                        return Mathf.RoundToInt(180f - Vector3.Angle(shoulderDirection, avatar.forward));
-                    }
+                    angle = joints[0].localEulerAngles.y + 90f;
                     break;
                 case BodyJoint.ShoulderLateral:
-                    if (shoulder && avatar)
+                    angle = joints[1].localEulerAngles.z;
+                    if (angle > 180f)
                     {
-                        Vector3 shoulderDirection = Vector3.ProjectOnPlane(-shoulder.right, avatar.forward);
-                        return Mathf.RoundToInt(Vector3.Angle(shoulderDirection, avatar.up));
+                        angle -= 360f;
                     }
+                    angle -= 52f;
                     break;
                 case BodyJoint.Elbow:
-                    if (shoulder && elbow && wrist)
-                    {
-                        return Mathf.RoundToInt(Vector3.Angle(elbow.position - shoulder.position, wrist.position - elbow.position));
-                    }
-                    break;
-                case BodyJoint.Palm:
-                    if (elbow && wrist && finger && avatar)
-                    {
-                        int angle = Mathf.RoundToInt(Vector3.Angle(wrist.position - elbow.position, finger.position - wrist.position));
-                        Vector3 palmDirection = Vector3.ProjectOnPlane(-wrist.right, avatar.forward);
-                        return 90 + Mathf.RoundToInt(Vector3.Angle(palmDirection, avatar.right) < 90f ? angle : -angle);
-                    }
+                    angle = Vector3.Angle(joints[3].position - joints[2].position, joints[1].position - joints[2].position);
                     break;
                 case BodyJoint.Wrist:
-                    if (wrist && avatar)
-                    {
-                        Vector3 wristDirection = Vector3.ProjectOnPlane(wrist.up, avatar.forward);
-                        return Mathf.RoundToInt(180f - Vector3.Angle(wristDirection, avatar.up));
-                    }
+                    angle = joints[3].localEulerAngles.z + 5f;
                     break;
                 case BodyJoint.Finger:
                     if (inputDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue))
@@ -89,15 +67,12 @@ public class ServoMapper : MonoBehaviour
                     break;
             }
 
-            return 90;
+            return Mathf.RoundToInt(Mathf.Clamp(Mathf.Abs(angle), 0f, 180f));
         }
     }
 
     public static ServoMapper Instance { get; private set; }
 
-    [Header("Transform References")]
-
-    [SerializeField] private Transform avatar;
     [SerializeField] private Arm leftArm;
     [SerializeField] private Arm rightArm;
 
@@ -110,8 +85,8 @@ public class ServoMapper : MonoBehaviour
 
     private void Start()
     {
-        leftArm.Initialize(avatar, Side.L);
-        rightArm.Initialize(avatar, Side.R);
+        leftArm.Initialize(Side.L);
+        rightArm.Initialize(Side.R);
 
         head = Camera.main.transform;
     }

@@ -49,7 +49,7 @@ public class SerialHandler : MonoBehaviour
             if (serialPort.WriteLF(serialMessage))
             {
                 previousSentData = serialMessage;
-                Debug.Log(previousSentData);
+                //Debug.Log(previousSentData);
             }
         }
         catch (System.Exception e)
@@ -62,15 +62,13 @@ public class SerialHandler : MonoBehaviour
     {
         //Debug.Log(ServoMapper.Instance.GetAngle(ServoMapper.Side.R, ServoMapper.BodyJoint.ShoulderLateral));
 
-        string servoMessage = ServoMapper.Instance.GetAngle(ServoMapper.Side.R, ServoMapper.BodyJoint.Finger).ToString() + "," +
+        string servoMessage = ServoMapper.Instance.GetAngle(ServoMapper.Side.R, ServoMapper.BodyJoint.Finger).ToString() + ",90," +
             ServoMapper.Instance.GetAngle(ServoMapper.Side.R, ServoMapper.BodyJoint.Wrist).ToString() + "," +
-            ServoMapper.Instance.GetAngle(ServoMapper.Side.R, ServoMapper.BodyJoint.Palm).ToString() + "," +
             ServoMapper.Instance.GetAngle(ServoMapper.Side.R, ServoMapper.BodyJoint.Elbow).ToString() + "," +
             ServoMapper.Instance.GetAngle(ServoMapper.Side.R, ServoMapper.BodyJoint.ShoulderLateral).ToString() + "," +
             ServoMapper.Instance.GetAngle(ServoMapper.Side.R, ServoMapper.BodyJoint.ShoulderForward).ToString() + "," +
-            ServoMapper.Instance.GetAngle(ServoMapper.Side.L, ServoMapper.BodyJoint.Finger).ToString() + "," +
+            ServoMapper.Instance.GetAngle(ServoMapper.Side.L, ServoMapper.BodyJoint.Finger).ToString() + ",90," +
             ServoMapper.Instance.GetAngle(ServoMapper.Side.L, ServoMapper.BodyJoint.Wrist).ToString() + "," +
-            ServoMapper.Instance.GetAngle(ServoMapper.Side.L, ServoMapper.BodyJoint.Palm).ToString() + "," +
             ServoMapper.Instance.GetAngle(ServoMapper.Side.L, ServoMapper.BodyJoint.Elbow).ToString() + "," +
             ServoMapper.Instance.GetAngle(ServoMapper.Side.L, ServoMapper.BodyJoint.ShoulderLateral).ToString() + "," +
             ServoMapper.Instance.GetAngle(ServoMapper.Side.L, ServoMapper.BodyJoint.ShoulderForward).ToString() + "," +
@@ -79,6 +77,6 @@ public class SerialHandler : MonoBehaviour
 
         SendSerialData(servoMessage);
 
-        VRobotSim.Instance.Set(servoMessage);
+        //VRobotSim.Instance.Set(servoMessage);
     }
 }

@@ -1,0 +1,144 @@
+fileFormatVersion: 2
+guid: 4607f4e9170269d409327b4589d4ab55
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Robot
+    100002: Robot_Head__Axis_1_
+    100004: Robot_Head__Axis_1__Arm_1__Axis_2_
+    100006: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3_
+    100008: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4_
+    100010: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5_
+    100012: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5__Grasper_base
+    100014: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5__Grasper_base_grasper_L
+    100016: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5__Grasper_base_grasper_R
+    100018: //RootNode
+    400000: Robot
+    400002: Robot_Head__Axis_1_
+    400004: Robot_Head__Axis_1__Arm_1__Axis_2_
+    400006: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3_
+    400008: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4_
+    400010: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5_
+    400012: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5__Grasper_base
+    400014: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5__Grasper_base_grasper_L
+    400016: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5__Grasper_base_grasper_R
+    400018: //RootNode
+    2100000: RobotMat
+    2100002: Robot_Head__Axis_1_Mat
+    2100004: Robot_Head__Axis_1__Arm_1__Axis_2_Mat
+    2100006: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3_Mat
+    2100008: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4_Mat
+    2100010: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5_Mat
+    2100012: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5__Grasper_baseMat
+    2100014: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5__Grasper_base_grasper_LMat
+    2100016: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5__Grasper_base_grasper_RMat
+    2300000: Robot
+    2300002: Robot_Head__Axis_1_
+    2300004: Robot_Head__Axis_1__Arm_1__Axis_2_
+    2300006: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3_
+    2300008: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4_
+    2300010: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5_
+    2300012: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5__Grasper_base
+    2300014: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5__Grasper_base_grasper_L
+    2300016: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5__Grasper_base_grasper_R
+    3300000: Robot
+    3300002: Robot_Head__Axis_1_
+    3300004: Robot_Head__Axis_1__Arm_1__Axis_2_
+    3300006: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3_
+    3300008: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4_
+    3300010: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5_
+    3300012: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5__Grasper_base
+    3300014: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5__Grasper_base_grasper_L
+    3300016: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5__Grasper_base_grasper_R
+    4300000: Robot
+    4300002: Robot_Head__Axis_1_
+    4300004: Robot_Head__Axis_1__Arm_1__Axis_2_
+    4300006: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3_
+    4300008: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4_
+    4300010: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5_
+    4300012: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5__Grasper_base
+    4300014: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5__Grasper_base_grasper_L
+    4300016: Robot_Head__Axis_1__Arm_1__Axis_2__Arm_2__Axis_3__Arm_3__Axis_4__Joint__Axis_5__Grasper_base_grasper_R
+    9500000: //RootNode
+    2186277476908879412: ImportLogs
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
