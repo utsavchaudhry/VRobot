@@ -79,10 +79,9 @@ public class ServoMapper : MonoBehaviour
 
     public static ServoMapper Instance { get; private set; }
 
+    [SerializeField] private Transform head;
     [SerializeField] private Arm leftArm;
     [SerializeField] private Arm rightArm;
-
-    private Transform head;
 
     private void Awake()
     {
@@ -93,8 +92,6 @@ public class ServoMapper : MonoBehaviour
     {
         leftArm.Initialize(Side.L);
         rightArm.Initialize(Side.R);
-
-        head = Camera.main.transform;
     }
 
     public int GetAngle(Side side, BodyJoint joint)
