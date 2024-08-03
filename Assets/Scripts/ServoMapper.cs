@@ -4,22 +4,74 @@ using UnityEngine.XR;
 
 public class ServoMapper : MonoBehaviour
 {
-    public enum Side { L, R }
-    public enum BodyJoint { ShoulderForward, ShoulderLateral, Elbow, Wrist, Finger }
-    public enum HeadAxis { Pitch, Yaw }
+    public static ServoMapper Instance { get; private set; }
 
     [System.Serializable]
-    private class Arm
+    private abstract class ServoMotor
     {
-        [SerializeField] private Transform[] joints;
+        [SerializeField] [Range(0, 360)] protected int range = 180;
+        [SerializeField] private int minPWM = 100;
+        [SerializeField] private int maxPWM = 600;
+        [SerializeField] [Range(-180f, 180f)] private float startAngle = -90f;
+        [SerializeField] private bool flip;
 
+        public int CalculatePWM(float angle)
+        {
+            Debug.Log(angle);
+
+            if (angle > 180f)
+            {
+                angle -= 360f;
+            }
+
+            angle = Mathf.Clamp(angle, startAngle, startAngle + range);
+
+            if (startAngle < 0)
+            {
+                angle += Mathf.Abs(startAngle);
+            }
+
+            int servoAngle = Mathf.RoundToInt(minPWM + ((maxPWM - minPWM) * angle / range));
+
+            return flip ? range - servoAngle : servoAngle;
+        }
+    }
+
+    [System.Serializable]
+    private class ServoJoint : ServoMotor
+    {
+        private enum Axis { X, Y, Z }
+
+        [SerializeField] private Transform target;
+        [SerializeField] private Axis axis;
+
+        public int GetPWM()
+        {
+            return CalculatePWM(axis switch
+            {
+                Axis.X => target.localRotation.eulerAngles.x,
+                Axis.Y => target.localRotation.eulerAngles.y,
+                Axis.Z => target.localRotation.eulerAngles.z,
+                _ => target.localRotation.eulerAngles.x,
+            });
+        }
+    }
+
+    [System.Serializable]
+    private class ServoGrapper : ServoMotor
+    {
         private InputDevice inputDevice;
 
-        public void Initialize(Side side)
+        public bool IsXRControllerValid()
+        {
+            return inputDevice.isValid;
+        }
+
+        public void Initialize(bool isLeft)
         {
             List<InputDevice> devices = new();
 
-            if (side == Side.L)
+            if (isLeft)
             {
                 InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller, devices);
             }
@@ -34,104 +86,67 @@ public class ServoMapper : MonoBehaviour
             }
         }
 
-        public int GetAngle(BodyJoint joint)
+        public int GetPWM()
         {
-            float angle = 90f;
-
-            switch (joint)
-            {
-                case BodyJoint.ShoulderForward:
-                    angle = joints[0].localEulerAngles.y;
-                    if (angle > 180)
-                    {
-                        angle -= 360f;
-                    }
-                    angle += 90f;
-                    angle = 180f - angle;
-                    break;
-                case BodyJoint.ShoulderLateral:
-                    angle = joints[1].localEulerAngles.z;
-                    if (angle > 180f)
-                    {
-                        angle -= 360f;
-                    }
-                    angle -= 52f;
-                    break;
-                case BodyJoint.Elbow:
-                    angle = 180f - Vector3.Angle(joints[3].position - joints[2].position, joints[1].position - joints[2].position);
-                    break;
-                case BodyJoint.Wrist:
-                    angle = joints[3].localEulerAngles.z + 5f;
-                    break;
-                case BodyJoint.Finger:
-                    if (inputDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue))
-                    {
-                        return Mathf.RoundToInt(triggerValue * 180f);
-                    }
-                    break;
-                default:
-                    break;
-            }
-
-            return Mathf.RoundToInt(Mathf.Clamp(Mathf.Abs(angle), 0f, 180f));
+            _ = inputDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue);
+            return CalculatePWM(triggerValue * range);
         }
     }
 
-    public static ServoMapper Instance { get; private set; }
-
-    [SerializeField] private Transform head;
-    [SerializeField] private Arm leftArm;
-    [SerializeField] private Arm rightArm;
+    [SerializeField] private ServoGrapper rGrapper;
+    [SerializeField] private ServoJoint[] rArm;
+    [SerializeField] private ServoGrapper lGrapper;
+    [SerializeField] private ServoJoint[] lArm;
+    [SerializeField] private ServoJoint[] head;
 
     private void Awake()
     {
+        if (Instance)
+        {
+            Destroy(Instance);
+        }
+
         Instance = this;
     }
 
-    private void Start()
+    public string GetServoMessage()
     {
-        leftArm.Initialize(Side.L);
-        rightArm.Initialize(Side.R);
+        if (!rGrapper.IsXRControllerValid())
+        {
+            rGrapper.Initialize(false);
+        }
+
+        string servoMessage = rGrapper.GetPWM().ToString();
+
+        foreach (ServoJoint joint in rArm)
+        {
+            servoMessage += "," + joint.GetPWM();
+        }
+
+        if (!lGrapper.IsXRControllerValid())
+        {
+            lGrapper.Initialize(true);
+        }
+
+        servoMessage += "," + lGrapper.GetPWM();
+
+        foreach (ServoJoint joint in lArm)
+        {
+            servoMessage += "," + joint.GetPWM();
+        }
+
+        foreach (ServoJoint joint in head)
+        {
+            servoMessage += "," + joint.GetPWM();
+        }
+
+        return servoMessage;
     }
 
-    public int GetAngle(Side side, BodyJoint joint)
+    private void Update()
     {
-        return side == Side.L ? leftArm.GetAngle(joint) : rightArm.GetAngle(joint);
-    }
+        _ = rArm[2].GetPWM();
 
-    public int GetHeadAngle(HeadAxis axis)
-    {
-        if (!head)
-        {
-            return 90;
-        }
-
-        float angle = 90f;
-
-        switch (axis)
-        {
-            case HeadAxis.Pitch:
-                angle = head.eulerAngles.x;
-                break;
-            case HeadAxis.Yaw:
-                angle = head.eulerAngles.y;
-                break;
-            default:
-                break;
-        }
-
-        if (angle > 180f)
-        {
-            angle -= 360f;
-        }
-
-        angle += 90f;
-
-        if (axis == HeadAxis.Yaw)
-        {
-            angle = 180f - angle;
-        }
-
-        return Mathf.RoundToInt(angle);
+        //Debug.Log(GetServoMessage());
     }
 }
