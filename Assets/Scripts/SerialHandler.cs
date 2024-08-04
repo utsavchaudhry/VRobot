@@ -49,12 +49,19 @@ public class SerialHandler : MonoBehaviour
             if (serialPort.WriteLF(serialMessage))
             {
                 previousSentData = serialMessage;
-                Debug.Log(previousSentData);
             }
         }
         catch (System.Exception e)
         {
             Debug.LogError(e.Message);
+        }
+    }
+
+    private void Update()
+    {
+        if (ServoMapper.Instance)
+        {
+            SendSerialData(ServoMapper.Instance.GetServoMessage());
         }
     }
 }

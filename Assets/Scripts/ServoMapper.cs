@@ -14,11 +14,10 @@ public class ServoMapper : MonoBehaviour
         [SerializeField] private int maxPWM = 600;
         [SerializeField] [Range(-180f, 180f)] private float startAngle = -90f;
         [SerializeField] private bool flip;
+        [SerializeField] private bool log;
 
-        public int CalculatePWM(float angle)
+        protected int CalculatePWM(float angle)
         {
-            Debug.Log(angle);
-
             if (angle > 180f)
             {
                 angle -= 360f;
@@ -31,9 +30,19 @@ public class ServoMapper : MonoBehaviour
                 angle += Mathf.Abs(startAngle);
             }
 
-            int servoAngle = Mathf.RoundToInt(minPWM + ((maxPWM - minPWM) * angle / range));
+            int pwm = Mathf.RoundToInt(minPWM + ((maxPWM - minPWM) * angle / range));
 
-            return flip ? range - servoAngle : servoAngle;
+            if (flip)
+            {
+                pwm = maxPWM + minPWM - pwm;
+            }
+
+            if (log)
+            {
+                Debug.Log(pwm);
+            }
+
+            return pwm;
         }
     }
 
@@ -43,17 +52,48 @@ public class ServoMapper : MonoBehaviour
         private enum Axis { X, Y, Z }
 
         [SerializeField] private Transform target;
+        [SerializeField] private float offset;
         [SerializeField] private Axis axis;
+        [SerializeField] private bool useUnityEulerConversion = false;
+
+        public void SetOffset(float _offset)
+        {
+            offset = _offset;
+        }
 
         public int GetPWM()
         {
             return CalculatePWM(axis switch
             {
-                Axis.X => target.localRotation.eulerAngles.x,
-                Axis.Y => target.localRotation.eulerAngles.y,
-                Axis.Z => target.localRotation.eulerAngles.z,
-                _ => target.localRotation.eulerAngles.x,
-            });
+                Axis.X => useUnityEulerConversion ? target.localEulerAngles.x : QuaternionToEulerAngles(target.localRotation).x,
+                Axis.Y => useUnityEulerConversion ? target.localEulerAngles.y : QuaternionToEulerAngles(target.localRotation).y,
+                Axis.Z => useUnityEulerConversion ? target.localEulerAngles.z : QuaternionToEulerAngles(target.localRotation).z,
+                _ => useUnityEulerConversion ? target.localEulerAngles.x : QuaternionToEulerAngles(target.localRotation).x,
+            } + offset);
+        }
+
+        private Vector3 QuaternionToEulerAngles(Quaternion q)
+        {
+            // Roll (x-axis rotation)
+            float sinr_cosp = 2 * (q.w * q.x + q.y * q.z);
+            float cosr_cosp = 1 - 2 * (q.x * q.x + q.y * q.y);
+            float roll = Mathf.Atan2(sinr_cosp, cosr_cosp);
+
+            // Pitch (y-axis rotation)
+            float sinp = 2 * (q.w * q.y - q.z * q.x);
+            float pitch;
+            if (Mathf.Abs(sinp) >= 1)
+                pitch = Mathf.Sign(sinp) * Mathf.PI / 2; // Use 90 degrees if out of range
+            else
+                pitch = Mathf.Asin(sinp);
+
+            // Yaw (z-axis rotation)
+            float siny_cosp = 2 * (q.w * q.z + q.x * q.y);
+            float cosy_cosp = 1 - 2 * (q.y * q.y + q.z * q.z);
+            float yaw = Mathf.Atan2(siny_cosp, cosy_cosp);
+
+            // Convert radians to degrees
+            return new Vector3(roll * Mathf.Rad2Deg, pitch * Mathf.Rad2Deg, yaw * Mathf.Rad2Deg);
         }
     }
 
@@ -98,6 +138,8 @@ public class ServoMapper : MonoBehaviour
     [SerializeField] private ServoGrapper lGrapper;
     [SerializeField] private ServoJoint[] lArm;
     [SerializeField] private ServoJoint[] head;
+    [SerializeField] private ServoJoint yaw;
+    [SerializeField] private ServoJoint pitch;
 
     private void Awake()
     {
@@ -107,6 +149,11 @@ public class ServoMapper : MonoBehaviour
         }
 
         Instance = this;
+    }
+
+    public void SetYawOffset(float _offset)
+    {
+        yaw.SetOffset(_offset);
     }
 
     public string GetServoMessage()
@@ -141,12 +188,5 @@ public class ServoMapper : MonoBehaviour
         }
 
         return servoMessage;
-    }
-
-    private void Update()
-    {
-        _ = rArm[2].GetPWM();
-
-        //Debug.Log(GetServoMessage());
     }
 }
