@@ -4,45 +4,52 @@ using System.Collections.Generic;
 
 public class IKTargetFollow : MonoBehaviour
 {
-    private enum Side { Left, Right }
-
-    [SerializeField] private Side side;
+    [SerializeField] private Transform controllerTransform;
 
     private InputDevice controller;
+    private Vector3 defaultPosition;
+    private Quaternion defaultRotation;
+
+    private void Start()
+    {
+        defaultPosition = transform.position;
+        defaultRotation = transform.rotation;
+    }
 
     private void Update()
     {
-        if (!controller.isValid)
+        if (!controllerTransform)
         {
-            SetupController();
             return;
         }
 
-        if (controller.TryGetFeatureValue(CommonUsages.devicePosition, out Vector3 controllerPosition))
+        if (controller.isValid)
         {
-            transform.position = controllerPosition;
+            transform.SetPositionAndRotation(controllerTransform.position, controllerTransform.rotation);
         }
-
-        if (controller.TryGetFeatureValue(CommonUsages.deviceRotation, out Quaternion controllerRotation))
+        else
         {
-            transform.rotation = controllerRotation;
+            transform.SetPositionAndRotation(defaultPosition, defaultRotation);
+            SetupController();
         }
     }
 
     private void SetupController()
     {
+        if (!controllerTransform)
+        {
+            return;
+        }
+
         List<InputDevice> devices = new();
 
-        switch (side)
+        if (controllerTransform.name.ToLower().Contains("left"))
         {
-            case Side.Left:
-                InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller, devices);
-                break;
-            case Side.Right:
-                InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller, devices);
-                break;
-            default:
-                break;
+            InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller, devices);
+        }
+        else
+        {
+            InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller, devices);
         }
 
         if (devices.Count > 0)

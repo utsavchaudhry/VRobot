@@ -7,7 +7,7 @@ public class ServoMapper : MonoBehaviour
     public static ServoMapper Instance { get; private set; }
 
     [System.Serializable]
-    private abstract class ServoMotor
+    private class ServoMotor
     {
         [SerializeField] [Range(0, 360)] protected int range = 180;
         [SerializeField] private int minPWM = 100;
@@ -16,7 +16,7 @@ public class ServoMapper : MonoBehaviour
         [SerializeField] private bool flip;
         [SerializeField] private bool log;
 
-        protected int CalculatePWM(float angle)
+        public int CalculatePWM(float angle)
         {
             if (angle > 180f)
             {
@@ -52,14 +52,8 @@ public class ServoMapper : MonoBehaviour
         private enum Axis { X, Y, Z }
 
         [SerializeField] private Transform target;
-        [SerializeField] private float offset;
         [SerializeField] private Axis axis;
         [SerializeField] private bool useUnityEulerConversion = false;
-
-        public void SetOffset(float _offset)
-        {
-            offset = _offset;
-        }
 
         public int GetPWM()
         {
@@ -69,7 +63,7 @@ public class ServoMapper : MonoBehaviour
                 Axis.Y => useUnityEulerConversion ? target.localEulerAngles.y : QuaternionToEulerAngles(target.localRotation).y,
                 Axis.Z => useUnityEulerConversion ? target.localEulerAngles.z : QuaternionToEulerAngles(target.localRotation).z,
                 _ => useUnityEulerConversion ? target.localEulerAngles.x : QuaternionToEulerAngles(target.localRotation).x,
-            } + offset);
+            });
         }
 
         private Vector3 QuaternionToEulerAngles(Quaternion q)
@@ -135,11 +129,19 @@ public class ServoMapper : MonoBehaviour
 
     [SerializeField] private ServoGrapper rGrapper;
     [SerializeField] private ServoJoint[] rArm;
+
+    [Space]
+
     [SerializeField] private ServoGrapper lGrapper;
     [SerializeField] private ServoJoint[] lArm;
-    [SerializeField] private ServoJoint[] head;
-    [SerializeField] private ServoJoint yaw;
-    [SerializeField] private ServoJoint pitch;
+
+    [Space]
+
+    [SerializeField] private Transform head;
+    [SerializeField] private ServoMotor yaw;
+    [SerializeField] private ServoMotor pitch;
+
+    private float yawOffset;
 
     private void Awake()
     {
@@ -151,9 +153,14 @@ public class ServoMapper : MonoBehaviour
         Instance = this;
     }
 
-    public void SetYawOffset(float _offset)
+    private void Start()
     {
-        yaw.SetOffset(_offset);
+        InputManager.OnPrimaryButtonDown += ResetYaw;
+    }
+
+    private void OnDestroy()
+    {
+        InputManager.OnPrimaryButtonDown -= ResetYaw;
     }
 
     public string GetServoMessage()
@@ -182,11 +189,17 @@ public class ServoMapper : MonoBehaviour
             servoMessage += "," + joint.GetPWM();
         }
 
-        foreach (ServoJoint joint in head)
+        if (head)
         {
-            servoMessage += "," + joint.GetPWM();
+            servoMessage += "," + yaw.CalculatePWM(head.localEulerAngles.y - yawOffset) + "," + pitch.CalculatePWM(head.localEulerAngles.x);
         }
 
         return servoMessage;
+    }
+
+    private void ResetYaw()
+    {
+        yawOffset = head.localEulerAngles.y;
+        Debug.Log("Yaw Offset: " + yawOffset);
     }
 }
