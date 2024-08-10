@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
@@ -13,6 +14,7 @@ public class ServoMapper : MonoBehaviour
         [SerializeField] private int minPWM = 100;
         [SerializeField] private int maxPWM = 600;
         [SerializeField] [Range(-180f, 180f)] private float startAngle = -90f;
+        [SerializeField] [Range(-180f, 180f)] private float offset;
         [SerializeField] private bool flip;
         [SerializeField] private bool log;
 
@@ -23,14 +25,7 @@ public class ServoMapper : MonoBehaviour
                 angle -= 360f;
             }
 
-            angle = Mathf.Clamp(angle, startAngle, startAngle + range);
-
-            if (startAngle < 0)
-            {
-                angle += Mathf.Abs(startAngle);
-            }
-
-            int pwm = Mathf.RoundToInt(minPWM + ((maxPWM - minPWM) * angle / range));
+            int pwm = Mathf.RoundToInt(minPWM + ((maxPWM - minPWM) * NormalizeValue(angle + offset, startAngle, startAngle + range)));
 
             if (flip)
             {
@@ -44,6 +39,24 @@ public class ServoMapper : MonoBehaviour
 
             return pwm;
         }
+
+        private float NormalizeValue(float value, float min, float max)
+        {
+            // Ensure that max is greater than min to avoid division by zero.
+            if (max <= min)
+            {
+                throw new ArgumentException("max must be greater than min");
+            }
+
+            // Clamp the value between min and max to avoid going beyond the bounds.
+            float clampedValue = Mathf.Clamp(value, min, max);
+
+            // Normalize the clamped value to a range of 0 to 1.
+            float normalizedValue = (clampedValue - min) / (max - min);
+
+            return normalizedValue;
+        }
+
     }
 
     [System.Serializable]
@@ -57,13 +70,13 @@ public class ServoMapper : MonoBehaviour
 
         public int GetPWM()
         {
-            return CalculatePWM(axis switch
+            return CalculatePWM(target ? (axis switch
             {
                 Axis.X => useUnityEulerConversion ? target.localEulerAngles.x : QuaternionToEulerAngles(target.localRotation).x,
                 Axis.Y => useUnityEulerConversion ? target.localEulerAngles.y : QuaternionToEulerAngles(target.localRotation).y,
                 Axis.Z => useUnityEulerConversion ? target.localEulerAngles.z : QuaternionToEulerAngles(target.localRotation).z,
                 _ => useUnityEulerConversion ? target.localEulerAngles.x : QuaternionToEulerAngles(target.localRotation).x,
-            });
+            }) : 0f);
         }
 
         private Vector3 QuaternionToEulerAngles(Quaternion q)

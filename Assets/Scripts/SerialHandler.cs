@@ -29,7 +29,6 @@ public class SerialHandler : MonoBehaviour
     {
         if (!serialPort.IsConnected())
         {
-            Debug.Log("Serial port not connected!");
             return;
         }
 
