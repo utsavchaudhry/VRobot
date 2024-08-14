@@ -204,7 +204,7 @@ public class ServoMapper : MonoBehaviour
 
         if (head)
         {
-            servoMessage += "," + yaw.CalculatePWM(head.localEulerAngles.y - yawOffset) + "," + pitch.CalculatePWM(head.localEulerAngles.x);
+            servoMessage += "," + yaw.CalculatePWM(Mathf.Repeat(head.localEulerAngles.y - yawOffset, 360f)) + "," + pitch.CalculatePWM(head.localEulerAngles.x);
         }
 
         return servoMessage;
@@ -213,6 +213,22 @@ public class ServoMapper : MonoBehaviour
     private void ResetYaw()
     {
         yawOffset = head.localEulerAngles.y;
+
+        if (yawOffset > 180f)
+        {
+            yawOffset -= 360f;
+        }
+
+        VRobot.ResetYaw(head.eulerAngles.y);
+
         Debug.Log("Yaw Offset: " + yawOffset);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ResetYaw();
+        }
     }
 }

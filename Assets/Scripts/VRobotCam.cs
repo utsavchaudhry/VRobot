@@ -1,71 +1,57 @@
+using System;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class VRobotCam : MonoBehaviour
 {
-    private WebCamTexture webCamTexture;
+    // Import the functions from the CameraAccess.dll
+    [DllImport("CameraAccess.dll")]
+    private static extern int StartCapture();
 
-    public Renderer leftEyeQuad;  // Assign these in the inspector
-    public Renderer rightEyeQuad;
+    [DllImport("CameraAccess.dll")]
+    private static extern int StopCapture();
 
-    private int desiredWidth = 2560;
-    private int desiredHeight = 720;
+    [DllImport("CameraAccess.dll")]
+    private static extern IntPtr GetFrame();
 
-    private Texture2D leftEyeTexture;
-    private Texture2D rightEyeTexture;
+    public Material leftEyeMaterial;  // Assign these in the inspector
+    public Material rightEyeMaterial;
+
+    private Texture2D texture;
+    private int width = 1280;   // Example resolution, should match your camera
+    private int height = 720;   // Example resolution, should match your camera
+    private IntPtr framePtr;
 
     void Start()
     {
-        WebCamDevice[] devices = WebCamTexture.devices;
-        if (devices.Length > 0)
-        {
-            // Automatically select the first available camera
-            webCamTexture = new WebCamTexture(devices[0].name, desiredWidth, desiredHeight);
-            webCamTexture.Play();
+        // Start capturing from the camera
+        StartCapture();
 
-            // Initialize the Texture2D for left and right eye
-            leftEyeTexture = new Texture2D(1280, 720, TextureFormat.RGBA32, false);
-            rightEyeTexture = new Texture2D(1280, 720, TextureFormat.RGBA32, false);
+        // Initialize the texture that will hold the camera feed
+        texture = new Texture2D(width * 2, height, TextureFormat.RGBA32, false); // Assuming stereo video feed
 
-            // Assign the textures to the quads
-            leftEyeQuad.material.mainTexture = leftEyeTexture;
-            rightEyeQuad.material.mainTexture = rightEyeTexture;
-        }
-        else
-        {
-            Debug.LogError("No camera found!");
-        }
+        // Assign the texture to the materials
+        leftEyeMaterial.SetTexture("_MainTex", texture);
+        rightEyeMaterial.SetTexture("_MainTex", texture);
     }
 
     void Update()
     {
-        if (webCamTexture != null && webCamTexture.isPlaying)
+        // Get the current frame from the camera
+        framePtr = GetFrame();
+        if (framePtr != IntPtr.Zero)
         {
-            // Get the full pixel data from the webcam texture
-            Color32[] fullPixels = webCamTexture.GetPixels32();
+            // Load the raw data into the texture
+            texture.LoadRawTextureData(framePtr, width * height * 4 * 2); // 2 frames (left & right), 4 bytes per pixel
+            texture.Apply();
 
-            // Extract left eye image (1280x720 portion from the left side)
-            Color32[] leftPixels = new Color32[1280 * 720];
-            for (int y = 0; y < 720; y++)
-            {
-                for (int x = 0; x < 1280; x++)
-                {
-                    leftPixels[y * 1280 + x] = fullPixels[y * desiredWidth + x];
-                }
-            }
-            leftEyeTexture.SetPixels32(leftPixels);
-            leftEyeTexture.Apply();
-
-            // Extract right eye image (1280x720 portion from the right side)
-            Color32[] rightPixels = new Color32[1280 * 720];
-            for (int y = 0; y < 720; y++)
-            {
-                for (int x = 0; x < 1280; x++)
-                {
-                    rightPixels[y * 1280 + x] = fullPixels[y * desiredWidth + (x + 1280)];
-                }
-            }
-            rightEyeTexture.SetPixels32(rightPixels);
-            rightEyeTexture.Apply();
+            // The shader will automatically split the stereo texture for the left and right eye
         }
+    }
+
+    void OnDestroy()
+    {
+        // Stop capturing when the application is closed
+        StopCapture();
     }
 }
