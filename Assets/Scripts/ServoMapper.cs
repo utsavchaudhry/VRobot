@@ -7,10 +7,11 @@ public class ServoMapper : MonoBehaviour
 {
     public static ServoMapper Instance { get; private set; }
 
-    [System.Serializable]
+    [Serializable]
     private class ServoMotor
     {
-        [SerializeField] [Range(0, 360)] protected int range = 180;
+        [Range(0, 360)] public int range = 180;
+
         [SerializeField] private int minPWM = 100;
         [SerializeField] private int maxPWM = 600;
         [SerializeField] [Range(-180f, 180f)] private float startAngle = -90f;
@@ -40,6 +41,11 @@ public class ServoMapper : MonoBehaviour
             return pwm;
         }
 
+        public float ClampAngle(float angle)
+        {
+            return Mathf.Clamp(angle + offset, startAngle, startAngle + range);
+        }
+
         private float NormalizeValue(float value, float min, float max)
         {
             // Ensure that max is greater than min to avoid division by zero.
@@ -59,7 +65,7 @@ public class ServoMapper : MonoBehaviour
 
     }
 
-    [System.Serializable]
+    [Serializable]
     private class ServoJoint : ServoMotor
     {
         private enum Axis { X, Y, Z }
@@ -104,49 +110,19 @@ public class ServoMapper : MonoBehaviour
         }
     }
 
-    [System.Serializable]
-    private class ServoGrapper : ServoMotor
-    {
-        private InputDevice inputDevice;
-
-        public bool IsXRControllerValid()
-        {
-            return inputDevice.isValid;
-        }
-
-        public void Initialize(bool isLeft)
-        {
-            List<InputDevice> devices = new();
-
-            if (isLeft)
-            {
-                InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller, devices);
-            }
-            else
-            {
-                InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller, devices);
-            }
-
-            if (devices.Count > 0)
-            {
-                inputDevice = devices[0];
-            }
-        }
-
-        public int GetPWM()
-        {
-            _ = inputDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue);
-            return CalculatePWM(triggerValue * range);
-        }
-    }
-
-    [SerializeField] private ServoGrapper rGrapper;
+    [SerializeField] private ServoMotor rGrapper;
+    [SerializeField] private ServoMotor rWrist;
     [SerializeField] private ServoJoint[] rArm;
 
     [Space]
 
-    [SerializeField] private ServoGrapper lGrapper;
+    [SerializeField] private ServoMotor lGrapper;
+    [SerializeField] private ServoMotor lWrist;
     [SerializeField] private ServoJoint[] lArm;
+
+    [Space]
+
+    [SerializeField] private float wristTurnSpeed;
 
     [Space]
 
@@ -154,7 +130,11 @@ public class ServoMapper : MonoBehaviour
     [SerializeField] private ServoMotor yaw;
     [SerializeField] private ServoMotor pitch;
 
+    private InputDevice leftController;
+    private InputDevice rightController;
     private float yawOffset;
+    private float rWristAngle;
+    private float lWristAngle;
 
     private void Awake()
     {
@@ -173,6 +153,35 @@ public class ServoMapper : MonoBehaviour
         ResetYaw();
     }
 
+    private void SetDevices()
+    {
+        if (rightController.isValid && leftController.isValid)
+        {
+            return;
+        }
+
+        List<InputDevice> devices = new();
+
+        if (!rightController.isValid)
+        {
+            InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller, devices);
+            if (devices.Count > 0)
+            {
+                rightController = devices[0];
+            }
+        }
+
+        if (!leftController.isValid)
+        {
+            devices.Clear();
+            InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller, devices);
+            if (devices.Count > 0)
+            {
+                leftController = devices[0];
+            }
+        }
+    }
+
     private void OnDestroy()
     {
         InputManager.OnPrimaryButtonDown -= ResetYaw;
@@ -180,24 +189,24 @@ public class ServoMapper : MonoBehaviour
 
     public string GetServoMessage()
     {
-        if (!rGrapper.IsXRControllerValid())
-        {
-            rGrapper.Initialize(false);
-        }
+        _ = rightController.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue);
+        string servoMessage = rGrapper.CalculatePWM(triggerValue * rGrapper.range).ToString();
 
-        string servoMessage = rGrapper.GetPWM().ToString();
+        _ = rightController.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 joystickValue);
+        rWristAngle = rWrist.ClampAngle(rWristAngle + (joystickValue.x * Time.deltaTime));
+        servoMessage += "," + rWrist.CalculatePWM(rWristAngle);
 
         foreach (ServoJoint joint in rArm)
         {
             servoMessage += "," + joint.GetPWM();
         }
 
-        if (!lGrapper.IsXRControllerValid())
-        {
-            lGrapper.Initialize(true);
-        }
+        _ = leftController.TryGetFeatureValue(CommonUsages.trigger, out triggerValue);
+        servoMessage += "," + lGrapper.CalculatePWM(triggerValue * lGrapper.range);
 
-        servoMessage += "," + lGrapper.GetPWM();
+        _ = leftController.TryGetFeatureValue(CommonUsages.primary2DAxis, out joystickValue);
+        lWristAngle = lWrist.ClampAngle(lWristAngle + (joystickValue.x * Time.deltaTime));
+        servoMessage += "," + lWrist.CalculatePWM(lWristAngle);
 
         foreach (ServoJoint joint in lArm)
         {
@@ -228,6 +237,8 @@ public class ServoMapper : MonoBehaviour
 
     private void Update()
     {
+        SetDevices();
+
         if (Input.GetKeyDown(KeyCode.R))
         {
             ResetYaw();
