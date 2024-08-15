@@ -5,6 +5,8 @@ public class VRobot : MonoBehaviour
     [SerializeField] private Transform head;
     [SerializeField] private Vector3 offset = new(0f, -0.15f, -0.15f);
 
+    [Space]
+
     [SerializeField] private Transform lTarget;
     [SerializeField] private Transform rTarget;
 
@@ -14,6 +16,11 @@ public class VRobot : MonoBehaviour
     {
         rot = transform.rotation;
         InputManager.OnSecondaryButtonDown += Calibrate;
+
+        if (PlayerPrefs.HasKey("VRobotSize"))
+        {
+            transform.localScale = Vector3.one * PlayerPrefs.GetFloat("VRobotSize");
+        }
     }
 
     private void OnDestroy()
@@ -25,8 +32,9 @@ public class VRobot : MonoBehaviour
     {
         if (head)
         {
-            transform.SetPositionAndRotation(head.position + (transform.right * offset.x) + (transform.up * offset.y) + (transform.forward * offset.z)
-                , rot);
+            transform.SetPositionAndRotation(
+                head.position + (transform.right * offset.x) + (transform.up * offset.y) + (transform.forward * offset.z),
+                rot);
         }
 
         if (Input.GetKeyDown(KeyCode.C))
@@ -45,5 +53,9 @@ public class VRobot : MonoBehaviour
         float avgArmSpan = (Vector3.Distance(rTarget.position, transform.position + (transform.right * 0.1f)) +
             Vector3.Distance(lTarget.position, transform.position + (transform.right * -0.1f))) / 2f;
         transform.localScale = Vector3.one * avgArmSpan / 0.4f;
+
+        PlayerPrefs.SetFloat("VRobotSize", transform.localScale.x);
+
+        Debug.Log("Calibrated factor: " + transform.localScale.x);
     }
 }

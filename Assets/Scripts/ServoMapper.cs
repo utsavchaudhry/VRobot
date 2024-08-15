@@ -169,6 +169,8 @@ public class ServoMapper : MonoBehaviour
     private void Start()
     {
         InputManager.OnPrimaryButtonDown += ResetYaw;
+
+        ResetYaw();
     }
 
     private void OnDestroy()
