@@ -34,7 +34,21 @@ public class SerialHandler : MonoBehaviour
 
         if (!serialPort.IsOpened())
         {
-            Debug.LogError("Serial port not opened!");
+            if (string.IsNullOrEmpty(serialPort.Port))
+            {
+                Debug.LogError("Serial port not opened!");
+            }
+            else
+            {
+                try
+                {
+                    serialPort.Open();
+                }
+                catch (System.Exception e)
+                {
+                    Debug.LogError(e.Message);
+                }
+            }
             return;
         }
 
@@ -58,7 +72,7 @@ public class SerialHandler : MonoBehaviour
 
     private void Update()
     {
-        if (ServoMapper.Instance)
+        if (ServoMapper.Instance && ServoMapper.Instance.IsReady)
         {
             SendSerialData(ServoMapper.Instance.GetServoMessage());
         }

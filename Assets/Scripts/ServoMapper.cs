@@ -7,6 +7,8 @@ public class ServoMapper : MonoBehaviour
 {
     public static ServoMapper Instance { get; private set; }
 
+    public bool IsReady { get; private set; }
+
     [Serializable]
     private class ServoMotor
     {
@@ -150,7 +152,7 @@ public class ServoMapper : MonoBehaviour
     {
         InputManager.OnPrimaryButtonDown += ResetYaw;
 
-        ResetYaw();
+        Invoke(nameof(ResetYaw), 1f);
     }
 
     private void SetDevices()
@@ -233,6 +235,8 @@ public class ServoMapper : MonoBehaviour
         VRobot.ResetYaw(head.eulerAngles.y);
 
         Debug.Log("Yaw Offset: " + yawOffset);
+
+        IsReady = true;
     }
 
     private void Update()

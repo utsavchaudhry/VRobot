@@ -5120,7 +5120,7 @@ MonoBehaviour:
   StopBit: 0
   DataBit: 8
   RecvDiscardNull: 1
-  AutoRTSCTSHandshake: 0
+  AutoRTSCTSHandshake: 1
   StartEnableDTR: 1
   DtrEnabled: 0
   RtsEnabled: 0
