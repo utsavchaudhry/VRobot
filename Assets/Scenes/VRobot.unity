@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12729266, g: 0.13414232, b: 0.12114291, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5551,7 +5551,7 @@ MonoBehaviour:
     target: {fileID: 793878434}
     axis: 2
     useUnityEulerConversion: 0
-  wristTurnSpeed: 60
+  wristTurnSpeed: 180
   head: {fileID: 8367633207763702597}
   yaw:
     range: 180

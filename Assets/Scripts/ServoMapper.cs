@@ -193,7 +193,7 @@ public class ServoMapper : MonoBehaviour
         string servoMessage = rGrapper.CalculatePWM(triggerValue * rGrapper.range).ToString();
 
         _ = rightController.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 joystickValue);
-        rWristAngle = rWrist.ClampAngle(rWristAngle + (joystickValue.x * Time.deltaTime));
+        rWristAngle = rWrist.ClampAngle(rWristAngle + (joystickValue.x * Time.deltaTime * wristTurnSpeed));
         servoMessage += "," + rWrist.CalculatePWM(rWristAngle);
 
         foreach (ServoJoint joint in rArm)
@@ -205,7 +205,7 @@ public class ServoMapper : MonoBehaviour
         servoMessage += "," + lGrapper.CalculatePWM(triggerValue * lGrapper.range);
 
         _ = leftController.TryGetFeatureValue(CommonUsages.primary2DAxis, out joystickValue);
-        lWristAngle = lWrist.ClampAngle(lWristAngle + (joystickValue.x * Time.deltaTime));
+        lWristAngle = lWrist.ClampAngle(lWristAngle + (joystickValue.x * Time.deltaTime * wristTurnSpeed));
         servoMessage += "," + lWrist.CalculatePWM(lWristAngle);
 
         foreach (ServoJoint joint in lArm)
