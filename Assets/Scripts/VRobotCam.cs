@@ -2,16 +2,20 @@ using UnityEngine;
 
 public class VRobotCam : MonoBehaviour
 {
-    public Material leftEyeMaterial;
-    public Material rightEyeMaterial;
+    [SerializeField] private Material leftEyeMaterial;
+    [SerializeField] private Material rightEyeMaterial;
+
+    [Space]
+
+    [SerializeField] private int width = 1280;
+    [SerializeField] private int height = 720;
+    [SerializeField] private int fps = 30;
 
     private WebCamTexture webcamTexture;
-    private int width = 1280;   // should match your camera
-    private int height = 720;
 
     void Start()
     {
-        webcamTexture = new WebCamTexture(width * 2, height);
+        webcamTexture = new WebCamTexture(width * 2, height, fps);
 
         webcamTexture.Play();
 

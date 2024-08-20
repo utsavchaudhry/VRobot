@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR;
 
 public class ServoMapper : MonoBehaviour
 {
@@ -132,11 +130,10 @@ public class ServoMapper : MonoBehaviour
     [SerializeField] private ServoMotor yaw;
     [SerializeField] private ServoMotor pitch;
 
-    private InputDevice leftController;
-    private InputDevice rightController;
     private float yawOffset;
     private float rWristAngle;
     private float lWristAngle;
+    private bool previousTriggerState;
 
     private void Awake()
     {
@@ -150,52 +147,21 @@ public class ServoMapper : MonoBehaviour
 
     private void Start()
     {
-        InputManager.OnPrimaryButtonDown += ResetYaw;
-
         Invoke(nameof(ResetYaw), 1f);
-    }
 
-    private void SetDevices()
-    {
-        if (rightController.isValid && leftController.isValid)
-        {
-            return;
-        }
-
-        List<InputDevice> devices = new();
-
-        if (!rightController.isValid)
-        {
-            InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller, devices);
-            if (devices.Count > 0)
-            {
-                rightController = devices[0];
-            }
-        }
-
-        if (!leftController.isValid)
-        {
-            devices.Clear();
-            InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller, devices);
-            if (devices.Count > 0)
-            {
-                leftController = devices[0];
-            }
-        }
+        InputManager.LeftController.PrimaryBtn.OnDown += ResetYaw;
     }
 
     private void OnDestroy()
     {
-        InputManager.OnPrimaryButtonDown -= ResetYaw;
+        InputManager.LeftController.PrimaryBtn.OnDown -= ResetYaw;
     }
 
     public string GetServoMessage()
     {
-        _ = rightController.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue);
-        string servoMessage = rGrapper.CalculatePWM(triggerValue * rGrapper.range).ToString();
+        string servoMessage = rGrapper.CalculatePWM(InputManager.RightController.Trigger * rGrapper.range).ToString();
 
-        _ = rightController.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 joystickValue);
-        rWristAngle = rWrist.ClampAngle(rWristAngle + (joystickValue.x * Time.deltaTime * wristTurnSpeed));
+        rWristAngle = rWrist.ClampAngle(rWristAngle + (InputManager.RightController.Joystick.x * Time.deltaTime * wristTurnSpeed));
         servoMessage += "," + rWrist.CalculatePWM(rWristAngle);
 
         foreach (ServoJoint joint in rArm)
@@ -203,11 +169,9 @@ public class ServoMapper : MonoBehaviour
             servoMessage += "," + joint.GetPWM();
         }
 
-        _ = leftController.TryGetFeatureValue(CommonUsages.trigger, out triggerValue);
-        servoMessage += "," + lGrapper.CalculatePWM(triggerValue * lGrapper.range);
+        servoMessage += "," + lGrapper.CalculatePWM(InputManager.LeftController.Trigger * lGrapper.range);
 
-        _ = leftController.TryGetFeatureValue(CommonUsages.primary2DAxis, out joystickValue);
-        lWristAngle = lWrist.ClampAngle(lWristAngle + (joystickValue.x * Time.deltaTime * wristTurnSpeed));
+        lWristAngle = lWrist.ClampAngle(lWristAngle + (InputManager.LeftController.Joystick.x * Time.deltaTime * wristTurnSpeed));
         servoMessage += "," + lWrist.CalculatePWM(lWristAngle);
 
         foreach (ServoJoint joint in lArm)
@@ -237,15 +201,5 @@ public class ServoMapper : MonoBehaviour
         Debug.Log("Yaw Offset: " + yawOffset);
 
         IsReady = true;
-    }
-
-    private void Update()
-    {
-        SetDevices();
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ResetYaw();
-        }
     }
 }

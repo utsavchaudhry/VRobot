@@ -1,60 +1,44 @@
 using UnityEngine;
-using UnityEngine.XR;
-using System.Collections.Generic;
 
 public class IKTargetFollow : MonoBehaviour
 {
     [SerializeField] private Transform controllerTransform;
+    [SerializeField] private float deadZone;
 
-    private InputDevice controller;
-    private Vector3 defaultPosition;
-    private Quaternion defaultRotation;
+    private Transform vrobotTransform;
+    private bool isRightTarget;
 
     private void Start()
     {
-        defaultPosition = transform.position;
-        defaultRotation = transform.rotation;
+        VRobot vrobot = FindObjectOfType<VRobot>();
+        if (vrobot)
+        {
+            vrobotTransform = vrobot.transform;
+        }
+
+        isRightTarget = controllerTransform.name.ToLower().Contains("right");
     }
 
     private void Update()
     {
-        if (!controllerTransform)
-        {
-            return;
-        }
-
-        if (controller.isValid)
+        if (controllerTransform && InSafeZone() &&
+            (isRightTarget ? InputManager.RightController.IsValid : InputManager.LeftController.IsValid))
         {
             transform.SetPositionAndRotation(controllerTransform.position, controllerTransform.rotation);
         }
-        else
-        {
-            transform.SetPositionAndRotation(defaultPosition, defaultRotation);
-            SetupController();
-        }
     }
 
-    private void SetupController()
+    private bool InSafeZone()
     {
-        if (!controllerTransform)
+        if (vrobotTransform)
         {
-            return;
+            float deltaX, deltaZ;
+            deltaX = Mathf.Abs(controllerTransform.position.x - vrobotTransform.position.x);
+            deltaZ = Mathf.Abs(controllerTransform.position.z - vrobotTransform.position.z);
+
+            return deltaX > deadZone && deltaZ > deadZone;
         }
 
-        List<InputDevice> devices = new();
-
-        if (controllerTransform.name.ToLower().Contains("left"))
-        {
-            InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller, devices);
-        }
-        else
-        {
-            InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller, devices);
-        }
-
-        if (devices.Count > 0)
-        {
-            controller = devices[0];
-        }
+        return true;
     }
 }
