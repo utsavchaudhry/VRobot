@@ -30,15 +30,9 @@ public class IKTargetFollow : MonoBehaviour
 
     private bool InSafeZone()
     {
-        if (vrobotTransform)
-        {
-            float deltaX, deltaZ;
-            deltaX = Mathf.Abs(controllerTransform.position.x - vrobotTransform.position.x);
-            deltaZ = Mathf.Abs(controllerTransform.position.z - vrobotTransform.position.z);
-
-            return deltaX > deadZone && deltaZ > deadZone;
-        }
-
-        return true;
+        return vrobotTransform
+            ? Mathf.Abs(controllerTransform.position.x - vrobotTransform.position.x) > deadZone ||
+                Mathf.Abs(controllerTransform.position.z - vrobotTransform.position.z) > deadZone
+            : true;
     }
 }

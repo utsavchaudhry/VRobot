@@ -38,7 +38,7 @@ public class SerialHandler : MonoBehaviour
             {
                 Debug.LogError("Serial port not opened!");
             }
-            else
+            else if (!serialPort.IsOpenProcessing())
             {
                 try
                 {
