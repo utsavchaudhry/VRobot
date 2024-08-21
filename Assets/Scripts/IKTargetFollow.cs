@@ -21,10 +21,10 @@ public class IKTargetFollow : MonoBehaviour
 
     private void Update()
     {
-        if (controllerTransform && InSafeZone() &&
-            (isRightTarget ? InputManager.RightController.IsValid : InputManager.LeftController.IsValid))
+        if (controllerTransform && (isRightTarget ? InputManager.RightController.IsValid : InputManager.LeftController.IsValid))
         {
-            transform.SetPositionAndRotation(controllerTransform.position, controllerTransform.rotation);
+            transform.SetPositionAndRotation(InSafeZone() ? controllerTransform.position :
+                new Vector3(transform.position.x, controllerTransform.position.y, transform.position.z), controllerTransform.rotation);
         }
     }
 
