@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12729266, g: 0.13414232, b: 0.12114291, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 150188929}
   - component: {fileID: 150188930}
   m_Layer: 0
-  m_Name: IK
+  m_Name: L_IK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2644,6 +2644,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftEyeMaterial: {fileID: 2100000, guid: f3e6228742b0b9f4aa5235ffeb53f1b2, type: 2}
   rightEyeMaterial: {fileID: 2100000, guid: d30d721eaf6af3047908680d6fb8c326, type: 2}
+  width: 1280
+  height: 720
+  fps: 30
 --- !u!4 &1249653170
 Transform:
   m_ObjectHideFlags: 0
@@ -2672,7 +2675,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1265855232}
-  - component: {fileID: 1265855233}
   m_Layer: 0
   m_Name: L_IKTarget
   m_TagString: Untagged
@@ -2687,28 +2689,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1265855231}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.2, y: -0.35, z: 0.05}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_Father: {fileID: 4108743485802043585}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1265855233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1265855231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a513da399d161294dbd601c5c70e3097, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controllerTransform: {fileID: 4108743485802043585}
-  deadZone: 0.02
 --- !u!114 &1269661857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2906,7 +2894,7 @@ GameObject:
   - component: {fileID: 1399918214}
   - component: {fileID: 1399918213}
   m_Layer: 0
-  m_Name: IK
+  m_Name: R_IK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5040,7 +5028,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1828766444}
-  - component: {fileID: 1828766445}
   m_Layer: 0
   m_Name: R_IKTarget
   m_TagString: Untagged
@@ -5055,28 +5042,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1828766443}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.2, y: -0.35, z: 0.05}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_Father: {fileID: 8505696239195324364}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1828766445
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828766443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a513da399d161294dbd601c5c70e3097, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controllerTransform: {fileID: 8505696239195324364}
-  deadZone: 0.02
 --- !u!1 &1889998318
 GameObject:
   m_ObjectHideFlags: 0
@@ -6576,7 +6549,7 @@ Transform:
   m_GameObject: {fileID: 7816097509134538205}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2477233689702706212}
@@ -6615,7 +6588,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1265855232}
   m_Father: {fileID: 9073971389760495808}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7652,7 +7626,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1828766444}
   m_Father: {fileID: 928427566670618224}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

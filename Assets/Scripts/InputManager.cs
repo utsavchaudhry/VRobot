@@ -52,7 +52,6 @@ public class InputManager : MonoBehaviour
         public ControllerButton SecondaryBtn { get; private set; }
         public Vector2 Joystick { get; private set; }
         public float Trigger { get; private set; }
-        public bool IsValid { get; private set; }
 
         private InputDevice controller;
         private bool isRightController;
@@ -65,57 +64,43 @@ public class InputManager : MonoBehaviour
             isRightController = _isRightController;
         }
 
-        private bool SetDevice()
+        private void SetDevice()
         {
-            if (controller.isValid && controller.characteristics == InputDeviceCharacteristics.Controller &&
-                    controller.characteristics == (isRightController ? InputDeviceCharacteristics.Right : InputDeviceCharacteristics.Left))
+            List<InputDevice> devices = new();
+
+            if (isRightController)
             {
-                return true;
+                InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller, devices);
             }
             else
             {
-                List<InputDevice> devices = new();
-
-                if (isRightController)
-                {
-                    InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller, devices);
-                }
-                else
-                {
-                    InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller, devices);
-                }
-
-                if (devices.Count > 0)
-                {
-                    controller = devices[0];
-                }
+                InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Left | InputDeviceCharacteristics.Controller, devices);
             }
 
-            return controller.isValid;
+            if (devices.Count > 0)
+            {
+                controller = devices[0];
+            }
         }
 
         public void Update()
         {
-            if (SetDevice())
+            if (!controller.isValid)
             {
-                IsValid = true;
-
-                PrimaryBtn.Update(controller, CommonUsages.primaryButton, isRightController ? KeyCode.L : KeyCode.R);
-                SecondaryBtn.Update(controller, CommonUsages.secondaryButton, isRightController ? KeyCode.P : KeyCode.C);
-
-                if (controller.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 joystick))
-                {
-                    Joystick = joystick;
-                }
-
-                if (controller.TryGetFeatureValue(CommonUsages.trigger, out float trigger))
-                {
-                    Trigger = trigger;
-                }
+                SetDevice();
             }
-            else
+
+            PrimaryBtn.Update(controller, CommonUsages.primaryButton, isRightController ? KeyCode.L : KeyCode.R);
+            SecondaryBtn.Update(controller, CommonUsages.secondaryButton, isRightController ? KeyCode.P : KeyCode.C);
+
+            if (controller.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 joystick))
             {
-                IsValid = false;
+                Joystick = joystick;
+            }
+
+            if (controller.TryGetFeatureValue(CommonUsages.trigger, out float trigger))
+            {
+                Trigger = trigger;
             }
         }
     }
