@@ -21,6 +21,9 @@ public class VRobotCam : MonoBehaviour
 
         leftEyeMaterial.SetTexture("_MainTex", webcamTexture);
         rightEyeMaterial.SetTexture("_MainTex", webcamTexture);
+
+        Debug.Log("Width: " + webcamTexture.width + "\n" +
+            "Height: " + webcamTexture.height);
     }
 
     void OnDestroy()

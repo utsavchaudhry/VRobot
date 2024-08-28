@@ -1793,7 +1793,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 768, y: 432}
+  m_SizeDelta: {x: 800, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &392333333
 MonoBehaviour:
@@ -1995,7 +1995,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 768, y: 432}
+  m_SizeDelta: {x: 800, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &529842212
 MonoBehaviour:
@@ -2644,9 +2644,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftEyeMaterial: {fileID: 2100000, guid: f3e6228742b0b9f4aa5235ffeb53f1b2, type: 2}
   rightEyeMaterial: {fileID: 2100000, guid: d30d721eaf6af3047908680d6fb8c326, type: 2}
-  width: 1280
-  height: 720
-  fps: 30
+  width: 1600
+  height: 1200
+  fps: 60
 --- !u!4 &1249653170
 Transform:
   m_ObjectHideFlags: 0
