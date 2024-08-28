@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.12729266, g: 0.13414232, b: 0.12114291, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5689,8 +5689,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rGrapper:
     range: 180
-    minPWM: 450
-    maxPWM: 500
+    minPWM: 250
+    maxPWM: 450
     startAngle: 0
     offset: 0
     flip: 0
@@ -5746,8 +5746,8 @@ MonoBehaviour:
     useUnityEulerConversion: 0
   lGrapper:
     range: 180
-    minPWM: 300
-    maxPWM: 400
+    minPWM: 250
+    maxPWM: 450
     startAngle: 0
     offset: 0
     flip: 0
