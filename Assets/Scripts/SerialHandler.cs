@@ -72,9 +72,21 @@ public class SerialHandler : MonoBehaviour
 
     private void Update()
     {
-        if (ServoMapper.Instance && ServoMapper.Instance.IsReady && !VRobot.IsPaused)
+        if (VRobot.IsPaused)
         {
-            SendSerialData(ServoMapper.Instance.GetServoMessage());
+            return;
+        }
+
+        if (ServoMapper.Instance)
+        {
+            if (ServoMapper.Instance.IsReady)
+            {
+                SendSerialData(ServoMapper.Instance.GetServoMessage());
+            }
+        }
+        else
+        {
+            SendSerialData(SignalGenerator.Signal);
         }
     }
 }

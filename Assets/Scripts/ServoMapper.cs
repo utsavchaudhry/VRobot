@@ -35,7 +35,7 @@ public class ServoMapper : MonoBehaviour
 
             if (log)
             {
-                Debug.Log(pwm);
+                Debug.Log(angle);
             }
 
             return pwm;
