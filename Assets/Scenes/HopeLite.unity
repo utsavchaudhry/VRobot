@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028328, g: 0.22571328, b: 0.30692208, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028381, g: 0.22571406, b: 0.30692294, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -400,7 +400,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d321e001408549ecb4956f0405912a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   startAngle: 0
   offset: 0
   range: 180
@@ -1824,7 +1823,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d321e001408549ecb4956f0405912a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   startAngle: -180
   offset: 0
   range: 180
@@ -4354,7 +4352,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d321e001408549ecb4956f0405912a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 8367633207763702597}
   startAngle: -90
   offset: 0
   range: 180
@@ -5968,7 +5965,7 @@ MonoBehaviour:
   secondaryAxis: {x: 0, y: 1, z: 0}
   zeroRotation: {x: 0.019246511, y: -0.70684475, z: -0.01924636, w: -0.70684487}
   limitsOffset: {x: 0, y: 0, z: 0}
-  limitAngle: 45
+  limitAngle: 15
   applyEveryFrame: 0
   bounce: 0
   friction: 0
@@ -5986,12 +5983,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d321e001408549ecb4956f0405912a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   startAngle: -90
   offset: 0
   range: 180
-  minPWM: 100
-  maxPWM: 600
+  minPWM: 0
+  maxPWM: 2048
   axis: 2
   flip: 0
 --- !u!1 &967419710
@@ -6064,12 +6060,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d321e001408549ecb4956f0405912a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   startAngle: -180
   offset: 0
   range: 180
-  minPWM: 100
-  maxPWM: 600
+  minPWM: 0
+  maxPWM: 2048
   axis: 1
   flip: 0
 --- !u!1 &971737800
@@ -6830,12 +6825,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d321e001408549ecb4956f0405912a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  startAngle: -90
+  startAngle: -180
   offset: 0
   range: 180
-  minPWM: 100
-  maxPWM: 600
+  minPWM: 1024
+  maxPWM: 3072
   axis: 2
   flip: 0
 --- !u!1 &1088747442
@@ -7204,24 +7198,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c65044fe9911459ab73ac3f6bc7ae4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  head: {fileID: 8367633207763702597}
   joints:
-  - {fileID: 1238519813}
-  - {fileID: 1082352383}
-  - {fileID: 1216582763}
-  - {fileID: 967419713}
-  - {fileID: 1842123423}
-  - {fileID: 938995702}
   - {fileID: 1227300767}
-  - {fileID: 22715410}
-  - {fileID: 1456925739}
-  - {fileID: 1141769106}
-  - {fileID: 359645622}
-  - {fileID: 1545782337}
-  - {fileID: 1413911063}
-  - {fileID: 1225066460}
-  - {fileID: 1620512556}
-  - {fileID: 606238889}
+  - {fileID: 938995702}
+  - {fileID: 1842123423}
+  - {fileID: 967419713}
+  - {fileID: 1216582763}
+  - {fileID: 1082352383}
+  - {fileID: 1238519813}
 --- !u!4 &1129190640
 Transform:
   m_ObjectHideFlags: 0
@@ -7316,7 +7300,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d321e001408549ecb4956f0405912a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   startAngle: 0
   offset: 0
   range: 180
@@ -8047,14 +8030,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d321e001408549ecb4956f0405912a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   startAngle: 0
   offset: 0
   range: 180
-  minPWM: 100
-  maxPWM: 600
+  minPWM: 0
+  maxPWM: 2048
   axis: 1
-  flip: 0
+  flip: 1
 --- !u!1 &1221566576
 GameObject:
   m_ObjectHideFlags: 0
@@ -8217,7 +8199,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d321e001408549ecb4956f0405912a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   startAngle: -180
   offset: 0
   range: 180
@@ -8317,14 +8298,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d321e001408549ecb4956f0405912a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   startAngle: -180
   offset: 0
   range: 180
-  minPWM: 100
-  maxPWM: 600
+  minPWM: 0
+  maxPWM: 2048
   axis: 2
-  flip: 0
+  flip: 1
 --- !u!1 &1233928333
 GameObject:
   m_ObjectHideFlags: 0
@@ -8460,12 +8440,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d321e001408549ecb4956f0405912a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   startAngle: 0
   offset: 0
   range: 180
-  minPWM: 100
-  maxPWM: 600
+  minPWM: 1024
+  maxPWM: 3072
   axis: 1
   flip: 0
 --- !u!1 &1249653168
@@ -9369,7 +9348,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d321e001408549ecb4956f0405912a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   startAngle: -90
   offset: 0
   range: 180
@@ -9760,7 +9738,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d321e001408549ecb4956f0405912a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   startAngle: -90
   offset: 0
   range: 180
@@ -10283,7 +10260,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d321e001408549ecb4956f0405912a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   startAngle: -180
   offset: 0
   range: 180
@@ -10954,7 +10930,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d321e001408549ecb4956f0405912a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 8367633207763702597}
   startAngle: -90
   offset: 0
   range: 180
@@ -13841,12 +13816,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d321e001408549ecb4956f0405912a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   startAngle: -180
   offset: 0
   range: 180
-  minPWM: 100
-  maxPWM: 600
+  minPWM: 1024
+  maxPWM: 3072
   axis: 1
   flip: 0
 --- !u!1 &1843538042

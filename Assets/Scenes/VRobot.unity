@@ -5689,8 +5689,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rGrapper:
     range: 180
+<<<<<<< Updated upstream
     minPWM: 250
     maxPWM: 450
+=======
+    minPWM: 300
+    maxPWM: 475
+>>>>>>> Stashed changes
     startAngle: 0
     offset: 0
     flip: 0
@@ -5746,8 +5751,13 @@ MonoBehaviour:
     useUnityEulerConversion: 0
   lGrapper:
     range: 180
+<<<<<<< Updated upstream
     minPWM: 250
     maxPWM: 450
+=======
+    minPWM: 300
+    maxPWM: 410
+>>>>>>> Stashed changes
     startAngle: 0
     offset: 0
     flip: 0

@@ -4,7 +4,6 @@ public class ServoJoint : MonoBehaviour
 {
     public int Signal { get; private set; }
 
-    [SerializeField] private Transform target;
     [SerializeField] [Range(-180f, 180f)] private float startAngle;
     [SerializeField] [Range(-180f, 180f)] private float offset;
     [SerializeField] [Range(0, 360)] private int range = 180;
@@ -16,14 +15,6 @@ public class ServoJoint : MonoBehaviour
 
     private float angle;
 
-    private void Start()
-    {
-        if (!target)
-        {
-            target = transform;
-        }
-    }
-
     private void Update()
     {
         angle = axis switch
@@ -34,19 +25,18 @@ public class ServoJoint : MonoBehaviour
             _ => transform.localEulerAngles.z,
         };
 
-        if (angle > 180f)
+        if (angle >= 180f)
         {
             angle -= 360f;
         }
 
-        int pwm = Mathf.RoundToInt(minPWM + ((maxPWM - minPWM) *
-            (Mathf.Clamp(angle + offset, startAngle, startAngle + range) - startAngle) / range));
+        float pwm01 = Mathf.Clamp01((Mathf.Clamp(angle + offset, startAngle, startAngle + range) - startAngle) / range);
 
         if (flip)
         {
-            pwm = maxPWM + minPWM - Signal;
+            pwm01 = 1f - pwm01;
         }
 
-        Signal = pwm;
+        Signal = Mathf.RoundToInt(minPWM + ((maxPWM - minPWM) * pwm01));
     }
 }
