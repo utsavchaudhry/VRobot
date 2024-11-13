@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class SignalGenerator : MonoBehaviour
 {
@@ -6,17 +7,31 @@ public class SignalGenerator : MonoBehaviour
 
     [SerializeField] private ServoJoint[] joints;
 
-    private void Update()
+    private string signal;
+
+    private void Start()
     {
-        string msg = string.Empty;
+        _ = StartCoroutine(GenerateCombinedSignal());
+    }
 
-        foreach (ServoJoint joint in joints)
+    private IEnumerator GenerateCombinedSignal()
+    {
+        string msg;
+
+        while (true)
         {
-            msg += joint.Signal + ",";
+            msg = string.Empty;
+
+            foreach (ServoJoint joint in joints)
+            {
+                msg += joint.Signal + ",";
+            }
+
+            Signal = msg.Trim(',');
+
+            signal = Signal;
+
+            yield return null;
         }
-
-        Signal = msg.Trim(',');
-
-        //SerialCommunicator.WriteToSerial(Signal);
     }
 }

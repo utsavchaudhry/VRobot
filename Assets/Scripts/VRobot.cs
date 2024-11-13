@@ -68,7 +68,7 @@ public class VRobot : MonoBehaviour
     {
         float avgArmSpan = (Vector3.Distance(rTarget.position, transform.position + (transform.right * 0.1f)) +
             Vector3.Distance(lTarget.position, transform.position + (transform.right * -0.1f))) / 2f;
-        transform.localScale = Vector3.one * avgArmSpan / 0.4f;
+        transform.localScale = Vector3.one * avgArmSpan / 0.5f;
 
         PlayerPrefs.SetFloat("VRobotSize", transform.localScale.x);
 

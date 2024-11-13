@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using SerialPortUtility;
 
 [RequireComponent(typeof(SerialPortUtilityPro))]
@@ -15,6 +16,8 @@ public class SerialHandler : MonoBehaviour
         {
             serialPort = FindObjectOfType<SerialPortUtilityPro>();
         }
+
+        _ = StartCoroutine(SendSignal());
     }
 
     private void OnDestroy()
@@ -70,23 +73,26 @@ public class SerialHandler : MonoBehaviour
         }
     }
 
-    private void Update()
+    private IEnumerator SendSignal()
     {
-        if (VRobot.IsPaused)
+        while (true)
         {
-            return;
-        }
-
-        if (ServoMapper.Instance)
-        {
-            if (ServoMapper.Instance.IsReady)
+            if (!VRobot.IsPaused)
             {
-                SendSerialData(ServoMapper.Instance.GetServoMessage());
+                if (ServoMapper.Instance)
+                {
+                    if (ServoMapper.Instance.IsReady)
+                    {
+                        SendSerialData(ServoMapper.Instance.GetServoMessage());
+                    }
+                }
+                else
+                {
+                    SendSerialData(SignalGenerator.Signal);
+                }
             }
-        }
-        else
-        {
-            SendSerialData(SignalGenerator.Signal);
+
+            yield return null;
         }
     }
 }
