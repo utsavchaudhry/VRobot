@@ -3,14 +3,13 @@ using System.Collections;
 
 public class ServoJoint : MonoBehaviour
 {
-    public int Signal { get; private set; }
-
     [SerializeField] private Transform target;
     [SerializeField] [Range(-180f, 180f)] private float startAngle;
     [SerializeField] [Range(-180f, 180f)] private float offset;
     [SerializeField] [Range(0, 360)] private int range = 180;
     [SerializeField] private int minPWM = 100;
     [SerializeField] private int maxPWM = 600;
+    [SerializeField] private int motorID = 1;
     private enum Axis { X, Y, Z }
     [SerializeField] private Axis axis;
     [SerializeField] private bool flip;
@@ -19,6 +18,7 @@ public class ServoJoint : MonoBehaviour
     private Vector3 eulerAngles;
     private float lastPwm = -1f;
     private float angle;
+    private int lastSignal = -69420;
 
     private void Start()
     {
@@ -28,6 +28,7 @@ public class ServoJoint : MonoBehaviour
     private IEnumerator CalculateSignal()
     {
         lastPwm = -1f;
+        lastSignal = -69420;
 
         if (!target)
         {
@@ -36,36 +37,46 @@ public class ServoJoint : MonoBehaviour
 
         while (true)
         {
-            eulerAngles = useCustomAngleConversion ? QuaternionToEulerAngles(target.localRotation) : target.localEulerAngles;
-
-            angle = axis switch
+            if (!VRobot.IsPaused)
             {
-                Axis.X => eulerAngles.x,
-                Axis.Y => eulerAngles.y,
-                Axis.Z => eulerAngles.z,
-                _ => eulerAngles.z,
-            };
+                eulerAngles = useCustomAngleConversion ? QuaternionToEulerAngles(target.localRotation) : target.localEulerAngles;
 
-            if (startAngle < 0f && angle >= 180f)
-            {
-                angle -= 360f;
+                angle = axis switch
+                {
+                    Axis.X => eulerAngles.x,
+                    Axis.Y => eulerAngles.y,
+                    Axis.Z => eulerAngles.z,
+                    _ => eulerAngles.z,
+                };
+
+                if (startAngle < 0f && angle >= 180f)
+                {
+                    angle -= 360f;
+                }
+
+                angle = Mathf.Clamp(angle + offset, startAngle, startAngle + range);
+
+                float pwm01 = Mathf.Clamp01((angle - startAngle) / range);
+
+                if (flip)
+                {
+                    pwm01 = 1f - pwm01;
+                }
+
+                if (lastPwm < 0f || (Mathf.Abs(pwm01 - lastPwm) <= 0.25f && pwm01 != lastPwm))
+                {
+                    int currentSignal = Mathf.RoundToInt(minPWM + ((maxPWM - minPWM) * pwm01));
+                    if (Mathf.Abs(currentSignal - lastSignal) >= 15f)
+                    {
+                        if (SerialHandler.SendSerialData(motorID + "," + currentSignal))
+                        {
+                            lastSignal = currentSignal;
+                        }
+                    }
+                }
+
+                lastPwm = pwm01;
             }
-
-            angle = Mathf.Clamp(angle + offset, startAngle, startAngle + range);
-
-            float pwm01 = Mathf.Clamp01((angle - startAngle) / range);
-
-            if (flip)
-            {
-                pwm01 = 1f - pwm01;
-            }
-
-            if (lastPwm < 0f || (Mathf.Abs(pwm01 - lastPwm) <= 0.25f && pwm01 != lastPwm))
-            {
-                Signal = Mathf.RoundToInt(minPWM + ((maxPWM - minPWM) * pwm01));
-            }
-
-            lastPwm = pwm01;
 
             yield return null;
         }

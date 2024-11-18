@@ -845,7 +845,7 @@ Transform:
   - {fileID: 1817003288582165902}
   - {fileID: 23164120}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &151806632
 MonoBehaviour:
@@ -3482,6 +3482,7 @@ MonoBehaviour:
   range: 180
   minPWM: 1024
   maxPWM: 3072
+  motorID: 8
   axis: 1
   flip: 1
   useCustomAngleConversion: 0
@@ -4444,8 +4445,9 @@ MonoBehaviour:
   range: 180
   minPWM: 0
   maxPWM: 2048
+  motorID: 11
   axis: 2
-  flip: 1
+  flip: 0
   useCustomAngleConversion: 0
 --- !u!114 &795661071
 MonoBehaviour:
@@ -4523,8 +4525,9 @@ MonoBehaviour:
   range: 180
   minPWM: 1024
   maxPWM: 3072
+  motorID: 16
   axis: 2
-  flip: 1
+  flip: 0
   useCustomAngleConversion: 0
 --- !u!114 &808898571
 MonoBehaviour:
@@ -5297,6 +5300,7 @@ MonoBehaviour:
   range: 180
   minPWM: 0
   maxPWM: 2048
+  motorID: 2
   axis: 0
   flip: 1
   useCustomAngleConversion: 0
@@ -5504,6 +5508,7 @@ MonoBehaviour:
   range: 180
   minPWM: 0
   maxPWM: 2048
+  motorID: 4
   axis: 0
   flip: 1
   useCustomAngleConversion: 1
@@ -6511,8 +6516,9 @@ MonoBehaviour:
   range: 180
   minPWM: 1024
   maxPWM: 3072
+  motorID: 17
   axis: 0
-  flip: 0
+  flip: 1
   useCustomAngleConversion: 0
 --- !u!114 &1078748675
 MonoBehaviour:
@@ -6613,6 +6619,7 @@ MonoBehaviour:
   range: 180
   minPWM: 1024
   maxPWM: 3072
+  motorID: 6
   axis: 2
   flip: 1
   useCustomAngleConversion: 0
@@ -6936,60 +6943,6 @@ Transform:
   - {fileID: 1280716499}
   m_Father: {fileID: 2144159175}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1129190638
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1129190640}
-  - component: {fileID: 1129190639}
-  m_Layer: 0
-  m_Name: Signal
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1129190639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1129190638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c65044fe9911459ab73ac3f6bc7ae4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  joints:
-  - {fileID: 1227300767}
-  - {fileID: 938995702}
-  - {fileID: 1842123423}
-  - {fileID: 967419713}
-  - {fileID: 1216582763}
-  - {fileID: 1082352383}
-  - {fileID: 1238519813}
-  - {fileID: 606238889}
-  - {fileID: 1620512556}
---- !u!4 &1129190640
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1129190638}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1134608258
 GameObject:
@@ -7429,6 +7382,7 @@ MonoBehaviour:
   range: 180
   minPWM: 0
   maxPWM: 2048
+  motorID: 5
   axis: 1
   flip: 1
   useCustomAngleConversion: 0
@@ -7655,6 +7609,7 @@ MonoBehaviour:
   range: 180
   minPWM: 0
   maxPWM: 2048
+  motorID: 1
   axis: 2
   flip: 1
   useCustomAngleConversion: 0
@@ -7874,7 +7829,7 @@ MonoBehaviour:
   enable: 1
   mainAxis: {x: 1, y: 0, z: 0}
   secondaryAxis: {x: 0, y: 1, z: 0}
-  zeroRotation: {x: -0.6427876, y: 0, z: 0, w: 0.7660445}
+  zeroRotation: {x: 0, y: 0, z: 0, w: 1}
   limitsOffset: {x: 0, y: 0, z: 0}
   limitAngle: 90
   applyEveryFrame: 0
@@ -7900,6 +7855,7 @@ MonoBehaviour:
   range: 180
   minPWM: 1024
   maxPWM: 3072
+  motorID: 7
   axis: 0
   flip: 0
   useCustomAngleConversion: 0
@@ -10501,7 +10457,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bb1e9e66fc65f8442b0997eb345c3e98, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.03669887
+      value: 0.015909921
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bb1e9e66fc65f8442b0997eb345c3e98, type: 3}
       propertyPath: m_LocalPosition.y
@@ -10509,11 +10465,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bb1e9e66fc65f8442b0997eb345c3e98, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.015909903
+      value: 0.03669885
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bb1e9e66fc65f8442b0997eb345c3e98, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.3036032
+      value: -0.3036032
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bb1e9e66fc65f8442b0997eb345c3e98, type: 3}
       propertyPath: m_LocalRotation.x
@@ -10525,7 +10481,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bb1e9e66fc65f8442b0997eb345c3e98, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.23296289
+      value: 0.2329629
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bb1e9e66fc65f8442b0997eb345c3e98, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -10539,6 +10495,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -75
       objectReference: {fileID: 0}
+    - target: {fileID: 757301586959430559, guid: bb1e9e66fc65f8442b0997eb345c3e98, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 7397659539795428015, guid: 39fb3eafab34746aaa33de530f4ea3c4, type: 3}
     - target: {fileID: 919132149155446097, guid: bb1e9e66fc65f8442b0997eb345c3e98, type: 3}
       propertyPath: m_Name
       value: jaw v1
@@ -10671,8 +10631,9 @@ MonoBehaviour:
   range: 180
   minPWM: 0
   maxPWM: 2048
+  motorID: 12
   axis: 0
-  flip: 1
+  flip: 0
   useCustomAngleConversion: 0
 --- !u!114 &1477054019
 MonoBehaviour:
@@ -11042,10 +11003,11 @@ MonoBehaviour:
   startAngle: -90
   offset: 0
   range: 180
-  minPWM: 0
-  maxPWM: 2048
+  minPWM: 1024
+  maxPWM: 3072
+  motorID: 15
   axis: 1
-  flip: 1
+  flip: 0
   useCustomAngleConversion: 0
 --- !u!114 &1529167045
 MonoBehaviour:
@@ -11115,7 +11077,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a200e1b2e013f5e429ba1483ff76df11, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.014142137
+      value: -0.044406347
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a200e1b2e013f5e429ba1483ff76df11, type: 3}
       propertyPath: m_LocalPosition.y
@@ -11123,7 +11085,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a200e1b2e013f5e429ba1483ff76df11, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.04440632
+      value: -0.0141421305
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a200e1b2e013f5e429ba1483ff76df11, type: 3}
       propertyPath: m_LocalRotation.w
@@ -11131,11 +11093,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a200e1b2e013f5e429ba1483ff76df11, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.23296289
+      value: -0.2329629
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a200e1b2e013f5e429ba1483ff76df11, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.3036032
+      value: 0.3036032
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a200e1b2e013f5e429ba1483ff76df11, type: 3}
       propertyPath: m_LocalRotation.z
@@ -11153,6 +11115,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -75
       objectReference: {fileID: 0}
+    - target: {fileID: 757301586959430559, guid: a200e1b2e013f5e429ba1483ff76df11, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 7397659539795428015, guid: 39fb3eafab34746aaa33de530f4ea3c4, type: 3}
     - target: {fileID: 919132149155446097, guid: a200e1b2e013f5e429ba1483ff76df11, type: 3}
       propertyPath: m_Name
       value: wrist v0
@@ -11609,7 +11575,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1620512555
 Transform:
   m_ObjectHideFlags: 0
@@ -11643,6 +11609,7 @@ MonoBehaviour:
   range: 135
   minPWM: 1536
   maxPWM: 3072
+  motorID: 9
   axis: 0
   flip: 0
   useCustomAngleConversion: 0
@@ -11669,8 +11636,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1634749289}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0003, y: -0.06910005, z: 0.0002}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.007400002, y: -0.06910005, z: 0.010399999}
   m_LocalScale: {x: 0.99999934, y: 0.99999934, z: 0.99999976}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12572,10 +12539,11 @@ MonoBehaviour:
   startAngle: -180
   offset: 0
   range: 180
-  minPWM: 0
-  maxPWM: 2048
+  minPWM: 1024
+  maxPWM: 3072
+  motorID: 14
   axis: 0
-  flip: 1
+  flip: 0
   useCustomAngleConversion: 1
 --- !u!114 &1750017373
 MonoBehaviour:
@@ -13163,6 +13131,7 @@ MonoBehaviour:
   range: 180
   minPWM: 1024
   maxPWM: 3072
+  motorID: 3
   axis: 1
   flip: 1
   useCustomAngleConversion: 0
@@ -15115,10 +15084,11 @@ MonoBehaviour:
   startAngle: -90
   offset: 0
   range: 180
-  minPWM: 1024
-  maxPWM: 3072
+  minPWM: 0
+  maxPWM: 2048
+  motorID: 13
   axis: 1
-  flip: 1
+  flip: 0
   useCustomAngleConversion: 0
 --- !u!114 &1931528572
 MonoBehaviour:
@@ -15520,6 +15490,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 757301586959430559, guid: 920823f89f81f5f4690fa5a403d6ee57, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 7397659539795428015, guid: 39fb3eafab34746aaa33de530f4ea3c4, type: 3}
     - target: {fileID: 919132149155446097, guid: 920823f89f81f5f4690fa5a403d6ee57, type: 3}
       propertyPath: m_Name
       value: clamp mount v0

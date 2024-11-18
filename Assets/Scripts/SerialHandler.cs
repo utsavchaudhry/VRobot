@@ -1,12 +1,11 @@
 using UnityEngine;
-using System.Collections;
 using SerialPortUtility;
 
 [RequireComponent(typeof(SerialPortUtilityPro))]
 public class SerialHandler : MonoBehaviour
 {
-    private SerialPortUtilityPro serialPort;
-    private string previousSentData;
+    private static SerialPortUtilityPro serialPort;
+    private static string previousSentData;
 
     private void Start()
     {
@@ -16,8 +15,6 @@ public class SerialHandler : MonoBehaviour
         {
             serialPort = FindObjectOfType<SerialPortUtilityPro>();
         }
-
-        _ = StartCoroutine(SendSignal());
     }
 
     private void OnDestroy()
@@ -28,11 +25,11 @@ public class SerialHandler : MonoBehaviour
         }
     }
 
-    private void SendSerialData(string serialMessage)
+    public static bool SendSerialData(string serialMessage)
     {
-        if (!serialPort.IsConnected())
+        if (!serialPort || !serialPort.IsConnected())
         {
-            return;
+            return false;
         }
 
         if (!serialPort.IsOpened())
@@ -52,12 +49,7 @@ public class SerialHandler : MonoBehaviour
                     Debug.LogError(e.Message);
                 }
             }
-            return;
-        }
-
-        if (serialMessage == previousSentData)
-        {
-            return;
+            return false;
         }
 
         try
@@ -65,34 +57,14 @@ public class SerialHandler : MonoBehaviour
             if (serialPort.WriteLF(serialMessage))
             {
                 previousSentData = serialMessage;
+                return true;
             }
         }
         catch (System.Exception e)
         {
             Debug.LogError(e.Message);
         }
-    }
 
-    private IEnumerator SendSignal()
-    {
-        while (true)
-        {
-            if (!VRobot.IsPaused)
-            {
-                if (ServoMapper.Instance)
-                {
-                    if (ServoMapper.Instance.IsReady)
-                    {
-                        SendSerialData(ServoMapper.Instance.GetServoMessage());
-                    }
-                }
-                else
-                {
-                    SendSerialData(SignalGenerator.Signal);
-                }
-            }
-
-            yield return null;
-        }
+        return false;
     }
 }
