@@ -1,0 +1,28 @@
+{
+    "name": "awrtc_videoinput",
+    "references": [
+        "awrtc_browser",
+        "awrtc",
+        "awrtc_videoinput_base",
+        "awrtc_videoinput_native_browser",
+        "awrtc_uwp"
+    ],
+    "includePlatforms": [
+        "Android",
+        "Editor",
+        "iOS",
+        "macOSStandalone",
+        "WSA",
+        "WebGL",
+        "WindowsStandalone32",
+        "WindowsStandalone64"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,15 @@
+{
+    "name": "awrtc",
+    "references": [
+        "awrtc_browser",
+        "awrtc_common"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

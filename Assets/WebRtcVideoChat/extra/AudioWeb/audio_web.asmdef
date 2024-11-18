@@ -1,0 +1,20 @@
+{
+    "name": "audio_web",
+    "rootNamespace": "",
+    "references": [
+        "GUID:eccc0937742fcb24bbf38ffa0a7086b8",
+        "GUID:42238af6235912341865a538d4ca5405"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "WebGL"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
