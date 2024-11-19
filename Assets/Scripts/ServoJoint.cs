@@ -1,16 +1,18 @@
 using UnityEngine;
 using System.Collections;
 
+public enum Axis { X, Y, Z }
+
 public class ServoJoint : MonoBehaviour
 {
     [SerializeField] private Transform target;
+    [SerializeField] private ServoOffset servoOffset;
     [SerializeField] [Range(-180f, 180f)] private float startAngle;
     [SerializeField] [Range(-180f, 180f)] private float offset;
     [SerializeField] [Range(0, 360)] private int range = 180;
     [SerializeField] private int minPWM = 100;
     [SerializeField] private int maxPWM = 600;
     [SerializeField] private int motorID = 1;
-    private enum Axis { X, Y, Z }
     [SerializeField] private Axis axis;
     [SerializeField] private bool flip;
     [SerializeField] private bool useCustomAngleConversion;
@@ -63,9 +65,9 @@ public class ServoJoint : MonoBehaviour
                     pwm01 = 1f - pwm01;
                 }
 
-                if (lastPwm < 0f || (Mathf.Abs(pwm01 - lastPwm) <= 0.25f && pwm01 != lastPwm))
+                if (lastPwm < 0f || Mathf.Abs(pwm01 - lastPwm) <= 0.25f)
                 {
-                    int currentSignal = Mathf.RoundToInt(minPWM + ((maxPWM - minPWM) * pwm01));
+                    int currentSignal = Mathf.Clamp(Mathf.RoundToInt(minPWM + ((maxPWM - minPWM) * pwm01)) + (servoOffset ? servoOffset.Offset : 0), minPWM, maxPWM);
                     if (Mathf.Abs(currentSignal - lastSignal) >= 15f)
                     {
                         if (SerialHandler.SendSerialData(motorID + "," + currentSignal))
