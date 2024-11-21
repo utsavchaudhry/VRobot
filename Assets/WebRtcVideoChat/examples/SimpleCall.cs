@@ -45,6 +45,8 @@ namespace Byn.Unity.Examples
         public bool _Sender = false;
         public RawImage _LocalImage;
         public RawImage _RemoteImage;
+        public RawImage leftMat, rightMat;
+       // private RawImage finalImg;
         //Not yet stable on all platforms but coming soon.
         private bool _TryI420 = false;
 
@@ -152,8 +154,8 @@ namespace Byn.Unity.Examples
                 //deliver the resolution we ask for
                 //mediaConfig.IdealWidth = 320;
                 //mediaConfig.IdealHeight = 240;
-                mediaConfig.IdealWidth = 1280;
-                mediaConfig.IdealHeight = 720;
+                mediaConfig.IdealWidth = 1600;
+                mediaConfig.IdealHeight = 1200;
 
             }
             else
@@ -265,8 +267,10 @@ namespace Byn.Unity.Examples
                     bool textureCreated = UnityMediaHelper.UpdateRawImage(_RemoteImage, frameArgs.Frame);
                     if (textureCreated)
                     {
-                        Texture2D tex = _RemoteImage.texture as Texture2D;
-                        Log("Remote Texture(s) created " + tex.width + "x" + tex.height + " format: " + frameArgs.Frame.Format);
+                       // Texture2D tex = finalImg.texture as Texture2D;
+                        rightMat.texture = _RemoteImage.texture;
+                        leftMat.texture = _RemoteImage.texture;
+                      // Log("Remote Texture(s) created " + tex.width + "x" + tex.height + " format: " + frameArgs.Frame.Format);
                     }
                 }
             }

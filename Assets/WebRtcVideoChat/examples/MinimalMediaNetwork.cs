@@ -135,7 +135,7 @@ namespace Byn.Unity.Examples
             sender = UnityCallFactory.Instance.CreateMediaNetwork(netConf);
             MediaConfig mediaConf2 = new MediaConfig();
             mediaConf2.Video = false;
-            mediaConf2.Audio = true;
+            mediaConf2.Audio = false;
             sender.Configure(mediaConf2);
         }
 
