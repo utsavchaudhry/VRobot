@@ -904,7 +904,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &151806631
 Transform:
   m_ObjectHideFlags: 0
@@ -5257,7 +5257,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &909633100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8355,6 +8355,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1249653170}
   - component: {fileID: 1249653169}
+  - component: {fileID: 1249653171}
   m_Layer: 0
   m_Name: VRobotCam
   m_TagString: Untagged
@@ -8398,6 +8399,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1249653171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249653168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5ad38ea6dc6fc64a864473f89367cce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  left: {fileID: 529842211}
+  right: {fileID: 392333332}
+  sensitivity: 10
 --- !u!1 &1263269572
 GameObject:
   m_ObjectHideFlags: 0
@@ -15340,7 +15356,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1889998319
 MonoBehaviour:
   m_ObjectHideFlags: 0
