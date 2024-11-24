@@ -27,19 +27,16 @@ public class NetMessage : MonoBehaviour
 
                 foreach (ServoJoint joint in servoJoints)
                 {
-                    if (clamp.GetMotorID() == currentID)
+                    while (currentID < joint.GetMotorID())
                     {
-                        _msg += clamp.GetCurrentSignal() + ",";
-                    }
-                    else
-                    {
-                        while (currentID < joint.GetMotorID())
+                        if (clamp.GetMotorID() == currentID)
                         {
-                            _msg += ",";
-                            currentID++;
+                            _msg += clamp.GetCurrentSignal();
                         }
-                        _msg += joint.GetCurrentSignal() + ",";
+                        _msg += ",";
+                        currentID++;
                     }
+                    _msg += joint.GetCurrentSignal() + ",";
                     currentID++;
                 }
 
