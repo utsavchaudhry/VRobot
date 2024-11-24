@@ -25,11 +25,11 @@ public class VrMessages : MonoBehaviour
   
     private void InitMessage()
     {
-        Array.Sort(_servoJoints, (a, b) => a.MotorId.CompareTo(b.MotorId));
+        Array.Sort(_servoJoints, (a, b) => a.GetMotorID().CompareTo(b.GetMotorID()));
 
         for (int i = 0; i < _servoJoints.Length; i++)
         {
-            servoInfo[i] = _servoJoints[i].MotorId.ToString();
+            servoInfo[i] = _servoJoints[i].GetMotorID().ToString();
         }
     }
     public void createMessage(string id, string signalValue) //update the sorvo motor info after singal is received
@@ -38,7 +38,7 @@ public class VrMessages : MonoBehaviour
         {
             if (id == servoInfo[i])
             {
-                servoInfo[i] = _servoJoints[i].MotorId.ToString() + " " + _servoJoints[i].CurrentSignal.ToString();
+                servoInfo[i] = _servoJoints[i].GetMotorID().ToString() + " " + _servoJoints[i].GetCurrentSignal().ToString();
             }
         }
     }

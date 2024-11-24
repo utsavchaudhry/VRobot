@@ -8,11 +8,21 @@ public class Clamp : MonoBehaviour
     [SerializeField] private int maxPWM = 512;
     [SerializeField] private bool flip;
 
-    private int lastSignal = -69420;
+    private int signal;
 
     private void Start()
     {
         _ = StartCoroutine(CalculateSignal());
+    }
+
+    public int GetMotorID()
+    {
+        return motorID;
+    }
+
+    public int GetCurrentSignal()
+    {
+        return signal;
     }
 
     private IEnumerator CalculateSignal()
@@ -20,18 +30,14 @@ public class Clamp : MonoBehaviour
         while (true)
         {
             float input = InputManager.LeftController.Trigger;
+
             if (flip)
             {
                 input = 1f - input;
             } 
-            int currentSignal = Mathf.RoundToInt(minPWM + (input * (maxPWM - minPWM)));
-            if (Mathf.Abs(currentSignal - lastSignal) >= 15f)
-            {
-                if (SerialHandler.SendSerialData(motorID + "," + currentSignal))
-                {
-                    lastSignal = currentSignal;
-                }
-            }
+            
+            signal = Mathf.RoundToInt(minPWM + (input * (maxPWM - minPWM)));
+            
 
             yield return null;
         }

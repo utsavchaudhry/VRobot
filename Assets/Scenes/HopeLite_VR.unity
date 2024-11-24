@@ -8296,7 +8296,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1249653170}
-  - component: {fileID: 1249653169}
   - component: {fileID: 1249653171}
   m_Layer: 0
   m_Name: VRobotCam
@@ -8305,23 +8304,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1249653169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1249653168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f6ffcdeb261e4574925e5d18d50cdf8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftEyeMaterial: {fileID: 2100000, guid: f3e6228742b0b9f4aa5235ffeb53f1b2, type: 2}
-  rightEyeMaterial: {fileID: 2100000, guid: d30d721eaf6af3047908680d6fb8c326, type: 2}
-  width: 1600
-  height: 1200
-  fps: 60
 --- !u!4 &1249653170
 Transform:
   m_ObjectHideFlags: 0

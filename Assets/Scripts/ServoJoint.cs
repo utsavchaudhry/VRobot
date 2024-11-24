@@ -20,34 +20,26 @@ public class ServoJoint : MonoBehaviour
     private Vector3 eulerAngles;
     private float lastPwm = -1f;
     private float angle;
-    private int lastSignal = -69420;
     private int currentSignal = -69420;
-    public int CurrentSignal
-    {
-        get { return currentSignal; }
-        set { currentSignal = value; }
-    }
 
-    public int MotorId
-    {
-        get { return motorID; }
-        set { motorID = value; }
-    }
-
-    VrMessages _vrmessage;
-    private void Awake()
-    {
-        _vrmessage = FindObjectOfType<VrMessages>();
-    }
     private void Start()
     {
         _ = StartCoroutine(CalculateSignal());
     }
 
+    public int GetCurrentSignal()
+    {
+        return currentSignal;
+    }
+
+    public int GetMotorID()
+    {
+        return motorID;
+    }
+
     private IEnumerator CalculateSignal()
     {
         lastPwm = -1f;
-        lastSignal = -69420;
 
         if (!target)
         {
@@ -56,47 +48,36 @@ public class ServoJoint : MonoBehaviour
 
         while (true)
         {
-            if (!VRobot.IsPaused)
+            eulerAngles = useCustomAngleConversion ? QuaternionToEulerAngles(target.localRotation) : target.localEulerAngles;
+
+            angle = axis switch
             {
-                eulerAngles = useCustomAngleConversion ? QuaternionToEulerAngles(target.localRotation) : target.localEulerAngles;
+                Axis.X => eulerAngles.x,
+                Axis.Y => eulerAngles.y,
+                Axis.Z => eulerAngles.z,
+                _ => eulerAngles.z,
+            };
 
-                angle = axis switch
-                {
-                    Axis.X => eulerAngles.x,
-                    Axis.Y => eulerAngles.y,
-                    Axis.Z => eulerAngles.z,
-                    _ => eulerAngles.z,
-                };
-
-                if (startAngle < 0f && angle >= 180f)
-                {
-                    angle -= 360f;
-                }
-
-                angle = Mathf.Clamp(angle + offset, startAngle, startAngle + range);
-
-                float pwm01 = Mathf.Clamp01((angle - startAngle) / range);
-
-                if (flip)
-                {
-                    pwm01 = 1f - pwm01;
-                }
-
-                if (lastPwm < 0f || Mathf.Abs(pwm01 - lastPwm) <= 0.25f)
-                {
-                    currentSignal = Mathf.Clamp(Mathf.RoundToInt(minPWM + ((maxPWM - minPWM) * pwm01)) + (servoOffset ? servoOffset.Offset : 0), minPWM, maxPWM);
-                    if (Mathf.Abs(currentSignal - lastSignal) >= 15f)
-                    {
-                        if (SerialHandler.SendSerialData(motorID + "," + currentSignal))
-                        {
-                            lastSignal = currentSignal;
-                            _vrmessage.createMessage(motorID.ToString(), currentSignal.ToString());
-                        }
-                    }
-                }
-
-                lastPwm = pwm01;
+            if (startAngle < 0f && angle >= 180f)
+            {
+                angle -= 360f;
             }
+
+            angle = Mathf.Clamp(angle + offset, startAngle, startAngle + range);
+
+            float pwm01 = Mathf.Clamp01((angle - startAngle) / range);
+
+            if (flip)
+            {
+                pwm01 = 1f - pwm01;
+            }
+
+            if (lastPwm < 0f || Mathf.Abs(pwm01 - lastPwm) <= 0.25f)
+            {
+                currentSignal = Mathf.Clamp(Mathf.RoundToInt(minPWM + ((maxPWM - minPWM) * pwm01)) + (servoOffset ? servoOffset.Offset : 0), minPWM, maxPWM);
+            }
+
+            lastPwm = pwm01;
 
             yield return null;
         }

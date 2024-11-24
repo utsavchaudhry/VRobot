@@ -229,7 +229,7 @@ namespace Byn.Unity.Examples
                 while (mNetwork != null && mNetwork.Dequeue(out evt))
                 {
                     //print to the console for debugging
-                    Debug.Log(evt);
+                    //Debug.Log(evt);
 
                     //check every message
                     switch (evt.Type)
@@ -411,6 +411,9 @@ namespace Byn.Unity.Examples
 
         #region UI
 
+        public static event Action<string> OnMsgReceived;
+
+        [SerializeField] private bool logMsg;
 
         /// <summary>
         /// Adds a new message to the message view
@@ -418,7 +421,13 @@ namespace Byn.Unity.Examples
         /// <param name="text"></param>
         private void Append(string text)
         {
-            Debug.Log("chat: " + text);
+            OnMsgReceived?.Invoke(text);
+
+            if (!logMsg)
+            {
+                return;
+            }
+
             uOutput.AddTextEntry(text);
         }
 
