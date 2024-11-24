@@ -11,6 +11,7 @@ public class VRobotCamIPD : MonoBehaviour
     private Vector3 originalPositionRight;
     private float ipdOffset;
     private string ipdSaveKey = "IPD";
+    private bool setup;
 
     private Vector3 GetPosition(Transform t)
     {
@@ -38,7 +39,7 @@ public class VRobotCamIPD : MonoBehaviour
 
         float ipdDelta = InputManager.LeftController.Joystick.x * sensitivity * Time.deltaTime;
 
-        if (ipdDelta != 0f)
+        if (ipdDelta != 0f || !setup)
         {
             ipdOffset = Mathf.Clamp(ipdOffset + ipdDelta, -range, range);
 
@@ -53,6 +54,8 @@ public class VRobotCamIPD : MonoBehaviour
             }
 
             PlayerPrefs.SetFloat(ipdSaveKey, ipdOffset);
+
+            setup = true;
         }
     }
 }

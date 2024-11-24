@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/HopeLite_VR.unity
+    path: Assets/Scenes/HopeLite/HopeLite_VR.unity
     guid: 104708baab2992e48a55a86f8d4b7101
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: bfa1182bd221b4ca89619141f66f1260, type: 2}
