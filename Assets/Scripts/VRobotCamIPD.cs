@@ -11,7 +11,7 @@ public class VRobotCamIPD : MonoBehaviour
     private Vector3 originalPositionRight;
     private float ipdOffset;
     private string ipdSaveKey = "IPD";
-    private bool setup;
+    private bool valid;
 
     private Vector3 GetPosition(Transform t)
     {
@@ -27,35 +27,61 @@ public class VRobotCamIPD : MonoBehaviour
     {
         originalPositionLeft = GetPosition(left);
         originalPositionRight = GetPosition(right);
+
         ipdOffset = PlayerPrefs.GetFloat(ipdSaveKey);
+        Set();
+
+        InputManager.RightController.PrimaryBtn.OnDown += ValidDown;
+        InputManager.RightController.PrimaryBtn.OnUp += ValidUp;
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-        if (range == 0f)
+        if (InputManager.RightController == null)
         {
             return;
         }
 
-        float ipdDelta = InputManager.LeftController.Joystick.x * sensitivity * Time.deltaTime;
+        InputManager.RightController.PrimaryBtn.OnDown -= ValidDown;
+        InputManager.RightController.PrimaryBtn.OnUp -= ValidUp;
+    }
 
-        if (ipdDelta != 0f || !setup)
+    private void ValidDown()
+    {
+        valid = true;
+    }
+
+    private void ValidUp()
+    {
+        valid = false;
+    }
+
+    private void Update()
+    {
+        float ipdDelta = valid ? InputManager.LeftController.Joystick.x * sensitivity * Time.deltaTime : 0f;
+
+        if (ipdDelta != 0f)
+        {
+            Set(ipdDelta);
+        }
+    }
+
+    private void Set(float ipdDelta = 0f)
+    {
+        if (ipdDelta != 0f)
         {
             ipdOffset = Mathf.Clamp(ipdOffset + ipdDelta, -range, range);
-
-            if (left)
-            {
-                left.transform.position = (Vector3.right * ipdOffset) + originalPositionLeft;
-            }
-
-            if (right)
-            {
-                right.transform.position = (Vector3.left * ipdOffset) + originalPositionRight;
-            }
-
             PlayerPrefs.SetFloat(ipdSaveKey, ipdOffset);
+        }
 
-            setup = true;
+        if (left)
+        {
+            left.transform.position = (Vector3.right * ipdOffset) + originalPositionLeft;
+        }
+
+        if (right)
+        {
+            right.transform.position = (Vector3.left * ipdOffset) + originalPositionRight;
         }
     }
 }

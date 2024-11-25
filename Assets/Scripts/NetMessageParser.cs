@@ -44,18 +44,21 @@ public class NetMessageParser : MonoBehaviour
                         send = Mathf.Abs(signal - signals[id]) >= 15f;
                     }
 
-                    string command = id + "," + signal;
-
-                    if (send && SerialHandler.SendSerialData(command))
+                    if (send)
                     {
-                        if (log)
-                        {
-                            Debug.Log(command);
-                        }
+                        string command = id + "," + signal;
 
-                        if (!signals.TryAdd(id, signal))
+                        if (SerialHandler.SendSerialData(command))
                         {
-                            signals[id] = signal;
+                            if (log)
+                            {
+                                Debug.Log(command);
+                            }
+
+                            if (!signals.TryAdd(id, signal))
+                            {
+                                signals[id] = signal;
+                            }
                         }
                     }
                 }

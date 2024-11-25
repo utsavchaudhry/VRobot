@@ -17,9 +17,6 @@ public class ServoJoint : MonoBehaviour
     [SerializeField] private bool flip;
     [SerializeField] private bool useCustomAngleConversion;
 
-    private Vector3 eulerAngles;
-    private float lastPwm = -1f;
-    private float angle;
     private int currentSignal = -69420;
 
     private void Start()
@@ -39,8 +36,6 @@ public class ServoJoint : MonoBehaviour
 
     private IEnumerator CalculateSignal()
     {
-        lastPwm = -1f;
-
         if (!target)
         {
             target = transform;
@@ -48,9 +43,9 @@ public class ServoJoint : MonoBehaviour
 
         while (true)
         {
-            eulerAngles = useCustomAngleConversion ? QuaternionToEulerAngles(target.localRotation) : target.localEulerAngles;
+            Vector3 eulerAngles = useCustomAngleConversion ? QuaternionToEulerAngles(target.localRotation) : target.localEulerAngles;
 
-            angle = axis switch
+            float angle = axis switch
             {
                 Axis.X => eulerAngles.x,
                 Axis.Y => eulerAngles.y,
@@ -72,12 +67,7 @@ public class ServoJoint : MonoBehaviour
                 pwm01 = 1f - pwm01;
             }
 
-            if (lastPwm < 0f || Mathf.Abs(pwm01 - lastPwm) <= 0.25f)
-            {
-                currentSignal = Mathf.Clamp(Mathf.RoundToInt(minPWM + ((maxPWM - minPWM) * pwm01)) + (servoOffset ? servoOffset.Offset : 0), minPWM, maxPWM);
-            }
-
-            lastPwm = pwm01;
+            currentSignal = Mathf.Clamp(Mathf.RoundToInt(minPWM + ((maxPWM - minPWM) * pwm01)) + (servoOffset ? servoOffset.Offset : 0), minPWM, maxPWM);
 
             yield return null;
         }
