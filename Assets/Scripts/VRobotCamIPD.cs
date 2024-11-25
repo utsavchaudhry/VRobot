@@ -6,13 +6,12 @@ public class VRobotCamIPD : MonoBehaviour
     [SerializeField] private Transform right;
     [SerializeField] [Range(0f, 250f)] private float range = 200f;
     [SerializeField] private float sensitivity = 10f;
-    [SerializeField] private bool testWithKeyboard;
 
     private Vector3 originalPositionLeft;
     private Vector3 originalPositionRight;
     private float ipdOffset;
     private string ipdSaveKey = "IPD";
-    private bool setup;
+    private bool valid;
 
     private Vector3 GetPosition(Transform t)
     {
@@ -28,41 +27,61 @@ public class VRobotCamIPD : MonoBehaviour
     {
         originalPositionLeft = GetPosition(left);
         originalPositionRight = GetPosition(right);
+
         ipdOffset = PlayerPrefs.GetFloat(ipdSaveKey);
+        Set();
 
-#if !UNITY_EDITOR
-
-        testWithKeyboard = false;
-
-#endif
+        InputManager.RightController.PrimaryBtn.OnDown += ValidDown;
+        InputManager.RightController.PrimaryBtn.OnUp += ValidUp;
     }
 
-    private void SetPosition(Transform t, Vector3 position)
+    private void OnDestroy()
     {
-        if (!t)
+        if (InputManager.RightController == null)
         {
             return;
         }
 
-        t.position = position;
+        InputManager.RightController.PrimaryBtn.OnDown -= ValidDown;
+        InputManager.RightController.PrimaryBtn.OnUp -= ValidUp;
+    }
+
+    private void ValidDown()
+    {
+        valid = true;
+    }
+
+    private void ValidUp()
+    {
+        valid = false;
     }
 
     private void Update()
     {
-        if (range == 0f)
+        float ipdDelta = valid ? InputManager.LeftController.Joystick.x * sensitivity * Time.deltaTime : 0f;
+
+        if (ipdDelta != 0f)
         {
-            return;
+            Set(ipdDelta);
         }
+    }
 
-        float ipdDelta = (testWithKeyboard ? Input.GetAxis("Horizontal") : InputManager.LeftController.Joystick.x) * sensitivity * Time.deltaTime;
-
-        if (ipdDelta != 0f || !setup)
+    private void Set(float ipdDelta = 0f)
+    {
+        if (ipdDelta != 0f)
         {
             ipdOffset = Mathf.Clamp(ipdOffset + ipdDelta, -range, range);
-            SetPosition(left, (Vector3.right * ipdOffset) + originalPositionLeft);
-            SetPosition(right, (Vector3.left * ipdOffset) + originalPositionRight);
-            setup = true;
             PlayerPrefs.SetFloat(ipdSaveKey, ipdOffset);
+        }
+
+        if (left)
+        {
+            left.transform.position = (Vector3.right * ipdOffset) + originalPositionLeft;
+        }
+
+        if (right)
+        {
+            right.transform.position = (Vector3.left * ipdOffset) + originalPositionRight;
         }
     }
 }
