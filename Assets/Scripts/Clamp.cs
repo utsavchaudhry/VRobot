@@ -7,6 +7,8 @@ public class Clamp : MonoBehaviour
     [SerializeField] private int minPWM = 0;
     [SerializeField] private int maxPWM = 512;
     [SerializeField] private bool flip;
+    private enum Side { Left, Right }
+    [SerializeField] private Side side;
 
     private int signal;
 
@@ -29,7 +31,7 @@ public class Clamp : MonoBehaviour
     {
         while (true)
         {
-            float input = InputManager.LeftController.Trigger;
+            float input = side == Side.Left ? InputManager.LeftController.Trigger : InputManager.RightController.Trigger;
 
             if (flip)
             {

@@ -1,12 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Byn.Unity.Examples;
+using TMPro;
 
 public class NetMessageParser : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI statusText;
+    [SerializeField] [TextArea] private string defaultPosition;
     [SerializeField] private bool log;
 
     private Dictionary<int, int> signals;
+    private bool paused;
 
     private void Start()
     {
@@ -20,9 +24,26 @@ public class NetMessageParser : MonoBehaviour
         ChatApp.OnMsgReceived -= Parse;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            paused = !paused;
+            if (statusText)
+            {
+                statusText.text = paused ? "Paused" : string.Empty;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            Parse(defaultPosition);
+        }
+    }
+
     private void Parse(string msg)
     {
-        if (string.IsNullOrWhiteSpace(msg) || !msg.Contains(','))
+        if (string.IsNullOrWhiteSpace(msg) || !msg.Contains(',') || paused)
         {
             return;
         }

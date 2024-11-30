@@ -20,7 +20,7 @@ public class NetMessage : MonoBehaviour
     {
         bool online = !(FindObjectOfType<SerialHandler>() || FindObjectOfType<SerialCommunicator>() || FindObjectOfType<SerialPortUtilityPro>());
         ServoJoint[] servoJoints = FindObjectsOfType<ServoJoint>().OrderBy(j => j.GetMotorID()).ToArray();
-        Clamp clamp = FindObjectOfType<Clamp>();
+        Clamp[] clamps = FindObjectsOfType<Clamp>();
         ChatApp _chatAppobj = FindObjectOfType<ChatApp>();
         Dictionary<int, int> signals = new();
 
@@ -35,7 +35,8 @@ public class NetMessage : MonoBehaviour
                 {
                     while (currentID < servoJoints[i].GetMotorID())
                     {
-                        if (clamp && clamp.GetMotorID() == currentID)
+                        Clamp clamp = clamps.FirstOrDefault(c => c.GetMotorID() == currentID);
+                        if (clamp)
                         {
                             _msg += clamp.GetCurrentSignal();
                         }
