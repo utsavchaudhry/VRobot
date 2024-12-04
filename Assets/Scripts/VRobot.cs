@@ -17,6 +17,10 @@ public class VRobot : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI[] statusTexts;
 
+    [Space]
+
+    [SerializeField] private bool allowReset;
+
     private static Quaternion rot;
 
     private void Start()
@@ -24,7 +28,9 @@ public class VRobot : MonoBehaviour
         IsPaused = true;
 
         rot = transform.rotation;
+
         InputManager.LeftController.SecondaryBtn.OnDown += Calibrate;
+        InputManager.LeftController.PrimaryBtn.OnDown += ResetYaw;
         InputManager.RightController.SecondaryBtn.OnDown += TogglePauseState;
 
         if (PlayerPrefs.HasKey("VRobotSize"))
@@ -35,8 +41,16 @@ public class VRobot : MonoBehaviour
 
     private void OnDestroy()
     {
-        InputManager.LeftController.SecondaryBtn.OnDown -= Calibrate;
-        InputManager.RightController.SecondaryBtn.OnDown -= TogglePauseState;
+        if (InputManager.LeftController != null)
+        {
+            InputManager.LeftController.SecondaryBtn.OnDown -= Calibrate;
+            InputManager.LeftController.PrimaryBtn.OnDown -= ResetYaw;
+        }
+
+        if (InputManager.RightController != null)
+        {
+            InputManager.RightController.SecondaryBtn.OnDown -= TogglePauseState;
+        }
     }
 
     private void Update()
@@ -59,9 +73,14 @@ public class VRobot : MonoBehaviour
         IsPaused = !IsPaused;
     }
     
-    public static void ResetYaw(float yaw)
+    private void ResetYaw()
     {
-        rot = Quaternion.Euler(Vector3.up * yaw);
+        if (!allowReset)
+        {
+            return;
+        }
+
+        rot = Quaternion.Euler(Vector3.up * head.eulerAngles.y);
     }
 
     private void Calibrate()
