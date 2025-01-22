@@ -563,11 +563,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 8367633207763702597}
   servoOffset: {fileID: 0}
-  startAngle: -90
+  startAngle: -60
   offset: 0
-  range: 180
-  minPWM: 1024
-  maxPWM: 3072
+  range: 120
+  minPWM: 1365
+  maxPWM: 2731
   motorID: 8
   axis: 1
   flip: 1
