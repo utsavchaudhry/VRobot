@@ -2,9 +2,10 @@ using UnityEngine;
 using SerialPortUtility;
 
 [RequireComponent(typeof(SerialPortUtilityPro))]
-public class SerialHandler : MonoBehaviour
+public class SerialHandlerWheels : MonoBehaviour
 {
     private static SerialPortUtilityPro serialPort;
+    private static string previousSentData;
 
     private void Start()
     {
@@ -14,6 +15,8 @@ public class SerialHandler : MonoBehaviour
         {
             serialPort = FindObjectOfType<SerialPortUtilityPro>();
         }
+
+        previousSentData = string.Empty;
     }
 
     private void OnDestroy()
@@ -26,7 +29,7 @@ public class SerialHandler : MonoBehaviour
 
     public static bool SendSerialData(string serialMessage)
     {
-        if (!serialPort || !serialPort.IsConnected())
+        if (!serialPort || !serialPort.IsConnected() || previousSentData == serialMessage)
         {
             return false;
         }
@@ -55,6 +58,7 @@ public class SerialHandler : MonoBehaviour
         {
             if (serialPort.WriteLF(serialMessage))
             {
+                previousSentData = serialMessage;
                 return true;
             }
         }

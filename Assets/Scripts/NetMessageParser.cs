@@ -52,8 +52,10 @@ public class NetMessageParser : MonoBehaviour
 
         int id = 1;
 
-        foreach (string part in msg.Split(','))
+        string[] signalStream = msg.Split(',');
+        for (int i = 0; i < signalStream.Length; i++)
         {
+            string part = signalStream[i];
             if (!string.IsNullOrWhiteSpace(part))
             {
                 if (int.TryParse(part, out int signal))
@@ -91,5 +93,7 @@ public class NetMessageParser : MonoBehaviour
 
             id++;
         }
+
+        //_ = SerialHandlerWheels.SendSerialData(signalStream[^2] + "," + signalStream[^1]);
     }
 }

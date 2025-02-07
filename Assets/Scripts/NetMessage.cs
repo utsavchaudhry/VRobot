@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Byn.Unity.Examples;
 using System.Linq;
 using SerialPortUtility;
+using System.Text;
 
 public class NetMessage : MonoBehaviour
 {
@@ -56,6 +57,7 @@ public class NetMessage : MonoBehaviour
     {
         Clamp[] clamps = FindObjectsOfType<Clamp>();
         ChatApp _chatAppobj = FindObjectOfType<ChatApp>();
+        XRJoystickDifferentialDrive differentialDrive = FindObjectOfType<XRJoystickDifferentialDrive>();
         bool online = !(FindObjectOfType<SerialHandler>() || FindObjectOfType<SerialCommunicator>() || FindObjectOfType<SerialPortUtilityPro>());
         servoJoints = FindObjectsOfType<ServoJoint>().OrderBy(j => j.GetMotorID()).ToArray();
         signals = new();
@@ -64,7 +66,7 @@ public class NetMessage : MonoBehaviour
         {
             if (!VRobot.IsPaused)
             {
-                string _msg = string.Empty;
+                StringBuilder _msg = new();
                 int currentID = 1;
 
                 for (int i = 0; i < servoJoints.Length; i++)
@@ -74,22 +76,25 @@ public class NetMessage : MonoBehaviour
                         Clamp clamp = clamps.FirstOrDefault(c => c.GetMotorID() == currentID);
                         if (clamp)
                         {
-                            _msg += clamp.GetCurrentSignal();
+                            _ = _msg.Append(clamp.GetCurrentSignal());
                         }
-                        _msg += ",";
+                        _ = _msg.Append(",");
                         currentID++;
                     }
 
                     if (online)
                     {
-                        _msg += servoJoints[i].GetCurrentSignal();
+                        _msg.Append(servoJoints[i].GetCurrentSignal());
 
                         //send at last index
                         if (i == servoJoints.Length - 1)
                         {
                             if (_chatAppobj)
                             {
-                                _chatAppobj.SendButtonPressed(_msg);
+                                _ = _msg.Append(differentialDrive.LeftWheelSpeed.ToString("F1"));
+                                _ = _msg.Append(",");
+                                _ = _msg.Append(differentialDrive.RightWheelSpeed.ToString("F1"));
+                                _chatAppobj.SendButtonPressed(_msg.ToString());
                             }
 
                             if (log)
@@ -99,7 +104,7 @@ public class NetMessage : MonoBehaviour
                         }
                         else
                         {
-                            _msg += ",";
+                            _ = _msg.Append(",");
                         }
                     }
                     else
