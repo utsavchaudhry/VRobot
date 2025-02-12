@@ -958,6 +958,124 @@ MonoBehaviour:
   _RemoteImage: {fileID: 1867296105}
   leftMat: {fileID: 392333333}
   rightMat: {fileID: 529842212}
+--- !u!1 &1486763036
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1486763038}
+  - component: {fileID: 1486763037}
+  m_Layer: 0
+  m_Name: Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1486763037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486763036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d2f67b39305ed947935eb6f7d91fdb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index:
+    motors:
+    - id: 1
+      minPWM: 100
+      maxPWM: 650
+      flip: 1
+    - id: 2
+      minPWM: 400
+      maxPWM: 1000
+      flip: 1
+    - id: 10
+      minPWM: 300
+      maxPWM: 700
+      flip: 1
+  middle:
+    motors:
+    - id: 3
+      minPWM: 0
+      maxPWM: 500
+      flip: 1
+    - id: 4
+      minPWM: 450
+      maxPWM: 900
+      flip: 0
+    - id: 11
+      minPWM: 0
+      maxPWM: 300
+      flip: 1
+  ring:
+    motors:
+    - id: 5
+      minPWM: 100
+      maxPWM: 800
+      flip: 0
+    - id: 6
+      minPWM: 0
+      maxPWM: 800
+      flip: 0
+    - id: 12
+      minPWM: 0
+      maxPWM: 500
+      flip: 0
+  pinky:
+    motors:
+    - id: 7
+      minPWM: 0
+      maxPWM: 500
+      flip: 1
+    - id: 8
+      minPWM: 400
+      maxPWM: 1000
+      flip: 0
+    - id: 13
+      minPWM: 500
+      maxPWM: 900
+      flip: 1
+  thumb:
+    motors:
+    - id: 9
+      minPWM: 350
+      maxPWM: 450
+      flip: 0
+    - id: 14
+      minPWM: 0
+      maxPWM: 300
+      flip: 0
+    - id: 15
+      minPWM: 0
+      maxPWM: 100
+      flip: 0
+    - id: 16
+      minPWM: 0
+      maxPWM: 300
+      flip: 0
+--- !u!4 &1486763038
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486763036}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1620512554
 GameObject:
   m_ObjectHideFlags: 0
@@ -1711,7 +1829,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -161.99997}
+  m_AnchoredPosition: {x: 0, y: -162}
   m_SizeDelta: {x: -480.00012, y: -120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1927937297
@@ -1947,7 +2065,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -161.99997}
+  m_AnchoredPosition: {x: 0, y: -162}
   m_SizeDelta: {x: -480.00012, y: -120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2048247056

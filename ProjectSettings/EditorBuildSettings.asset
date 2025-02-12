@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/JoystickFingerTest.unity
+    guid: 85a9c6382544a144c9cb67816d257380
+  - enabled: 0
     path: Assets/Scenes/HopeLite/HopeLite_VR.unity
     guid: 104708baab2992e48a55a86f8d4b7101
   m_configObjects:

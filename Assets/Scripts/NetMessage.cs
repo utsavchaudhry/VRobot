@@ -56,6 +56,7 @@ public class NetMessage : MonoBehaviour
     private IEnumerator GenerateMessage()
     {
         Clamp[] clamps = FindObjectsOfType<Clamp>();
+        JoystickFingerSignalGenerator joystickFingerSignalGenerator = FindObjectOfType<JoystickFingerSignalGenerator>();
         ChatApp _chatAppobj = FindObjectOfType<ChatApp>();
         XRJoystickDifferentialDrive differentialDrive = FindObjectOfType<XRJoystickDifferentialDrive>();
         bool online = !(FindObjectOfType<SerialHandler>() || FindObjectOfType<SerialCommunicator>() || FindObjectOfType<SerialPortUtilityPro>());
