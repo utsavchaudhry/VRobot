@@ -13,7 +13,6 @@ public class NetMessage : MonoBehaviour
     [SerializeField] private bool log;
 
     private Dictionary<int, int> signals;
-    private ServoJoint[] servoJoints;
 
     private void Start()
     {
@@ -55,12 +54,11 @@ public class NetMessage : MonoBehaviour
 
     private IEnumerator GenerateMessage()
     {
+        ServoJoint[] servoJoints = FindObjectsOfType<ServoJoint>().OrderBy(j => j.GetMotorID()).ToArray();
         Clamp[] clamps = FindObjectsOfType<Clamp>();
-        JoystickFingerSignalGenerator joystickFingerSignalGenerator = FindObjectOfType<JoystickFingerSignalGenerator>();
         ChatApp _chatAppobj = FindObjectOfType<ChatApp>();
         XRJoystickDifferentialDrive differentialDrive = FindObjectOfType<XRJoystickDifferentialDrive>();
         bool online = !(FindObjectOfType<SerialHandler>() || FindObjectOfType<SerialCommunicator>() || FindObjectOfType<SerialPortUtilityPro>());
-        servoJoints = FindObjectsOfType<ServoJoint>().OrderBy(j => j.GetMotorID()).ToArray();
         signals = new();
 
         while (_chatAppobj || !online)
@@ -92,6 +90,9 @@ public class NetMessage : MonoBehaviour
                         {
                             if (_chatAppobj)
                             {
+                                _ = _msg.Append(",f,");
+                                _ = _msg.Append(JoystickFingerSignalGenerator.Signal);
+                                _ = _msg.Append(",");
                                 _ = _msg.Append(differentialDrive.LeftWheelSpeed.ToString("F1"));
                                 _ = _msg.Append(",");
                                 _ = _msg.Append(differentialDrive.RightWheelSpeed.ToString("F1"));
