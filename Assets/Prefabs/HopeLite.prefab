@@ -7265,8 +7265,8 @@ MonoBehaviour:
   startAngle: -180
   offset: 0
   range: 180
-  minPWM: 0
-  maxPWM: 2048
+  minPWM: 1024
+  maxPWM: 3072
   motorID: 4
   axis: 0
   flip: 1
@@ -11963,6 +11963,7 @@ MonoBehaviour:
   statusTexts:
   - {fileID: 0}
   - {fileID: 0}
+  allowReset: 0
 --- !u!1 &6344992501901304148
 GameObject:
   m_ObjectHideFlags: 0
@@ -19524,8 +19525,8 @@ MonoBehaviour:
   startAngle: -90
   offset: 0
   range: 180
-  minPWM: 0
-  maxPWM: 2048
+  minPWM: 1024
+  maxPWM: 3072
   motorID: 5
   axis: 1
   flip: 1

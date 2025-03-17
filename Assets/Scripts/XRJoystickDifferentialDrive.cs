@@ -18,7 +18,7 @@ public class XRJoystickDifferentialDrive : MonoBehaviour
     void Update()
     {
         float forwardSpeed;
-        Vector2 thumbstick = InputManager.RightController.Joystick;
+        Vector2 thumbstick = InputManager.LeftController.Joystick;
         if (thumbstick.y < 0)
         {
             // For backward motion, scale the speed by backwardSpeedPercentage
@@ -38,5 +38,7 @@ public class XRJoystickDifferentialDrive : MonoBehaviour
         //   Right wheel = forwardSpeed - turnSpeed
         LeftWheelSpeed = forwardSpeed + turnSpeed;
         RightWheelSpeed = forwardSpeed - turnSpeed;
+
+        _ = SerialHandlerWheels.SendSerialData(LeftWheelSpeed.ToString("F1") + "," + RightWheelSpeed.ToString("F1"));
     }
 }

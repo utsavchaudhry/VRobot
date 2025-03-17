@@ -521,7 +521,7 @@ MonoBehaviour:
   maxPWM: 2731
   motorID: 8
   axis: 1
-  flip: 1
+  flip: 0
   useCustomAngleConversion: 0
 --- !u!1 &909633099
 GameObject:
@@ -938,9 +938,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a56da66f3926e9458a10f9840c54ab2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLinearSpeed: 1
-  maxTurnSpeed: 1
-  backwardSpeedPercentage: 20
+  maxLinearSpeed: 2
+  maxTurnSpeed: 1.25
+  backwardSpeedPercentage: 0.25
 --- !u!4 &1439629242
 Transform:
   m_ObjectHideFlags: 0
@@ -1002,11 +1002,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 8367633207763702597}
   servoOffset: {fileID: 0}
-  startAngle: -30
+  startAngle: -75
   offset: 0
-  range: 135
-  minPWM: 1024
-  maxPWM: 2389
+  range: 120
+  minPWM: 1536
+  maxPWM: 2900
   motorID: 9
   axis: 0
   flip: 1
@@ -2555,6 +2555,10 @@ PrefabInstance:
       propertyPath: targetTransform
       value: 
       objectReference: {fileID: 1828766444}
+    - target: {fileID: 6344992502297660454, guid: 21edbf1f15e06a246802e199ad276038, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6344992502311742268, guid: 21edbf1f15e06a246802e199ad276038, type: 3}
       propertyPath: servoOffset
       value: 

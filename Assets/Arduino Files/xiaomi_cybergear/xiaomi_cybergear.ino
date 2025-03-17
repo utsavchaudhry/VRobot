@@ -28,9 +28,12 @@ void setup() {
   motor1.enable_motor();
   motor1.set_speed_ref(0.0f);
 
+  delay(1000);
+
   // --- Motor #2 (right) setup ---
   // If the library fails re-initializing, comment out motor2.init_twai below
-  // motor2.init_twai(RX_PIN, TX_PIN, /*serial_debug=*/false);
+  motor2.init_twai(RX_PIN, TX_PIN, /*serial_debug=*/false);
+  delay(1000);
 
   motor2.init_motor(MODE_SPEED);
   motor2.set_limit_speed(5.0f);
@@ -71,7 +74,7 @@ void loop() {
     float rightSpeed = input.substring(commaPos + 1).toFloat();
 
     // Update the motors
-    motor1.set_speed_ref(leftSpeed);
+    motor1.set_speed_ref(-leftSpeed);
     motor2.set_speed_ref(rightSpeed);
   }
 }

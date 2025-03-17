@@ -1,7 +1,7 @@
 using SerialPortUtility;
 using UnityEngine;
 
-public enum MICRO { NOT_FOUND, SC_MOTORS, ST_MOTORS, XIAOMI_MOTORS }
+public enum MICRO { NOT_FOUND, TC_MOTORS, M_MOTORS, XIAOMI_MOTORS }
 
 public class MicroSerial : MonoBehaviour
 {
@@ -40,8 +40,8 @@ public class MicroSerial : MonoBehaviour
     {
         Micro = ((string)obj).Trim().ToLower() switch
         {
-            "sc" => MICRO.SC_MOTORS,
-            "st" => MICRO.ST_MOTORS,
+            "tc" => MICRO.TC_MOTORS,
+            "m" => MICRO.M_MOTORS,
             "xiaomi" => MICRO.XIAOMI_MOTORS,
             _ => MICRO.NOT_FOUND,
         };

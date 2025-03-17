@@ -53,7 +53,8 @@ public class NetMessageParser : MonoBehaviour
         int id = 1;
 
         string[] signalStream = msg.Split(',');
-        for (int i = 0; i < signalStream.Length; i++)
+        bool fingers = false;
+        for (int i = 0; i < signalStream.Length - 2; i++)
         {
             string part = signalStream[i];
             if (!string.IsNullOrWhiteSpace(part))
@@ -70,8 +71,18 @@ public class NetMessageParser : MonoBehaviour
                     if (send)
                     {
                         string command = id + "," + signal;
+                        MICRO micro = MICRO.TC_MOTORS;
 
-                        if (SerialHandler.SendSerialData(command))
+                        if (id == 7)
+                        {
+                            micro = MICRO.M_MOTORS;
+                        }
+                        else
+                        {
+                            command = (fingers ? "c:" : "t:") + command;
+                        }
+
+                        if (SerialManager.Instance.SendSerialMessage(micro, command))
                         {
                             if (log)
                             {
@@ -85,6 +96,11 @@ public class NetMessageParser : MonoBehaviour
                         }
                     }
                 }
+                else if (part == "f")
+                {
+                    fingers = true;
+                    id = 20;
+                }
                 else
                 {
                     return;
@@ -94,6 +110,6 @@ public class NetMessageParser : MonoBehaviour
             id++;
         }
 
-        //_ = SerialHandlerWheels.SendSerialData(signalStream[^2] + "," + signalStream[^1]);
+        _ = SerialManager.Instance.SendSerialMessage(MICRO.XIAOMI_MOTORS, signalStream[^2] + "," + signalStream[^1]);
     }
 }

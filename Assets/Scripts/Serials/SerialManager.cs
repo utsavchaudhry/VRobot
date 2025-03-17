@@ -4,12 +4,22 @@ using System.Collections.Generic;
 
 public class SerialManager : MonoBehaviour
 {
-    private MicroSerial sc;
-    private MicroSerial st;
+    public static SerialManager Instance { get; private set; }
+
+    private MicroSerial tc;
+    private MicroSerial m;
     private MicroSerial xiaomi;
 
     private List<MicroSerial> serials;
-    private bool setupComplete;
+
+    private void Awake()
+    {
+        if (Instance)
+        {
+            Destroy(Instance);
+        }
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -18,7 +28,7 @@ public class SerialManager : MonoBehaviour
 
     private void Update()
     {
-        if (!setupComplete)
+        if (!(tc && m && xiaomi))
         {
             foreach (MicroSerial serial in serials)
             {
@@ -26,11 +36,11 @@ public class SerialManager : MonoBehaviour
                 {
                     case MICRO.NOT_FOUND:
                         break;
-                    case MICRO.SC_MOTORS:
-                        sc = serial;
+                    case MICRO.TC_MOTORS:
+                        tc = serial;
                         break;
-                    case MICRO.ST_MOTORS:
-                        st = serial;
+                    case MICRO.M_MOTORS:
+                        m = serial;
                         break;
                     case MICRO.XIAOMI_MOTORS:
                         xiaomi = serial;
@@ -39,8 +49,6 @@ public class SerialManager : MonoBehaviour
                         break;
                 }
             }
-
-            setupComplete = sc && st && xiaomi;
         }
     }
 
@@ -49,8 +57,8 @@ public class SerialManager : MonoBehaviour
         MicroSerial serial = micro switch
         {
             MICRO.NOT_FOUND => null,
-            MICRO.SC_MOTORS => sc,
-            MICRO.ST_MOTORS => st,
+            MICRO.TC_MOTORS => tc,
+            MICRO.M_MOTORS => m,
             MICRO.XIAOMI_MOTORS => xiaomi,
             _ => null,
         };

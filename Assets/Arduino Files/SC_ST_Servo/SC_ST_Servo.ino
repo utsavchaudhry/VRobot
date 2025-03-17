@@ -3,21 +3,19 @@
 
   This script supports two command sets, determined by a prefix in the serial input:
   
-  • Commands beginning with "sts:" use the STS command set:
-      - "sts:ping"          : Ping all servos (IDs 1 to 20) and report results.
-      - "sts:identify"      : Returns "st" to identify the STS branch.
-      - "sts:change [oldID] [newID]"  : Changes a servo’s ID (with EPROM unlocking/locking).
-      - "sts:calibrate [id]" : Calibrates the specified servo.
-      - "sts:status [id]"    : Retrieves and prints detailed status for the servo.
-      - "sts:[id],[position]" : Commands a servo to move to the specified position 
+  • Commands beginning with "t:" use the STS command set:
+      - "t:ping"          : Ping all servos (IDs 1 to 20) and report results.
+      - "t:change [oldID] [newID]"  : Changes a servo’s ID (with EPROM unlocking/locking).
+      - "t:calibrate [id]" : Calibrates the specified servo.
+      - "t:status [id]"    : Retrieves and prints detailed status for the servo.
+      - "t:[id],[position]" : Commands a servo to move to the specified position 
                                 using default parameters (speed = 1500, acceleration = 50).
   
-  • Commands beginning with "scs:" use the SCS command set:
-      - "scs:ping [startID] [endID]" : Pings servo IDs in the specified range.
-      - "scs:identify"               : Returns "sc" to identify the SCS branch.
-      - "scs:change [oldID] [newID]"   : Changes the servo’s ID (with EPROM unlocking/locking).
-      - "scs:status [id]"            : Retrieves and prints status feedback for the servo.
-      - "scs:[id],[position]"         : Commands a servo to move to the specified position 
+  • Commands beginning with "c:" use the SCS command set:
+      - "c:ping [startID] [endID]" : Pings servo IDs in the specified range.
+      - "c:change [oldID] [newID]"   : Changes the servo’s ID (with EPROM unlocking/locking).
+      - "c:status [id]"            : Retrieves and prints status feedback for the servo.
+      - "c:[id],[position]"         : Commands a servo to move to the specified position 
                                       (default acceleration = 0, speed = 1500).
   
   Both branches communicate over Serial1 on GPIO 18 (RX) and GPIO 19 (TX) at 1,000,000 baud.
@@ -154,15 +152,12 @@ void changeServoID_SCS(int oldID, int newID) {
 //---------------------------
 
 // Process commands intended for the STS branch.
-// The command string should have the "sts:" prefix already removed.
+// The command string should have the "t:" prefix already removed.
 void processSTSCmd(String command) {
   command.trim();
   
   if (command.equalsIgnoreCase("ping")) {
     pingAllServos_STS();
-  }
-  else if (command.equalsIgnoreCase("identify")) {
-    Serial.println("st");
   }
   else if (command.startsWith("change")) {
     // Remove "change" and parse parameters.
@@ -226,7 +221,7 @@ void processSTSCmd(String command) {
 }
 
 // Process commands intended for the SCS branch.
-// The command string should have the "scs:" prefix already removed.
+// The command string should have the "c:" prefix already removed.
 void processSCSCmd(String command) {
   command.trim();
   
@@ -328,9 +323,6 @@ void processSCSCmd(String command) {
       Serial.println("Invalid status command. Usage: status [id]");
     }
   }
-  else if (command.startsWith("identify")) {
-    Serial.println("sc");
-  }
   else {
     Serial.println("Command not recognized in SCS mode.");
   }
@@ -357,18 +349,21 @@ void loop() {
     input.trim();
     
     // Check for the prefix that determines the branch.
-    if (input.startsWith("sts:")) {
-      // Remove the "sts:" prefix and process as an STS command.
-      String cmd = input.substring(4);
+    if (input.startsWith("t:")) {
+      // Remove the "t:" prefix and process as an STS command.
+      String cmd = input.substring(2);
       processSTSCmd(cmd);
     }
-    else if (input.startsWith("scs:")) {
-      // Remove the "scs:" prefix and process as an SCS command.
-      String cmd = input.substring(4);
+    else if (input.startsWith("c:")) {
+      // Remove the "c:" prefix and process as an SCS command.
+      String cmd = input.substring(2);
       processSCSCmd(cmd);
     }
+    else if (input.startsWith("identify")) {
+      Serial.println("tc");
+    }
     else {
-      Serial.println("Error: Command must begin with 'sts:' or 'scs:'");
+      Serial.println("Error: Command must begin with 't:' or 'c:'");
     }
   }
 }
