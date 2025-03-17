@@ -43,10 +43,8 @@ public class MicroSerial : MonoBehaviour
             "tc" => MICRO.TC_MOTORS,
             "m" => MICRO.M_MOTORS,
             "xiaomi" => MICRO.XIAOMI_MOTORS,
-            _ => MICRO.NOT_FOUND,
+            _ => Micro
         };
-
-        Debug.Log(Micro);
     }
 
     public bool SendSerialMessage(string msg = "identify")

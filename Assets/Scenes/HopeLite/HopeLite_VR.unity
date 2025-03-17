@@ -198,6 +198,127 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f222d51db8554f04b9e0a23be7f45268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &286899159
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 286899161}
+  - component: {fileID: 286899160}
+  m_Layer: 0
+  m_Name: FingerSignals
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &286899160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286899159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d2f67b39305ed947935eb6f7d91fdb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index:
+    motors:
+    - id: 1
+      minPWM: 100
+      maxPWM: 550
+      flip: 1
+    - id: 2
+      minPWM: 700
+      maxPWM: 1000
+      flip: 1
+    - id: 10
+      minPWM: 650
+      maxPWM: 700
+      flip: 1
+  middle:
+    motors:
+    - id: 3
+      minPWM: 0
+      maxPWM: 500
+      flip: 1
+    - id: 4
+      minPWM: 450
+      maxPWM: 750
+      flip: 0
+    - id: 11
+      minPWM: 0
+      maxPWM: 300
+      flip: 1
+  ring:
+    motors:
+    - id: 5
+      minPWM: 0
+      maxPWM: 700
+      flip: 0
+    - id: 6
+      minPWM: 0
+      maxPWM: 800
+      flip: 0
+    - id: 12
+      minPWM: 0
+      maxPWM: 500
+      flip: 0
+  pinky:
+    motors:
+    - id: 7
+      minPWM: 0
+      maxPWM: 1000
+      flip: 0
+    - id: 8
+      minPWM: 400
+      maxPWM: 1000
+      flip: 1
+    - id: 13
+      minPWM: 500
+      maxPWM: 900
+      flip: 1
+  thumb:
+    motors:
+    - id: 9
+      minPWM: 350
+      maxPWM: 450
+      flip: 0
+    - id: 14
+      minPWM: 0
+      maxPWM: 300
+      flip: 0
+    - id: 15
+      minPWM: 500
+      maxPWM: 700
+      flip: 0
+    - id: 16
+      minPWM: 0
+      maxPWM: 300
+      flip: 0
+  testWithKeyboard: 0
+  log: 0
+  logText: {fileID: 0}
+--- !u!4 &286899161
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286899159}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &331622996
 GameObject:
   m_ObjectHideFlags: 0
@@ -954,7 +1075,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1620512554
 GameObject:
@@ -1114,126 +1235,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 100
   m_TargetDisplay: 0
---- !u!1 &1774117738
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1774117740}
-  - component: {fileID: 1774117739}
-  m_Layer: 0
-  m_Name: FingerSignals
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1774117739
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1774117738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d2f67b39305ed947935eb6f7d91fdb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  index:
-    motors:
-    - id: 1
-      minPWM: 0
-      maxPWM: 550
-      flip: 0
-    - id: 2
-      minPWM: 400
-      maxPWM: 1000
-      flip: 1
-    - id: 10
-      minPWM: 650
-      maxPWM: 700
-      flip: 1
-  middle:
-    motors:
-    - id: 3
-      minPWM: 0
-      maxPWM: 500
-      flip: 1
-    - id: 4
-      minPWM: 450
-      maxPWM: 750
-      flip: 0
-    - id: 11
-      minPWM: 0
-      maxPWM: 300
-      flip: 1
-  ring:
-    motors:
-    - id: 5
-      minPWM: 0
-      maxPWM: 700
-      flip: 0
-    - id: 6
-      minPWM: 0
-      maxPWM: 800
-      flip: 0
-    - id: 12
-      minPWM: 0
-      maxPWM: 500
-      flip: 0
-  pinky:
-    motors:
-    - id: 7
-      minPWM: 0
-      maxPWM: 1000
-      flip: 0
-    - id: 8
-      minPWM: 400
-      maxPWM: 1000
-      flip: 1
-    - id: 13
-      minPWM: 500
-      maxPWM: 900
-      flip: 1
-  thumb:
-    motors:
-    - id: 9
-      minPWM: 350
-      maxPWM: 450
-      flip: 0
-    - id: 14
-      minPWM: 0
-      maxPWM: 300
-      flip: 0
-    - id: 15
-      minPWM: 0
-      maxPWM: 100
-      flip: 0
-    - id: 16
-      minPWM: 0
-      maxPWM: 300
-      flip: 0
-  log: 0
-  logText: {fileID: 0}
---- !u!4 &1774117740
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1774117738}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1774405263
 GameObject:
   m_ObjectHideFlags: 0

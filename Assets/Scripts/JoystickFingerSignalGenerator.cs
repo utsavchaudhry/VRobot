@@ -30,7 +30,9 @@ public class FingerMotor
 
         Signal = Mathf.RoundToInt(minPWM + ((maxPWM - minPWM) * input));
 
-        _ = SerialHandlerWheels.SendSerialData(id + "," + Signal);
+        Debug.Log("c:" + (id + 20).ToString() + "," + Signal);
+
+        _ = SerialManager.Instance.SendSerialMessage(MICRO.TC_MOTORS, "c:" + (id + 20).ToString() + "," + Signal);
     }
 }
 
@@ -58,6 +60,8 @@ public class JoystickFingerSignalGenerator : MonoBehaviour
     [SerializeField] private Finger pinky;
     [SerializeField] private Finger thumb;
 
+    [SerializeField] private bool testWithKeyboard;
+
     private List<FingerMotor> motorListSorted;
 
     private void Start()
@@ -68,6 +72,10 @@ public class JoystickFingerSignalGenerator : MonoBehaviour
             .Concat(thumb.motors)
             .OrderBy(m => m.GetID())
             .ToList();
+
+#if !UNITY_EDITOR
+        testWithKeyboard = false;
+#endif
     }
 
     private InputDevice targetDevice;
@@ -88,7 +96,7 @@ public class JoystickFingerSignalGenerator : MonoBehaviour
     {
         var desiredCharacteristics = InputDeviceCharacteristics.HeldInHand |
                                      InputDeviceCharacteristics.Controller |
-                                     InputDeviceCharacteristics.Left;
+                                     InputDeviceCharacteristics.Right;
         var devices = new List<InputDevice>();
         InputDevices.GetDevicesWithCharacteristics(desiredCharacteristics, devices);
 
@@ -141,6 +149,13 @@ public class JoystickFingerSignalGenerator : MonoBehaviour
             }
 
             ThumbRestValue = targetDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryBtn) && primaryBtn ? 1f : 0f;
+        }
+
+        if (testWithKeyboard)
+        {
+            TriggerValue = Input.GetKey(KeyCode.T) ? 1f : 0f;
+            GripValue = Input.GetKey(KeyCode.G) ? 1f : 0f;
+            ThumbRestValue = Input.GetKey(KeyCode.Space) ? 1f : 0f;
         }
 
         index.CalculateSignal(TriggerValue);

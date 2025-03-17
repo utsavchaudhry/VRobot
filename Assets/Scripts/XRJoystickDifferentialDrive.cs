@@ -38,7 +38,5 @@ public class XRJoystickDifferentialDrive : MonoBehaviour
         //   Right wheel = forwardSpeed - turnSpeed
         LeftWheelSpeed = forwardSpeed + turnSpeed;
         RightWheelSpeed = forwardSpeed - turnSpeed;
-
-        _ = SerialHandlerWheels.SendSerialData(LeftWheelSpeed.ToString("F1") + "," + RightWheelSpeed.ToString("F1"));
     }
 }

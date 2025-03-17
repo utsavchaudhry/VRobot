@@ -64,7 +64,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5037138049259277757, guid: 3486539367f9fec4a886083a7e9ee371, type: 3}
       propertyPath: SerialNumber_search_string
-      value: 5875006209
+      value: 5876044007
       objectReference: {fileID: 0}
     - target: {fileID: 5037138049259277758, guid: 3486539367f9fec4a886083a7e9ee371, type: 3}
       propertyPath: m_Name
@@ -130,15 +130,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5037138049259277757, guid: 3486539367f9fec4a886083a7e9ee371, type: 3}
       propertyPath: VendorID_string
-      value: 10C4
+      value: 303A
       objectReference: {fileID: 0}
     - target: {fileID: 5037138049259277757, guid: 3486539367f9fec4a886083a7e9ee371, type: 3}
       propertyPath: ProductID_string
-      value: EA60
+      value: 1001
       objectReference: {fileID: 0}
     - target: {fileID: 5037138049259277757, guid: 3486539367f9fec4a886083a7e9ee371, type: 3}
       propertyPath: SerialNumber_search_string
-      value: 0001
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5037138049259277758, guid: 3486539367f9fec4a886083a7e9ee371, type: 3}
       propertyPath: m_Name
@@ -204,11 +204,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5037138049259277757, guid: 3486539367f9fec4a886083a7e9ee371, type: 3}
       propertyPath: VendorID_string
-      value: 303A
+      value: 1A86
       objectReference: {fileID: 0}
     - target: {fileID: 5037138049259277757, guid: 3486539367f9fec4a886083a7e9ee371, type: 3}
       propertyPath: ProductID_string
-      value: 1001
+      value: 55D3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5037138049259277757, guid: 3486539367f9fec4a886083a7e9ee371, type: 3}
+      propertyPath: SerialNumber_search_string
+      value: 5875006549
       objectReference: {fileID: 0}
     - target: {fileID: 5037138049259277758, guid: 3486539367f9fec4a886083a7e9ee371, type: 3}
       propertyPath: m_Name
