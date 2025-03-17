@@ -29,10 +29,6 @@ public class FingerMotor
         }
 
         Signal = Mathf.RoundToInt(minPWM + ((maxPWM - minPWM) * input));
-
-        Debug.Log("c:" + (id + 20).ToString() + "," + Signal);
-
-        _ = SerialManager.Instance.SendSerialMessage(MICRO.TC_MOTORS, "c:" + (id + 20).ToString() + "," + Signal);
     }
 }
 

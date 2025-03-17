@@ -1059,9 +1059,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a56da66f3926e9458a10f9840c54ab2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLinearSpeed: 2
-  maxTurnSpeed: 1.25
-  backwardSpeedPercentage: 0.25
+  maxLinearSpeed: 2.5
+  maxTurnSpeed: 1.75
+  backwardSpeedPercentage: 0.5
 --- !u!4 &1439629242
 Transform:
   m_ObjectHideFlags: 0
