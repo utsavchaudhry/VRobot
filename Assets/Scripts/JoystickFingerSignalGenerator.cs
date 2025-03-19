@@ -29,6 +29,11 @@ public class FingerMotor
         }
 
         Signal = Mathf.RoundToInt(minPWM + ((maxPWM - minPWM) * input));
+
+        if (SerialManager.Instance)
+        {
+            _ = SerialManager.Instance.SendSerialMessage(MICRO.TC_MOTORS, "c:" + (id + 20).ToString() + "," + Signal.ToString());
+        }
     }
 }
 
@@ -56,7 +61,7 @@ public class JoystickFingerSignalGenerator : MonoBehaviour
     [SerializeField] private Finger pinky;
     [SerializeField] private Finger thumb;
 
-    [SerializeField] private bool testWithKeyboard;
+    [SerializeField] private bool test;
 
     private List<FingerMotor> motorListSorted;
 
@@ -81,8 +86,6 @@ public class JoystickFingerSignalGenerator : MonoBehaviour
 
     // Public properties to expose the sensor values.
     public float TriggerValue { get; private set; }
-    public float GripValue { get; private set; }
-    public float ThumbRestValue { get; private set; }
 
     /// <summary>
     /// Attempt to initialize the XR input device.
@@ -133,32 +136,18 @@ public class JoystickFingerSignalGenerator : MonoBehaviour
             {
                 TriggerValue = 0f;
             }
-
-            // Retrieve the analog grip value (0 to 1).
-            if (targetDevice.TryGetFeatureValue(CommonUsages.grip, out float gripVal))
-            {
-                GripValue = gripVal;
-            }
-            else
-            {
-                GripValue = 0f;
-            }
-
-            ThumbRestValue = targetDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryBtn) && primaryBtn ? 1f : 0f;
         }
 
-        if (testWithKeyboard)
+        if (test)
         {
-            TriggerValue = Input.GetKey(KeyCode.T) ? 1f : 0f;
-            GripValue = Input.GetKey(KeyCode.G) ? 1f : 0f;
-            ThumbRestValue = Input.GetKey(KeyCode.Space) ? 1f : 0f;
+            TriggerValue = Input.GetMouseButton(0) ? 1f : 0f;
         }
 
         index.CalculateSignal(TriggerValue);
-        middle.CalculateSignal(GripValue);
-        ring.CalculateSignal(GripValue);
-        pinky.CalculateSignal(GripValue);
-        thumb.CalculateSignal(ThumbRestValue);
+        middle.CalculateSignal(TriggerValue);
+        ring.CalculateSignal(TriggerValue);
+        pinky.CalculateSignal(TriggerValue);
+        thumb.CalculateSignal(TriggerValue);
 
         Signal = string.Join(",", motorListSorted.Select(m => m.Signal));
 

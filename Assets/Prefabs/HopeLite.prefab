@@ -9445,8 +9445,8 @@ MonoBehaviour:
   startAngle: -90
   offset: 0
   range: 180
-  minPWM: 0
-  maxPWM: 2048
+  minPWM: 1024
+  maxPWM: 3072
   motorID: 11
   axis: 2
   flip: 0
@@ -16523,7 +16523,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6344992502543444270}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.007400002, y: -0.06910017, z: 0.010399999}
+  m_LocalPosition: {x: -0.007400002, y: -0.06910005, z: 0.010399999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
