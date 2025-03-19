@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/HopeLite/HopeLite_VR.unity
     guid: 104708baab2992e48a55a86f8d4b7101
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/HopeLite/HopeLite_PC.unity
     guid: e12ed595b3f259747bc008d3bbb681e8
   m_configObjects:

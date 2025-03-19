@@ -75,7 +75,7 @@ public class JoystickFingerSignalGenerator : MonoBehaviour
             .ToList();
 
 #if !UNITY_EDITOR
-        testWithKeyboard = false;
+        test = false;
 #endif
     }
 
