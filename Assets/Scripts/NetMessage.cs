@@ -58,6 +58,7 @@ public class NetMessage : MonoBehaviour
         Clamp[] clamps = FindObjectsOfType<Clamp>();
         ChatApp _chatAppobj = FindObjectOfType<ChatApp>();
         XRJoystickDifferentialDrive differentialDrive = FindObjectOfType<XRJoystickDifferentialDrive>();
+        KeyboardInputTargetMover keyboardMover = FindObjectOfType<KeyboardInputTargetMover>();
         bool online = !(FindObjectOfType<SerialHandler>() || FindObjectOfType<SerialCommunicator>() || FindObjectOfType<SerialPortUtilityPro>());
         signals = new();
 
@@ -93,9 +94,18 @@ public class NetMessage : MonoBehaviour
                                 _ = _msg.Append(",f,");
                                 _ = _msg.Append(JoystickFingerSignalGenerator.Signal);
                                 _ = _msg.Append(",");
-                                _ = _msg.Append(differentialDrive.LeftWheelSpeed.ToString("F1"));
-                                _ = _msg.Append(",");
-                                _ = _msg.Append(differentialDrive.RightWheelSpeed.ToString("F1"));
+                                if (differentialDrive)
+                                {
+                                    _ = _msg.Append(differentialDrive.LeftWheelSpeed.ToString("F1"));
+                                    _ = _msg.Append(",");
+                                    _ = _msg.Append(differentialDrive.RightWheelSpeed.ToString("F1"));
+                                }
+                                else if (keyboardMover)
+                                {
+                                    _ = _msg.Append(keyboardMover.LeftWheelSpeed.ToString("F1"));
+                                    _ = _msg.Append(",");
+                                    _ = _msg.Append(keyboardMover.RightWheelSpeed.ToString("F1"));
+                                }
                                 _chatAppobj.SendButtonPressed(_msg.ToString());
                             }
 

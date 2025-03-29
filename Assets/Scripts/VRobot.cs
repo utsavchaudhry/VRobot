@@ -20,12 +20,13 @@ public class VRobot : MonoBehaviour
     [Space]
 
     [SerializeField] private bool allowReset;
+    [SerializeField] private bool pauseOnStart = true;
 
     private static Quaternion rot;
 
     private void Start()
     {
-        IsPaused = true;
+        IsPaused = pauseOnStart;
 
         rot = transform.rotation;
 

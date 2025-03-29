@@ -60,8 +60,8 @@ public class JoystickFingerSignalGenerator : MonoBehaviour
     [SerializeField] private Finger ring;
     [SerializeField] private Finger pinky;
     [SerializeField] private Finger thumb;
-
-    [SerializeField] private bool test;
+    [SerializeField] private InputDeviceCharacteristics xrDevice;
+    [SerializeField] private bool pcMode;
 
     private List<FingerMotor> motorListSorted;
 
@@ -93,11 +93,8 @@ public class JoystickFingerSignalGenerator : MonoBehaviour
     /// </summary>
     private void InitializeDevice()
     {
-        var desiredCharacteristics = InputDeviceCharacteristics.HeldInHand |
-                                     InputDeviceCharacteristics.Controller |
-                                     InputDeviceCharacteristics.Right;
-        var devices = new List<InputDevice>();
-        InputDevices.GetDevicesWithCharacteristics(desiredCharacteristics, devices);
+        List<InputDevice> devices = new();
+        InputDevices.GetDevicesWithCharacteristics(xrDevice, devices);
 
         if (devices.Count > 0)
         {
@@ -119,28 +116,30 @@ public class JoystickFingerSignalGenerator : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        // If the device has not been initialized yet, attempt to locate it.
-        if (!deviceInitialized)
+        if (pcMode)
         {
-            InitializeDevice();
+            TriggerValue = Input.GetMouseButton(xrDevice == InputDeviceCharacteristics.Left ? 0 : 1) ? 1f : 0f;
         }
-
-        if (deviceInitialized)
+        else
         {
-            // Retrieve the analog trigger value (0 to 1).
-            if (targetDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerVal))
+            // If the device has not been initialized yet, attempt to locate it.
+            if (!deviceInitialized)
             {
-                TriggerValue = triggerVal;
+                InitializeDevice();
             }
-            else
-            {
-                TriggerValue = 0f;
-            }
-        }
 
-        if (test)
-        {
-            TriggerValue = Input.GetMouseButton(0) ? 1f : 0f;
+            if (deviceInitialized)
+            {
+                // Retrieve the analog trigger value (0 to 1).
+                if (targetDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerVal))
+                {
+                    TriggerValue = triggerVal;
+                }
+                else
+                {
+                    TriggerValue = 0f;
+                }
+            }
         }
 
         index.CalculateSignal(TriggerValue);
