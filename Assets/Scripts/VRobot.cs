@@ -30,9 +30,16 @@ public class VRobot : MonoBehaviour
 
         rot = transform.rotation;
 
-        InputManager.LeftController.SecondaryBtn.OnDown += Calibrate;
-        InputManager.LeftController.PrimaryBtn.OnDown += ResetYaw;
-        InputManager.RightController.SecondaryBtn.OnDown += TogglePauseState;
+        if (InputManager.LeftController != null)
+        {
+            InputManager.LeftController.SecondaryBtn.OnDown += Calibrate;
+            InputManager.LeftController.PrimaryBtn.OnDown += ResetYaw;
+        }
+        
+        if (InputManager.RightController != null)
+        {
+            InputManager.RightController.SecondaryBtn.OnDown += TogglePauseState;
+        }
 
         if (PlayerPrefs.HasKey("VRobotSize"))
         {
