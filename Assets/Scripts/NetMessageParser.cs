@@ -10,13 +10,15 @@ public class NetMessageParser : MonoBehaviour
     [SerializeField] private bool log;
 
     private Dictionary<int, int> signals;
-    private bool paused;
+    public static bool paused;
 
     private void Start()
     {
         signals = new Dictionary<int, int>();
 
         ChatApp.OnMsgReceived += Parse;
+
+        paused = true;
     }
 
     private void OnDestroy()
@@ -29,10 +31,11 @@ public class NetMessageParser : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             paused = !paused;
-            if (statusText)
-            {
-                statusText.text = paused ? "Paused" : string.Empty;
-            }
+        }
+
+        if (statusText)
+        {
+            statusText.text = paused ? "Paused" : string.Empty;
         }
 
         if (Input.GetKeyDown(KeyCode.D))
@@ -49,6 +52,8 @@ public class NetMessageParser : MonoBehaviour
         }
 
         msg = msg[(msg.IndexOf(':') + 1)..];
+
+        DataLoggerManager.SaveSignal(msg);
 
         int id = 1;
 
