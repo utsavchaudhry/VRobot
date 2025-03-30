@@ -18,7 +18,7 @@ public class NetMessageParser : MonoBehaviour
 
         ChatApp.OnMsgReceived += Parse;
 
-        paused = true;
+        paused = false;
     }
 
     private void OnDestroy()
@@ -31,11 +31,10 @@ public class NetMessageParser : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             paused = !paused;
-        }
-
-        if (statusText)
-        {
-            statusText.text = paused ? "Paused" : string.Empty;
+            if (statusText)
+            {
+                statusText.text = paused ? "Paused" : string.Empty;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.D))
@@ -52,8 +51,6 @@ public class NetMessageParser : MonoBehaviour
         }
 
         msg = msg[(msg.IndexOf(':') + 1)..];
-
-        DataLoggerManager.SaveSignal(msg);
 
         int id = 1;
 

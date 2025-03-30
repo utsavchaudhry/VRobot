@@ -11,6 +11,7 @@ public class Clamp : MonoBehaviour
     private enum Side { Left, Right }
     [SerializeField] private Side side;
 
+    private float input;
     private int signal;
 
     private void Start()
@@ -28,20 +29,20 @@ public class Clamp : MonoBehaviour
         return signal;
     }
 
+    public float GetCurrentInput()
+    {
+        return input;
+    }
+
     private IEnumerator CalculateSignal()
     {
         while (true)
         {
-            float input = pcMode
+            input = pcMode
                 ? Input.GetMouseButton(side == Side.Left ? 0 : 1) ? 1f : 0f
                 : side == Side.Left ? InputManager.LeftController.Trigger : InputManager.RightController.Trigger;
 
-            if (flip)
-            {
-                input = 1f - input;
-            }
-
-            signal = Mathf.RoundToInt(minPWM + (input * (maxPWM - minPWM)));
+            signal = Mathf.RoundToInt(minPWM + ((flip ? (1f - input) : input) * (maxPWM - minPWM)));
             
 
             yield return null;

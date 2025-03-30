@@ -67,6 +67,7 @@ public class NetMessage : MonoBehaviour
             if (!VRobot.IsPaused)
             {
                 StringBuilder _msg = new();
+                StringBuilder _logmsg = new();
                 int currentID = 1;
 
                 for (int i = 0; i < servoJoints.Length; i++)
@@ -77,6 +78,8 @@ public class NetMessage : MonoBehaviour
                         if (clamp)
                         {
                             _ = _msg.Append(clamp.GetCurrentSignal());
+                            _ = _logmsg.Append(clamp.GetCurrentInput().ToString("F1"));
+                            _ = _logmsg.Append(",");
                         }
                         _ = _msg.Append(",");
                         currentID++;
@@ -84,7 +87,8 @@ public class NetMessage : MonoBehaviour
 
                     if (online)
                     {
-                        _msg.Append(servoJoints[i].GetCurrentSignal());
+                        _ = _msg.Append(servoJoints[i].GetCurrentSignal());
+                        _ = _logmsg.Append(servoJoints[i].GetCurrentAngle());
 
                         //send at last index
                         if (i == servoJoints.Length - 1)
@@ -94,19 +98,31 @@ public class NetMessage : MonoBehaviour
                                 _ = _msg.Append(",f,");
                                 _ = _msg.Append(JoystickFingerSignalGenerator.Signal);
                                 _ = _msg.Append(",");
+                                _ = _logmsg.Append(",");
                                 if (differentialDrive)
                                 {
                                     _ = _msg.Append(differentialDrive.LeftWheelSpeed.ToString("F1"));
+                                    _ = _logmsg.Append(differentialDrive.LeftWheelSpeed.ToString("F1"));
+
                                     _ = _msg.Append(",");
+                                    _ = _logmsg.Append(",");
+
                                     _ = _msg.Append(differentialDrive.RightWheelSpeed.ToString("F1"));
+                                    _ = _logmsg.Append(differentialDrive.RightWheelSpeed.ToString("F1"));
                                 }
                                 else if (keyboardMover)
                                 {
                                     _ = _msg.Append(keyboardMover.LeftWheelSpeed.ToString("F1"));
+                                    _ = _logmsg.Append(keyboardMover.LeftWheelSpeed.ToString("F1"));
+
                                     _ = _msg.Append(",");
+                                    _ = _logmsg.Append(",");
+
                                     _ = _msg.Append(keyboardMover.RightWheelSpeed.ToString("F1"));
+                                    _ = _logmsg.Append(keyboardMover.RightWheelSpeed.ToString("F1"));
                                 }
                                 _chatAppobj.SendButtonPressed(_msg.ToString());
+                                DataLoggerManager.SaveSignal(_logmsg.ToString());
                             }
 
                             if (log)
@@ -117,6 +133,7 @@ public class NetMessage : MonoBehaviour
                         else
                         {
                             _ = _msg.Append(",");
+                            _ = _logmsg.Append(",");
                         }
                     }
                     else

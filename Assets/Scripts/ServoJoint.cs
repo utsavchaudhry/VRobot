@@ -17,6 +17,7 @@ public class ServoJoint : MonoBehaviour
     [SerializeField] private bool flip;
     [SerializeField] private bool useCustomAngleConversion;
 
+    private float angle;
     private int currentSignal = -69420;
 
     private void Start()
@@ -27,6 +28,11 @@ public class ServoJoint : MonoBehaviour
     public int GetCurrentSignal()
     {
         return currentSignal;
+    }
+
+    public int GetCurrentAngle()
+    {
+        return Mathf.RoundToInt(angle);
     }
 
     public int GetMotorID()
@@ -45,7 +51,7 @@ public class ServoJoint : MonoBehaviour
         {
             Vector3 eulerAngles = useCustomAngleConversion ? QuaternionToEulerAngles(target.localRotation) : target.localEulerAngles;
 
-            float angle = axis switch
+            angle = axis switch
             {
                 Axis.X => eulerAngles.x,
                 Axis.Y => eulerAngles.y,

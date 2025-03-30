@@ -73,10 +73,6 @@ public class JoystickFingerSignalGenerator : MonoBehaviour
             .Concat(thumb.motors)
             .OrderBy(m => m.GetID())
             .ToList();
-
-#if !UNITY_EDITOR
-        test = false;
-#endif
     }
 
     private InputDevice targetDevice;

@@ -5,29 +5,41 @@ using System;
 
 public class DataLoggerManager : MonoBehaviour
 {
-    public static string Folder { get; private set; }
-    public static string File { get; private set; }
-
     [SerializeField] private RawImage feed;
-    [SerializeField] private int frequency = 5;
+    [SerializeField] private int feedCaptureFrequency = 1;
+    [SerializeField] [Range(1, 100)] private int quality = 50;
+
+    [Space]
+
+    [SerializeField] [TextArea] private string label;
+
+    private static string file;
 
     private void Start()
     {
+        file = string.Empty;
         _ = StartCoroutine(CaptureFeed());
-
-        Folder = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
-        File = Folder + "/signals.csv";
     }
 
     private IEnumerator CaptureFeed()
     {
-        float delay = 1f / frequency;
+        string folder = string.Empty;
+        float delay = 1f / feedCaptureFrequency;
+
         while (true)
         {
-            if (!NetMessageParser.paused && feed.texture)
+            if (!VRobot.IsPaused && feed.texture)
             {
-                ES3.SaveImage(GetTexture2D(), string.Format("{0}/{1}.jpg", Folder, DateTime.Now.ToFileTime()));
+                if (string.IsNullOrEmpty(folder))
+                {
+                    folder = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+                    file = folder + "/signals.csv";
+
+                    ES3.AppendRaw(string.Format("{0}\n", label), file);
+                }
+                ES3.SaveImage(GetTexture2D(), quality, string.Format("{0}/{1}.jpg", folder, DateTime.Now.ToFileTime()));
             }
+
             yield return new WaitForSeconds(delay);
         }
     }
@@ -81,6 +93,11 @@ public class DataLoggerManager : MonoBehaviour
 
     public static void SaveSignal(string signal)
     {
-        ES3.AppendRaw(string.Format("{0},{1}", DateTime.Now.ToString("HH-mm-ss-fff"), signal), File);
+        if (string.IsNullOrEmpty(file))
+        {
+            return;
+        }
+
+        ES3.AppendRaw(string.Format("{0},{1}\n", DateTime.Now.ToString("HH-mm-ss-fff"), signal), file);
     }
 }
