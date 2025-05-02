@@ -7265,8 +7265,8 @@ MonoBehaviour:
   startAngle: -180
   offset: 0
   range: 180
-  minPWM: 1024
-  maxPWM: 3072
+  minPWM: 2048
+  maxPWM: 4096
   motorID: 4
   axis: 0
   flip: 1
@@ -8363,11 +8363,11 @@ MonoBehaviour:
   startAngle: 0
   offset: 0
   range: 180
-  minPWM: 1024
-  maxPWM: 3072
+  minPWM: 0
+  maxPWM: 2048
   motorID: 16
   axis: 2
-  flip: 0
+  flip: 1
   useCustomAngleConversion: 0
 --- !u!1 &6344992501243536038
 GameObject:
@@ -8789,8 +8789,8 @@ MonoBehaviour:
   startAngle: -90
   offset: 0
   range: 180
-  minPWM: 0
-  maxPWM: 2048
+  minPWM: 1024
+  maxPWM: 3072
   motorID: 2
   axis: 0
   flip: 1
@@ -11964,6 +11964,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   allowReset: 0
+  pauseOnStart: 1
 --- !u!1 &6344992501901304148
 GameObject:
   m_ObjectHideFlags: 0
@@ -15299,8 +15300,8 @@ MonoBehaviour:
   startAngle: -90
   offset: 0
   range: 180
-  minPWM: 0
-  maxPWM: 2048
+  minPWM: 1024
+  maxPWM: 3072
   motorID: 13
   axis: 1
   flip: 0
@@ -15968,8 +15969,8 @@ MonoBehaviour:
   startAngle: -180
   offset: 0
   range: 180
-  minPWM: 1024
-  maxPWM: 3072
+  minPWM: 0
+  maxPWM: 2048
   motorID: 14
   axis: 0
   flip: 0
@@ -17528,8 +17529,8 @@ MonoBehaviour:
   startAngle: -90
   offset: 0
   range: 180
-  minPWM: 0
-  maxPWM: 2048
+  minPWM: 1024
+  maxPWM: 3072
   motorID: 12
   axis: 0
   flip: 0
@@ -19297,8 +19298,8 @@ MonoBehaviour:
   startAngle: -90
   offset: 0
   range: 180
-  minPWM: 0
-  maxPWM: 2048
+  minPWM: 1024
+  maxPWM: 3072
   motorID: 1
   axis: 2
   flip: 1
@@ -21355,12 +21356,12 @@ MonoBehaviour:
   startAngle: 0
   offset: 0
   range: 180
-  minPWM: 1024
-  maxPWM: 3072
+  minPWM: 0
+  maxPWM: 2048
   motorID: 6
   axis: 2
   flip: 1
-  useCustomAngleConversion: 0
+  useCustomAngleConversion: 1
 --- !u!1 &6344992503097345095
 GameObject:
   m_ObjectHideFlags: 0

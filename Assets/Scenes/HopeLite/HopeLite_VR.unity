@@ -601,8 +601,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   motorID: 10
-  minPWM: 0
-  maxPWM: 512
+  minPWM: 2048
+  maxPWM: 2500
   flip: 1
   pcMode: 0
   side: 0
@@ -941,80 +941,76 @@ MonoBehaviour:
   index:
     motors:
     - id: 1
-      minPWM: 100
-      maxPWM: 550
+      minPWM: 600
+      maxPWM: 850
       flip: 1
     - id: 2
-      minPWM: 700
-      maxPWM: 1000
+      minPWM: 600
+      maxPWM: 750
       flip: 1
     - id: 10
-      minPWM: 550
-      maxPWM: 700
-      flip: 1
+      minPWM: 0
+      maxPWM: 300
+      flip: 0
   middle:
     motors:
     - id: 3
-      minPWM: 0
-      maxPWM: 500
+      minPWM: 700
+      maxPWM: 1000
       flip: 1
     - id: 4
-      minPWM: 450
-      maxPWM: 750
+      minPWM: 100
+      maxPWM: 600
       flip: 0
     - id: 11
       minPWM: 0
-      maxPWM: 300
-      flip: 1
+      maxPWM: 200
+      flip: 0
   ring:
     motors:
     - id: 5
-      minPWM: 0
-      maxPWM: 200
+      minPWM: 100
+      maxPWM: 600
       flip: 0
     - id: 6
       minPWM: 0
-      maxPWM: 1000
-      flip: 0
-    - id: 12
-      minPWM: 0
       maxPWM: 500
-      flip: 0
+      flip: 1
+    - id: 12
+      minPWM: 600
+      maxPWM: 1000
+      flip: 1
   pinky:
     motors:
     - id: 7
-      minPWM: 500
-      maxPWM: 1000
-      flip: 0
+      minPWM: 400
+      maxPWM: 750
+      flip: 1
     - id: 8
-      minPWM: 0
-      maxPWM: 1000
-      flip: 1
+      minPWM: 450
+      maxPWM: 700
+      flip: 0
     - id: 13
-      minPWM: 500
-      maxPWM: 900
-      flip: 1
+      minPWM: 0
+      maxPWM: 400
+      flip: 0
   thumb:
     motors:
     - id: 9
-      minPWM: 200
-      maxPWM: 350
+      minPWM: 500
+      maxPWM: 600
       flip: 0
     - id: 14
-      minPWM: 0
-      maxPWM: 300
+      minPWM: 300
+      maxPWM: 900
       flip: 1
     - id: 15
-      minPWM: 500
-      maxPWM: 700
-      flip: 0
+      minPWM: 750
+      maxPWM: 1000
+      flip: 1
     - id: 16
-      minPWM: 0
-      maxPWM: 300
-      flip: 0
-    - id: 17
-      minPWM: 0
-      maxPWM: 300
+      minPWM: 100
+      maxPWM: 650
       flip: 0
   xrDevice: 580
   pcMode: 0

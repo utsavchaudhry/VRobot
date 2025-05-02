@@ -75,7 +75,7 @@ public class NetMessageParser : MonoBehaviour
                         string command = id + "," + signal;
                         MICRO micro = MICRO.TC_MOTORS;
 
-                        if (id == 7)
+                        if (id == 7 || id == 18)
                         {
                             micro = MICRO.M_MOTORS;
                         }
