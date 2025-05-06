@@ -82,6 +82,7 @@ public class JoystickFingerSignalGenerator : MonoBehaviour
 
     // Public properties to expose the sensor values.
     public float TriggerValue { get; private set; }
+    public float GripValue { get; private set; }
 
     /// <summary>
     /// Attempt to initialize the XR input device.
@@ -126,22 +127,16 @@ public class JoystickFingerSignalGenerator : MonoBehaviour
 
             if (deviceInitialized)
             {
-                // Retrieve the analog trigger value (0 to 1).
-                if (targetDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerVal))
-                {
-                    TriggerValue = triggerVal;
-                }
-                else
-                {
-                    TriggerValue = 0f;
-                }
+                // Retrieve the analog trigger and grip value (0 to 1).
+                TriggerValue = targetDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerVal) ? triggerVal : 0f;
+                GripValue = targetDevice.TryGetFeatureValue(CommonUsages.grip, out float gripValue) ? gripValue : 0f;
             }
         }
 
         index.CalculateSignal(TriggerValue);
-        middle.CalculateSignal(TriggerValue);
-        ring.CalculateSignal(TriggerValue);
-        pinky.CalculateSignal(TriggerValue);
+        middle.CalculateSignal(GripValue);
+        ring.CalculateSignal(GripValue);
+        pinky.CalculateSignal(GripValue);
         thumb.CalculateSignal(TriggerValue);
 
         Signal = string.Join(",", motorListSorted.Select(m => m.Signal));

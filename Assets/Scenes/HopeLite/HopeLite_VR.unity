@@ -941,30 +941,30 @@ MonoBehaviour:
   index:
     motors:
     - id: 1
-      minPWM: 600
+      minPWM: 300
       maxPWM: 850
       flip: 1
     - id: 2
-      minPWM: 600
+      minPWM: 250
       maxPWM: 750
       flip: 1
     - id: 10
       minPWM: 0
-      maxPWM: 300
+      maxPWM: 650
       flip: 0
   middle:
     motors:
     - id: 3
-      minPWM: 700
+      minPWM: 250
       maxPWM: 1000
       flip: 1
     - id: 4
       minPWM: 100
-      maxPWM: 600
+      maxPWM: 950
       flip: 0
     - id: 11
       minPWM: 0
-      maxPWM: 200
+      maxPWM: 600
       flip: 0
   ring:
     motors:
