@@ -9,8 +9,14 @@ EditorBuildSettings:
     path: Assets/Scenes/HopeLite/HopeLite_VR.unity
     guid: 104708baab2992e48a55a86f8d4b7101
   - enabled: 0
+    path: Assets/Scenes/HopeLite/HopeLite_VR_2_Clamp.unity
+    guid: 06ee3ff686277e043926268a58f8aff6
+  - enabled: 0
     path: Assets/Scenes/HopeLite/HopeLite_PC.unity
     guid: e12ed595b3f259747bc008d3bbb681e8
+  - enabled: 0
+    path: Assets/Scenes/HopeLite/HopeLite_PC_ShopMetal_1.unity
+    guid: d9d8a47f4562f2f43bcd0740f2fdcec2
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: bfa1182bd221b4ca89619141f66f1260, type: 2}
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: dc5a169419fa04987b057f65238cf3ba, type: 2}
