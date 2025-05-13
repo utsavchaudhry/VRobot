@@ -697,6 +697,7 @@ MonoBehaviour:
   rightIkTarget: {fileID: 1828766444}
   toggle: 116
   handMoveSpeed: 0.1
+  scrollSpeed: 30
   maxLinearSpeed: 2.5
   maxTurnSpeed: 1.75
   backwardSpeedPercentage: 0.5

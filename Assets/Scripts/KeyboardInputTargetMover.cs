@@ -21,6 +21,7 @@ public class KeyboardInputTargetMover : MonoBehaviour
 
     [SerializeField] private KeyCode toggle = KeyCode.Space;
     [SerializeField] private float handMoveSpeed = 0.1f;
+    [SerializeField] private float scrollSpeed = 50f;
 
     [Tooltip("Max linear speed for forward movement.")]
     [SerializeField] private float maxLinearSpeed = 1.0f;
@@ -33,7 +34,7 @@ public class KeyboardInputTargetMover : MonoBehaviour
 
     private enum State { Wheels, Left, Right }
     private State currentState;
-    private Vector2 moveVector;
+    private Vector3 moveVector;
     private float forwardSpeed;
 
     private void Update()
@@ -57,6 +58,7 @@ public class KeyboardInputTargetMover : MonoBehaviour
 
         moveVector.x = Input.GetAxis("Horizontal");
         moveVector.y = Input.GetAxis("Vertical");
+        moveVector.z = Input.GetAxis("Mouse ScrollWheel") * scrollSpeed;
 
         switch (currentState)
         {

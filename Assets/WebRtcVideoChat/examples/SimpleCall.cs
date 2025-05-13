@@ -267,9 +267,16 @@ namespace Byn.Unity.Examples
                     bool textureCreated = UnityMediaHelper.UpdateRawImage(_RemoteImage, frameArgs.Frame);
                     if (textureCreated)
                     {
-                       // Texture2D tex = finalImg.texture as Texture2D;
-                        rightMat.texture = _RemoteImage.texture;
-                        leftMat.texture = _RemoteImage.texture;
+                        // Texture2D tex = finalImg.texture as Texture2D;
+                        if (rightMat)
+                        {
+                            rightMat.texture = _RemoteImage.texture;
+                        }
+
+                        if (leftMat)
+                        {
+                            leftMat.texture = _RemoteImage.texture;
+                        }
                       // Log("Remote Texture(s) created " + tex.width + "x" + tex.height + " format: " + frameArgs.Frame.Format);
                     }
                 }
