@@ -10,6 +10,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Byn.Unity.Examples
@@ -152,7 +153,7 @@ namespace Byn.Unity.Examples
         /// Image of the remote camera
         /// </summary>
         public RawImage uRemoteVideoImage;
-
+        public RawImage leftEye, rightEye;
 
         [Header("Resources")]
         public Texture2D uNoCameraTexture;
@@ -181,6 +182,7 @@ namespace Byn.Unity.Examples
         private int mRemoteRotation = 0;
         private int mRemoteFrameCounter = 0;
         private FramePixelFormat mRemoteVideoFormat = FramePixelFormat.Invalid;
+
 
         private float mFpsTimer = 0;
 
@@ -217,18 +219,18 @@ namespace Byn.Unity.Examples
 
         protected virtual void Start()
         {
-            if (Application.isMobilePlatform == false || Application.platform == RuntimePlatform.WebGLPlayer)
-            {
-                //deactivate the toggle for non-mobile platforms
-                //also deactivate if there is an attempt to use a WebGL player via a mobile platform (there is no access to this from the browser)
-                uLoudspeakerToggle.gameObject.SetActive(false);
-            }
+            //if (Application.isMobilePlatform == false || Application.platform == RuntimePlatform.WebGLPlayer)
+            //{
+            //    //deactivate the toggle for non-mobile platforms
+            //    //also deactivate if there is an attempt to use a WebGL player via a mobile platform (there is no access to this from the browser)
+            //    uLoudspeakerToggle.gameObject.SetActive(false);
+            //}
             InitFormatDropdown();
             if (uLoadSettings)
             {
                 LoadSettings();
             }
-            CheckSettings();
+            // CheckSettings();
             if (this.uVideoOverlay != null)
             {
                 this.uVideoOverlay.gameObject.SetActive(false);
@@ -259,16 +261,17 @@ namespace Byn.Unity.Examples
         /// </summary>
         private void LoadSettings()
         {
-            uAudioToggle.isOn = PlayerPrefsGetBool(mPrefix + PREF_AUDIO, true);
-            uVideoToggle.isOn = PlayerPrefsGetBool(mPrefix + PREF_VIDEO, true);
+            // uAudioToggle.isOn = PlayerPrefsGetBool(mPrefix + PREF_AUDIO, true);
+            // uVideoToggle.isOn = PlayerPrefsGetBool(mPrefix + PREF_VIDEO, true);
+
             //can't select this immediately because we don't know if it is valid yet
             mStoredVideoDevice = PlayerPrefs.GetString(mPrefix + PREF_VIDEODEVICE, null);
             uRoomNameInputField.text = PlayerPrefs.GetString(mPrefix + PREF_ROOMNAME, Application.productName + "_address");
-            uIdealWidth.text = PlayerPrefs.GetString(mPrefix + PREF_IDEALWIDTH, "320");
-            uIdealHeight.text = PlayerPrefs.GetString(mPrefix + PREF_IDEALHEIGHT, "240");
+            uIdealWidth.text = PlayerPrefs.GetString(mPrefix + PREF_IDEALWIDTH, "1280");
+            uIdealHeight.text = PlayerPrefs.GetString(mPrefix + PREF_IDEALHEIGHT, "720");
             uIdealFps.text = PlayerPrefs.GetString(mPrefix + PREF_IDEALFPS, "30");
-            uRejoinToggle.isOn = PlayerPrefsGetBool(mPrefix + PREF_REJOIN, false);
-            uLocalVideoToggle.isOn = PlayerPrefsGetBool(mPrefix + PREF_LOCALVIDEO, true);
+            // uRejoinToggle.isOn = PlayerPrefsGetBool(mPrefix + PREF_REJOIN, false);
+            uLocalVideoToggle.isOn = true;
             uFormatDropdown.value = PlayerPrefs.GetInt(mPrefix + PREF_FORMAT, 0);
 
         }
@@ -487,17 +490,24 @@ namespace Byn.Unity.Examples
                 }
                 else
                 {
-                    mHasRemoteVideo = false;
-                    if (uRemoteVideoImage.texture != null && uRemoteVideoImage.texture != uNoCameraTexture)
-                    {
-                        Texture2D.Destroy(uRemoteVideoImage.texture);
-                    }
-                    uRemoteVideoImage.texture = uNoCameraTexture;
-                    uRemoteVideoImage.material = uRemoteVideoImage.defaultMaterial;
-                    uRemoteVideoImage.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                    DestroyRemoteVideo();
                 }
             }
         }
+
+        public void DestroyRemoteVideo()
+        {
+
+            mHasRemoteVideo = false;
+            if (uRemoteVideoImage.texture != null && uRemoteVideoImage.texture != uNoCameraTexture)
+            {
+                Texture2D.Destroy(uRemoteVideoImage.texture);
+            }
+            uRemoteVideoImage.texture = uNoCameraTexture;
+            uRemoteVideoImage.material = uRemoteVideoImage.defaultMaterial;
+            uRemoteVideoImage.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        }
+
 
 
         /// <summary>
@@ -646,7 +656,7 @@ namespace Byn.Unity.Examples
             int fps = TryParseInt(uIdealFps.text, 30);
             mApp.SetIdealResolution(width, height);
             mApp.SetIdealFps(fps);
-            mApp.SetAutoRejoin(uRejoinToggle.isOn);
+            mApp.SetAutoRejoin(true); //uRejoinToggle.isOn;
             mApp.SetShowLocalVideo(uLocalVideoToggle.isOn);
         }
 
@@ -808,5 +818,6 @@ namespace Byn.Unity.Examples
                     RefreshLoudspeakerToggle();
             }
         }
+
     }
 }
