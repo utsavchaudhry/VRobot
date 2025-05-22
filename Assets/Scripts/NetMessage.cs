@@ -56,13 +56,13 @@ public class NetMessage : MonoBehaviour
     {
         ServoJoint[] servoJoints = FindObjectsOfType<ServoJoint>().OrderBy(j => j.GetMotorID()).ToArray();
         Clamp[] clamps = FindObjectsOfType<Clamp>();
-        ChatApp _chatAppobj = FindObjectOfType<ChatApp>();
+        CallAppUi _callAppobj = FindObjectOfType<CallAppUi>();
         XRJoystickDifferentialDrive differentialDrive = FindObjectOfType<XRJoystickDifferentialDrive>();
         KeyboardInputTargetMover keyboardMover = FindObjectOfType<KeyboardInputTargetMover>();
         bool online = !(FindObjectOfType<SerialHandler>() || FindObjectOfType<SerialCommunicator>() || FindObjectOfType<SerialPortUtilityPro>());
         signals = new();
 
-        while (_chatAppobj || !online)
+        while (_callAppobj || !online)
         {
             if (!VRobot.IsPaused)
             {
@@ -93,7 +93,7 @@ public class NetMessage : MonoBehaviour
                         //send at last index
                         if (i == servoJoints.Length - 1)
                         {
-                            if (_chatAppobj)
+                            if (_callAppobj)
                             {
                                 _ = _msg.Append(",f,");
                                 _ = _msg.Append(JoystickFingerSignalGenerator.Signal);
@@ -121,7 +121,7 @@ public class NetMessage : MonoBehaviour
                                     _ = _msg.Append(keyboardMover.RightWheelSpeed.ToString("F1"));
                                     _ = _logmsg.Append(keyboardMover.RightWheelSpeed.ToString("F1"));
                                 }
-                                _chatAppobj.SendButtonPressed(_msg.ToString());
+                                _callAppobj.SendMsg(_msg.ToString());
                                 DataLoggerManager.SaveSignal(_logmsg.ToString());
                             }
 

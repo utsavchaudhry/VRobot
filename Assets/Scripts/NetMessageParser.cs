@@ -16,14 +16,14 @@ public class NetMessageParser : MonoBehaviour
     {
         signals = new Dictionary<int, int>();
 
-        ChatApp.OnMsgReceived += Parse;
+        CallAppUi.OnMsgReceived += Parse;
 
         paused = false;
     }
 
     private void OnDestroy()
     {
-        ChatApp.OnMsgReceived -= Parse;
+        CallAppUi.OnMsgReceived -= Parse;
     }
 
     private void Update()

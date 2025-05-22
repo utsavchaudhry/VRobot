@@ -478,6 +478,17 @@ namespace Byn.Unity.Examples
                             + " The UI is not prepared for this!");
                     }
                     uRemoteVideoImage.texture = frame.texture;
+
+                    if (leftEye)
+                    {
+                        leftEye.texture = frame.texture;
+                    }
+
+                    if (rightEye)
+                    {
+                        rightEye.texture = frame.texture;
+                    }
+
                     //watch out: due to conversion from WebRTC to Unity format the image is flipped (top to bottom)
                     //this also inverts the rotation
                     uRemoteVideoImage.transform.localRotation = Quaternion.Euler(0, 0, frame.MetaData.Rotation * -1);
@@ -538,6 +549,8 @@ namespace Byn.Unity.Examples
             //moved to SetupCallApp
         }
 
+        public static event Action<string> OnMsgReceived;
+
 
         /// <summary>
         /// Adds a new message to the message view
@@ -545,11 +558,13 @@ namespace Byn.Unity.Examples
         /// <param name="text"></param>
         public void Append(string text)
         {
+            OnMsgReceived?.Invoke(text);
+
             if (uMessageOutput != null)
             {
                 uMessageOutput.AddTextEntry(text);
             }
-            Debug.Log("Chat output: " + text);
+            //Debug.Log("Chat output: " + text);
         }
 
         private void SetFullscreen(bool value)
@@ -701,7 +716,7 @@ namespace Byn.Unity.Examples
         /// Sends a message to the other end
         /// </summary>
         /// <param name="msg"></param>
-        private void SendMsg(string msg)
+        public void SendMsg(string msg)
         {
             if (String.IsNullOrEmpty(msg))
             {

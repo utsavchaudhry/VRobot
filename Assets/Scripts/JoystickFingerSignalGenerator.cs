@@ -97,11 +97,6 @@ public class JoystickFingerSignalGenerator : MonoBehaviour
         {
             targetDevice = devices[0];
             deviceInitialized = true;
-            Debug.Log($"Controller found: {targetDevice.name}");
-        }
-        else
-        {
-            Debug.LogWarning("Meta Quest 3 controller not found. Please ensure the controller is active.");
         }
     }
 
