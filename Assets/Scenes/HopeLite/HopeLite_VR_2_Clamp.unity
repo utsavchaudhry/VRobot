@@ -605,7 +605,7 @@ MonoBehaviour:
   maxPWM: 2500
   flip: 1
   pcMode: 0
-  side: 0
+  side: 1
 --- !u!4 &637250133
 Transform:
   m_ObjectHideFlags: 0

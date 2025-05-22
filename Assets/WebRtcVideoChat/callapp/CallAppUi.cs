@@ -437,7 +437,7 @@ namespace Byn.Unity.Examples
                     //apply rotation
                     //watch out uLocalVideoImage should be scaled -1 X to make the local camera appear mirrored
                     //it should also be scaled -1 Y because Unity reads the image from bottom to top
-                    uLocalVideoImage.transform.localRotation = Quaternion.Euler(0, 0, frame.MetaData.Rotation);
+                    //uLocalVideoImage.transform.localRotation = Quaternion.Euler(0, 0, frame.MetaData.Rotation);
 
                     mHasLocalVideo = true;
                     mLocalFrameCounter++;
@@ -455,7 +455,7 @@ namespace Byn.Unity.Examples
                         Texture2D.Destroy(uLocalVideoImage.texture);
                     }
                     uLocalVideoImage.texture = null;
-                    uLocalVideoImage.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                    //uLocalVideoImage.transform.localRotation = Quaternion.Euler(0, 0, 0);
                     uLocalVideoImage.gameObject.SetActive(false);
                 }
             }
