@@ -6,7 +6,9 @@
 using Byn.Awrtc;
 using Byn.Awrtc.Unity;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -143,7 +145,6 @@ namespace Byn.Unity.Examples
             public GameObject uiObject;
             public Texture2D texture;
             public RawImage image;
-
         }
 
         /// <summary>
@@ -167,6 +168,29 @@ namespace Byn.Unity.Examples
         /// <summary>
         /// Unity start.
         /// </summary>
+       //Robot controller variables ------------------------------
+        public bool mIsHost;
+        private ConnectionId? mCurrentClient = null; // Currently controlling client (null if none)
+        private Queue<ConnectionId> mClientQueue = new Queue<ConnectionId>(); // Waiting clients
+        private float mControlTimer = 0f;
+        private float mControlTimeLimit = 10f;
+        public GameObject HostParentObj;
+        private bool isIdAssigned = false;
+
+        private List<ConnectionId> mConnectedClients = new List<ConnectionId>();
+
+        [Header("Robot Control UI")]
+        public Text uCurrentTimeText;
+        public Text uCurrentControllerText;
+        public Text uQueueCountText;
+        public Text uQueueListText;
+        public Text uTimeRemainingText;
+        public Text userNameText;
+        private string hostId;
+        private ConnectionId? mHostConnectionId = null;
+        private string mIdRequestToken;
+        private ConnectionId mMyConnectionId;
+
         private void Start()
         {
             UnityCallFactory.RequestLogLevelStatic(UnityCallFactory.LogLevel.Info);
@@ -175,7 +199,7 @@ namespace Byn.Unity.Examples
             mOwnUserName = mOwnUserName + "_" + (int)UnityEngine.Random.Range(0, 10000);
             mIdToUser = new Dictionary<ConnectionId, string>();
         }
-        
+
         protected virtual void OnCallFactoryReady()
         {
             //to trigger android permission requests
@@ -227,7 +251,6 @@ namespace Byn.Unity.Examples
             //setup local video element
             SetupVideoUi(ConnectionId.INVALID);
             mCall.Configure(MediaConfig);
-
 
             SetGuiState(false);
         }
@@ -289,10 +312,10 @@ namespace Byn.Unity.Examples
                     {
                         //text message received
                         MessageEventArgs args = e as MessageEventArgs;
-                        
+
                         //due to timing issues it can happen that a message arrives before we get the NewUser notification
                         //if we get a message from a not yet known user we add them here
-                        if(mIdToUser.ContainsKey(args.ConnectionId) == false)
+                        if (mIdToUser.ContainsKey(args.ConnectionId) == false)
                         {
                             AddNewConnection(args.ConnectionId);
                         }
@@ -308,6 +331,51 @@ namespace Byn.Unity.Examples
                             //known user so we likely got a regular text message form them
                             string name = mIdToUser[args.ConnectionId];
                             Append(name + ":" + args.Content);
+                        }
+
+                        if (args.Content.StartsWith("REQUEST_ID:"))
+                        {
+                            if (mIsHost)
+                            {
+                                mCall.Send($"YOUR_ID:{args.ConnectionId}");
+                                Debug.Log($"Sent connection ID {args.ConnectionId} to client");
+                            }
+                         
+                        }
+
+                        if (args.Content.StartsWith("YOUR_ID:"))
+                        {
+                            if (!mIsHost)
+                            {
+                                if (!isIdAssigned)
+                                {
+                                    string conId = args.Content.Substring(8);
+                                    mMyConnectionId = new ConnectionId(short.Parse(conId));
+
+                                    Debug.Log($"Received our connection ID: {mMyConnectionId}");
+                                    isIdAssigned = true;
+                                }
+                               
+                            }
+                        }
+
+                        if (args.Content.StartsWith("CONTROL_GRANTED:"))
+                        {
+                            string _id = args.Content.Substring(16);
+                            if (short.TryParse(_id, out short connId))
+                            {
+                                ConnectionId roleAssignedId = new ConnectionId(connId);
+
+                                if (roleAssignedId == mMyConnectionId)
+                                {
+                                    Append("Control granted to you! You can now control the robot.");
+
+                                    if (!mIsHost)
+                                    {
+                                        StartCoroutine(HandleRobotCommand(hostId));
+                                    }
+                                }
+                            }
                         }
                         break;
                     }
@@ -331,8 +399,25 @@ namespace Byn.Unity.Examples
         {
             SetupVideoUi(args.ConnectionId);
             AddNewConnection(args.ConnectionId);
-            //let them know our username!
-            mCall.Send(mOwnUserName);
+
+            if (mIsHost)
+            {
+                mCall.Send("HOST:" + mOwnUserName);
+                Append("Robot is ready. Waiting for clients...");
+            }
+            else
+            {
+                mCall.Send("CLIENT:" + mOwnUserName);
+
+                if (!isIdAssigned)
+                {
+                    mIdRequestToken = Guid.NewGuid().ToString().Substring(0, 8);
+                    mCall.Send($"REQUEST_ID:{mIdRequestToken}");
+                    Debug.Log("Requested our connection ID from host");
+                }
+              
+            }
+         
         }
 
         /// <summary>
@@ -344,10 +429,10 @@ namespace Byn.Unity.Examples
         private void AddNewConnection(ConnectionId id)
         {
             //new connection. we do not know who that is yet until we get the first message!
-            if(mIdToUser.ContainsKey(id) == false)
+            if (mIdToUser.ContainsKey(id) == false)
             {
                 mIdToUser[id] = "unknown";
-                Append("New connection with ID " + id + " username not yet known");
+                Append("New connection with ID " + id);
             }
 
         }
@@ -355,9 +440,73 @@ namespace Byn.Unity.Examples
         private void OnNewUserDiscovered(string name, ConnectionId id)
         {
             Debug.Log("Received first message from ConnectionId " + id + "! Their username is " + name);
-            //store for later use
-            mIdToUser[id] = name;
-            Append("New user discovered name: " + name + " and connection id: " + id);
+
+            if (name.StartsWith("HOST:"))
+            {
+                mIdToUser[id] = name.Substring(5);
+                Append("HOST connected: " + mIdToUser[id]);
+                hostId = mIdToUser[id];
+               // mHostConnectionId = id;
+            }
+
+            if (name.StartsWith("CLIENT:"))
+            {
+                mIdToUser[id] = name.Substring(7);
+                Append("Client connected: " + mIdToUser[id]);
+                mConnectedClients.Add(id);
+             
+                if (mIsHost)
+                {
+                    // Add client to queue
+                    mClientQueue.Enqueue(id);
+                    Append($"Client {mIdToUser[id]} joined. Added to queue.");
+                }
+            }
+
+            UpdateQueueUI();
+           
+           // ReparentVideo();
+        }
+
+        private void AssignNextClient()
+        {
+            if (mClientQueue.Count == 0)
+            {
+                // No clients in queue
+                mCurrentClient = null;
+                mCall.Send("CONTROL_RELEASED");
+                Append("No clients in queue. Robot in standby.");
+                return;
+            }
+
+            // Dequeue next client
+            ConnectionId nextClient = mClientQueue.Dequeue();
+            mCurrentClient = nextClient;
+            mControlTimer = 0f;
+
+            // Notify all clients
+            //string clientName = mIdToUser[nextClient];
+            //mCall.Send($"CONTROL_GRANTED:{clientName}");
+            //Append($"Control granted to {clientName}");
+            mCall.Send($"CONTROL_GRANTED:{nextClient}");
+
+            UpdateQueueUI();
+        }
+
+        private IEnumerator HandleRobotCommand(string _id)
+        {
+
+            if (!mIsHost)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    yield return new WaitForSeconds(1);
+                    SendMsg($"Sending {i} to {_id}");
+                }
+             
+            }
+            AssignNextClient();
+         
         }
 
         private void OnUserLeft(ConnectionId id)
@@ -365,7 +514,8 @@ namespace Byn.Unity.Examples
             if (mIdToUser.ContainsKey(id))
             {
                 string name = mIdToUser[id];
-                Append("User with name " + name + " and local ID " + id + " got disconnected");
+                Append("User with name " + name + "got disconnected");
+                UpdateQueueUI();
             }
         }
 
@@ -378,18 +528,50 @@ namespace Byn.Unity.Examples
             //create texture + ui element
             VideoData vd = new VideoData();
             vd.uiObject = Instantiate(uVideoPrefab);
+            //if (mIsHost)
+            //{
+            //    vd.uiObject.transform.SetParent(HostParentObj.transform, false);
+            //}
             vd.uiObject.transform.SetParent(uVideoLayout.transform, false);
+
             vd.image = vd.uiObject.GetComponentInChildren<RawImage>();
             vd.image.texture = uNoImgTexture;
             mVideoUiElements[id] = vd;
         }
 
+        private void ReparentVideo()
+        {
+            if (mHostConnectionId == null)
+                return;
+
+            if (mVideoUiElements.TryGetValue(mHostConnectionId.Value, out VideoData hostVideo))
+            {
+                hostVideo.uiObject.transform.SetParent(HostParentObj.transform, false);
+            }
+
+
+        }
         /// <summary>
         /// User left. Cleanup connection specific data / ui
         /// </summary>
         /// <param name="args"></param>
         private void OnCallEnded(CallEndedEventArgs args)
         {
+            if (mIsHost)
+            {
+                if (mClientQueue.Contains(args.ConnectionId))
+                {
+                    var newQueue = new Queue<ConnectionId>(mClientQueue.Where(id => id != args.ConnectionId)); //remove the disconencted client from clientQueue and make new queue
+                    mClientQueue = newQueue;
+                }
+
+                // If current client disconnected, assign next
+                if (mCurrentClient == args.ConnectionId)
+                {
+                    AssignNextClient();
+                }
+            }
+
             VideoData data;
             if (mVideoUiElements.TryGetValue(args.ConnectionId, out data))
             {
@@ -402,8 +584,34 @@ namespace Byn.Unity.Examples
             OnUserLeft(args.ConnectionId);
         }
 
+        private void UpdateQueueUI()
+        {
+            if (!mIsHost) return;
 
+            if (mCurrentClient != null && mIdToUser.ContainsKey(mCurrentClient.Value))
+            {
+                uCurrentControllerText.text = $"Current controller: {mIdToUser[mCurrentClient.Value]}";
+            }
+            else
+            {
+                uCurrentControllerText.text = "Current controller: None";
+            }
 
+            uQueueCountText.text = $"Clients in queue: {mClientQueue.Count}";
+
+            // Update queue list (reorder incase of/after disconnection)
+            string queueList = "";
+            int position = 1;
+            foreach (var clientId in mClientQueue)
+            {
+                if (mIdToUser.ContainsKey(clientId))
+                {
+                    queueList += $"{position}. {mIdToUser[clientId]}\n";
+                    position++;
+                }
+            }
+            uQueueListText.text = queueList;
+        }
 
         /// <summary>
         /// Updates the frame for a connection id. If the id is new it will create a
@@ -425,6 +633,11 @@ namespace Byn.Unity.Examples
                 UnityMediaHelper.UpdateRawImageTransform(videoData.image, args.Frame, mirror);
                 videoData.texture = videoData.image.texture as Texture2D;
             }
+
+            //if (mHostConnectionId != null && args.ConnectionId == mHostConnectionId)
+            //{
+            //    ReparentVideo();
+            //}
         }
 
         /// <summary>
@@ -494,6 +707,22 @@ namespace Byn.Unity.Examples
             {
                 //update the call
                 mCall.Update();
+
+
+           //command test
+                if (mIsHost)
+                {
+                    if (Input.GetKeyDown(KeyCode.X))
+                    {
+                     
+                        if (mClientQueue.Count > 0)
+                        {
+                            AssignNextClient();
+
+                        }
+                    }
+                  
+                }
             }
         }
 
@@ -520,6 +749,8 @@ namespace Byn.Unity.Examples
             Setup();
             EnsureLength();
             mCall.Listen(uRoomName.text);
+            //setup host (first joiner is host)
+
         }
 
         /// <summary>
