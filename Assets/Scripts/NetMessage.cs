@@ -57,9 +57,10 @@ public class NetMessage : MonoBehaviour
         ServoJoint[] servoJoints = FindObjectsOfType<ServoJoint>().OrderBy(j => j.GetMotorID()).ToArray();
         Clamp[] clamps = FindObjectsOfType<Clamp>();
         CallAppUi _callAppobj = FindObjectOfType<CallAppUi>();
+        CallApp _callApp = FindObjectOfType<CallApp>();
         XRJoystickDifferentialDrive differentialDrive = FindObjectOfType<XRJoystickDifferentialDrive>();
         KeyboardInputTargetMover keyboardMover = FindObjectOfType<KeyboardInputTargetMover>();
-        bool online = !(FindObjectOfType<SerialHandler>() || FindObjectOfType<SerialCommunicator>() || FindObjectOfType<SerialPortUtilityPro>());
+        bool online = !(FindObjectOfType<SerialHandler>() || FindObjectOfType<SerialManager>() || FindObjectOfType<SerialPortUtilityPro>());
         signals = new();
 
         while (_callAppobj || !online)
@@ -93,7 +94,7 @@ public class NetMessage : MonoBehaviour
                         //send at last index
                         if (i == servoJoints.Length - 1)
                         {
-                            if (_callAppobj)
+                            if (_callAppobj && _callApp && _callApp.IsCallActive)
                             {
                                 _ = _msg.Append(",f,");
                                 _ = _msg.Append(JoystickFingerSignalGenerator.Signal);
