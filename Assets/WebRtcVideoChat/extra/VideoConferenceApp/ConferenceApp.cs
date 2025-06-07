@@ -185,8 +185,7 @@ namespace Byn.Unity.Examples
         public Text uQueueCountText;
         public Text uQueueListText;
         public Text uTimeRemainingText;
-        public Text userNameText;
-        private string hostId;
+        public Text uUserNameText;
         private ConnectionId? mHostConnectionId = null;
         private string mIdRequestToken;
         private ConnectionId mMyConnectionId;
@@ -337,10 +336,10 @@ namespace Byn.Unity.Examples
                         {
                             if (mIsHost)
                             {
-                                mCall.Send($"YOUR_ID:{args.ConnectionId}");
+                                string token = args.Content.Substring(11);
+                                mCall.Send($"YOUR_ID:{token}:{args.ConnectionId}");
                                 Debug.Log($"Sent connection ID {args.ConnectionId} to client");
                             }
-                         
                         }
 
                         if (args.Content.StartsWith("YOUR_ID:"))
@@ -349,13 +348,13 @@ namespace Byn.Unity.Examples
                             {
                                 if (!isIdAssigned)
                                 {
-                                    string conId = args.Content.Substring(8);
-                                    mMyConnectionId = new ConnectionId(short.Parse(conId));
-
-                                    Debug.Log($"Received our connection ID: {mMyConnectionId}");
+                                    string[] parts = args.Content.Split(':');
+                                    mMyConnectionId = new ConnectionId(short.Parse(parts[2]));
+                                    //uUserNameText.text = $" connection ID: {mMyConnectionId}";
                                     isIdAssigned = true;
+                                    Debug.Log($"Received our connection ID: {mMyConnectionId}");
                                 }
-                               
+
                             }
                         }
 
@@ -372,10 +371,16 @@ namespace Byn.Unity.Examples
 
                                     if (!mIsHost)
                                     {
-                                        StartCoroutine(HandleRobotCommand(hostId));
+                                        StartCoroutine(HandleRobotCommand(mHostConnectionId.Value));
                                     }
                                 }
                             }
+                        }
+
+                        if (args.Content.StartsWith("SWITCH_CONTROL"))
+                        {
+                            RemoveVideo(mCurrentClient.Value);
+                            AssignNextClient();
                         }
                         break;
                     }
@@ -397,7 +402,7 @@ namespace Byn.Unity.Examples
         /// <param name="args"></param>
         private void OnNewCall(CallAcceptedEventArgs args)
         {
-            SetupVideoUi(args.ConnectionId);
+            //SetupVideoUi(args.ConnectionId);
             AddNewConnection(args.ConnectionId);
 
             if (mIsHost)
@@ -407,17 +412,18 @@ namespace Byn.Unity.Examples
             }
             else
             {
-                mCall.Send("CLIENT:" + mOwnUserName);
 
                 if (!isIdAssigned)
                 {
+                    mCall.Send("CLIENT:" + mOwnUserName);
+
                     mIdRequestToken = Guid.NewGuid().ToString().Substring(0, 8);
                     mCall.Send($"REQUEST_ID:{mIdRequestToken}");
                     Debug.Log("Requested our connection ID from host");
                 }
-              
+
             }
-         
+
         }
 
         /// <summary>
@@ -445,8 +451,9 @@ namespace Byn.Unity.Examples
             {
                 mIdToUser[id] = name.Substring(5);
                 Append("HOST connected: " + mIdToUser[id]);
-                hostId = mIdToUser[id];
-               // mHostConnectionId = id;
+
+                mHostConnectionId = id;
+                SetupVideoUi(id);
             }
 
             if (name.StartsWith("CLIENT:"))
@@ -454,7 +461,7 @@ namespace Byn.Unity.Examples
                 mIdToUser[id] = name.Substring(7);
                 Append("Client connected: " + mIdToUser[id]);
                 mConnectedClients.Add(id);
-             
+
                 if (mIsHost)
                 {
                     // Add client to queue
@@ -464,8 +471,6 @@ namespace Byn.Unity.Examples
             }
 
             UpdateQueueUI();
-           
-           // ReparentVideo();
         }
 
         private void AssignNextClient()
@@ -483,19 +488,26 @@ namespace Byn.Unity.Examples
             ConnectionId nextClient = mClientQueue.Dequeue();
             mCurrentClient = nextClient;
             mControlTimer = 0f;
-
-            // Notify all clients
-            //string clientName = mIdToUser[nextClient];
-            //mCall.Send($"CONTROL_GRANTED:{clientName}");
-            //Append($"Control granted to {clientName}");
+            SetupVideoUi(mCurrentClient.Value);
             mCall.Send($"CONTROL_GRANTED:{nextClient}");
 
             UpdateQueueUI();
         }
 
-        private IEnumerator HandleRobotCommand(string _id)
+        void RemoveVideo(ConnectionId _id)
         {
+            VideoData data;
+            if (mVideoUiElements.TryGetValue(_id, out data))
+            {
+                if (data.texture != null)
+                    Destroy(data.texture);
+                Destroy(data.uiObject);
+                mVideoUiElements.Remove(_id);
+            }
+        }
 
+        private IEnumerator HandleRobotCommand(ConnectionId _id)
+        {
             if (!mIsHost)
             {
                 for (int i = 0; i < 10; i++)
@@ -503,10 +515,8 @@ namespace Byn.Unity.Examples
                     yield return new WaitForSeconds(1);
                     SendMsg($"Sending {i} to {_id}");
                 }
-             
+                mCall.Send($"SWITCH_CONTROL");
             }
-            AssignNextClient();
-         
         }
 
         private void OnUserLeft(ConnectionId id)
@@ -528,10 +538,6 @@ namespace Byn.Unity.Examples
             //create texture + ui element
             VideoData vd = new VideoData();
             vd.uiObject = Instantiate(uVideoPrefab);
-            //if (mIsHost)
-            //{
-            //    vd.uiObject.transform.SetParent(HostParentObj.transform, false);
-            //}
             vd.uiObject.transform.SetParent(uVideoLayout.transform, false);
 
             vd.image = vd.uiObject.GetComponentInChildren<RawImage>();
@@ -539,18 +545,6 @@ namespace Byn.Unity.Examples
             mVideoUiElements[id] = vd;
         }
 
-        private void ReparentVideo()
-        {
-            if (mHostConnectionId == null)
-                return;
-
-            if (mVideoUiElements.TryGetValue(mHostConnectionId.Value, out VideoData hostVideo))
-            {
-                hostVideo.uiObject.transform.SetParent(HostParentObj.transform, false);
-            }
-
-
-        }
         /// <summary>
         /// User left. Cleanup connection specific data / ui
         /// </summary>
@@ -633,11 +627,6 @@ namespace Byn.Unity.Examples
                 UnityMediaHelper.UpdateRawImageTransform(videoData.image, args.Frame, mirror);
                 videoData.texture = videoData.image.texture as Texture2D;
             }
-
-            //if (mHostConnectionId != null && args.ConnectionId == mHostConnectionId)
-            //{
-            //    ReparentVideo();
-            //}
         }
 
         /// <summary>
@@ -708,20 +697,19 @@ namespace Byn.Unity.Examples
                 //update the call
                 mCall.Update();
 
-
-           //command test
+                //command test
                 if (mIsHost)
                 {
                     if (Input.GetKeyDown(KeyCode.X))
                     {
-                     
+
                         if (mClientQueue.Count > 0)
                         {
                             AssignNextClient();
 
                         }
                     }
-                  
+
                 }
             }
         }

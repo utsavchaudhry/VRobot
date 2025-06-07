@@ -227,6 +227,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114818613298106560, guid: 0da6eb6fc588bd545ac56835536d5f3b, type: 3}
+      propertyPath: isIdAssigned
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114818613298106560, guid: 0da6eb6fc588bd545ac56835536d5f3b, type: 3}
       propertyPath: uVideoPrefab
       value: 
       objectReference: {fileID: 8631321605153542744, guid: 246210f794816334c990656cb53ae4d3, type: 3}
@@ -873,8 +877,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 39.441, y: 212.6}
-  m_SizeDelta: {x: 238.88, y: 32.9925}
+  m_AnchoredPosition: {x: 39.441, y: 118.278305}
+  m_SizeDelta: {x: 238.88, y: 221.6359}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1067566974
 MonoBehaviour:
