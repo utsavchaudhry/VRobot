@@ -174,8 +174,10 @@ namespace Byn.Unity.Examples
         private Queue<ConnectionId> mClientQueue = new Queue<ConnectionId>(); // Waiting clients
         private float mControlTimer = 0f;
         private float mControlTimeLimit = 10f;
-        public GameObject HostParentObj;
         private bool isIdAssigned = false;
+        private bool mIsActiveClient = false;
+        private const float MUTED_VOLUME = 0.0f;
+        private const float UNMUTED_VOLUME = 1.0f;
 
         private List<ConnectionId> mConnectedClients = new List<ConnectionId>();
 
@@ -203,7 +205,7 @@ namespace Byn.Unity.Examples
         {
             //to trigger android permission requests
             StartCoroutine(ExampleGlobals.RequestPermissions());
-            //use video and audio by default (the UI is toggled on by default as well it will change on click )
+
             MediaConfig.Video = false;
             MediaConfig.Audio = false;
             MediaConfig.VideoDeviceName = UnityCallFactory.Instance.GetDefaultVideoDevice();
@@ -338,6 +340,7 @@ namespace Byn.Unity.Examples
                             {
                                 string token = args.Content.Substring(11);
                                 mCall.Send($"YOUR_ID:{token}:{args.ConnectionId}");
+                                uUserNameText.text = $" connection ID: {mMyConnectionId}";
                                 Debug.Log($"Sent connection ID {args.ConnectionId} to client");
                             }
                         }
@@ -350,7 +353,7 @@ namespace Byn.Unity.Examples
                                 {
                                     string[] parts = args.Content.Split(':');
                                     mMyConnectionId = new ConnectionId(short.Parse(parts[2]));
-                                    //uUserNameText.text = $" connection ID: {mMyConnectionId}";
+                                    uUserNameText.text = $" connection ID: {mMyConnectionId}";
                                     isIdAssigned = true;
                                     Debug.Log($"Received our connection ID: {mMyConnectionId}");
                                 }
@@ -368,10 +371,26 @@ namespace Byn.Unity.Examples
                                 if (roleAssignedId == mMyConnectionId)
                                 {
                                     Append("Control granted to you! You can now control the robot.");
-
+                                    if (mHostConnectionId.HasValue)
+                                    {
+                                        mCall.SetVolume(UNMUTED_VOLUME, mHostConnectionId.Value);
+                                    }
+                                    mIsActiveClient = true;
                                     if (!mIsHost)
                                     {
                                         StartCoroutine(HandleRobotCommand(mHostConnectionId.Value));
+                                    }
+                                }
+                                else
+                                {
+                                    if (mIsActiveClient)
+                                    {
+                                        mIsActiveClient = false;
+
+                                        if (mHostConnectionId.HasValue)
+                                        {
+                                            mCall.SetVolume(MUTED_VOLUME, mHostConnectionId.Value);
+                                        }
                                     }
                                 }
                             }
@@ -412,16 +431,18 @@ namespace Byn.Unity.Examples
             }
             else
             {
-
+                mCall.Send("CLIENT:" + mOwnUserName);
                 if (!isIdAssigned)
                 {
-                    mCall.Send("CLIENT:" + mOwnUserName);
-
                     mIdRequestToken = Guid.NewGuid().ToString().Substring(0, 8);
                     mCall.Send($"REQUEST_ID:{mIdRequestToken}");
                     Debug.Log("Requested our connection ID from host");
                 }
 
+                if (mHostConnectionId.HasValue && !mIsActiveClient)
+                {
+                    mCall.SetVolume(MUTED_VOLUME, mHostConnectionId.Value);
+                }
             }
 
         }
@@ -475,13 +496,24 @@ namespace Byn.Unity.Examples
 
         private void AssignNextClient()
         {
+
             if (mClientQueue.Count == 0)
             {
                 // No clients in queue
+                if (mCurrentClient.HasValue)
+                {
+                    mCall.SetVolume(MUTED_VOLUME, mCurrentClient.Value);
+                }
                 mCurrentClient = null;
                 mCall.Send("CONTROL_RELEASED");
                 Append("No clients in queue. Robot in standby.");
                 return;
+            }
+
+            if (mCurrentClient.HasValue)
+            {
+                // Mute the previous client if there was one
+                mCall.SetVolume(MUTED_VOLUME, mCurrentClient.Value);
             }
 
             // Dequeue next client
@@ -490,6 +522,7 @@ namespace Byn.Unity.Examples
             mControlTimer = 0f;
             SetupVideoUi(mCurrentClient.Value);
             mCall.Send($"CONTROL_GRANTED:{nextClient}");
+            mCall.SetVolume(UNMUTED_VOLUME, mCurrentClient.Value);
 
             UpdateQueueUI();
         }
@@ -508,12 +541,21 @@ namespace Byn.Unity.Examples
 
         private IEnumerator HandleRobotCommand(ConnectionId _id)
         {
+            float lastMsgTime = 0f;
             if (!mIsHost)
             {
-                for (int i = 0; i < 10; i++)
+                while (mControlTimer < mControlTimeLimit)
                 {
-                    yield return new WaitForSeconds(1);
-                    SendMsg($"Sending {i} to {_id}");
+                    mControlTimer += Time.deltaTime;
+
+                    if (mControlTimer - lastMsgTime >= 1f)
+                    {
+                        SendMsg($"Sending command to {_id}");
+                        lastMsgTime = mControlTimer;
+                    }
+                 
+                    uTimeRemainingText.text = $"Time Remaining : {mControlTimeLimit - mControlTimer:0}";
+                    yield return null;
                 }
                 mCall.Send($"SWITCH_CONTROL");
             }
