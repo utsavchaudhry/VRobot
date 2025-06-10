@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/WebRtcVideoChat/extra/VideoConferenceApp/conferencescene.unity
-    guid: bf281e1ce939a394c85ba2e0f289b07d
+    path: Assets/Scenes/HopeLite/HopeLite_conference.unity
+    guid: 362ae85b59645654992167132b14fbbe
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: bfa1182bd221b4ca89619141f66f1260, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 5c40b7b0019cb9c44a7cd85882052293, type: 2}
