@@ -1,4 +1,5 @@
 using UnityEngine;
+using Byn.Unity.Examples;
 
 public class MouseHead : MonoBehaviour
 {
@@ -17,14 +18,29 @@ public class MouseHead : MonoBehaviour
     private float yaw = 0f;   // Horizontal rotation (around Y-axis).
     private float pitch = 0f; // Vertical rotation (around X-axis).
 
+    private ConferenceApp conference;
+
+    private bool connectionActive;
+
     void Start()
     {
-        // Lock the cursor to the center of the screen.
-        Cursor.lockState = CursorLockMode.Locked;
+        conference = FindObjectOfType<ConferenceApp>();
     }
 
     void Update()
     {
+        if (conference && !conference.IsActiveClient())
+        {
+            connectionActive = false;
+            return;
+        }
+
+        if (!connectionActive)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            connectionActive = true;
+        }
+
         // Get mouse input.
         float mouseX = Input.GetAxis("Mouse X") * sensitivityX;
         float mouseY = Input.GetAxis("Mouse Y") * sensitivityY;

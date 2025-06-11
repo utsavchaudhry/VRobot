@@ -16,14 +16,18 @@ public class NetMessageParser : MonoBehaviour
     {
         signals = new Dictionary<int, int>();
 
-        CallAppUi.OnMsgReceived += Parse;
+        ConferenceApp.OnMsgReceived += Parse;
+        ConferenceApp.OnUserChanged += StopWheels;
+        ConferenceApp.OnUserDisconnected += StopWheels;
 
         paused = false;
     }
 
     private void OnDestroy()
     {
-        CallAppUi.OnMsgReceived -= Parse;
+        ConferenceApp.OnMsgReceived -= Parse;
+        ConferenceApp.OnUserChanged -= StopWheels;
+        ConferenceApp.OnUserDisconnected -= StopWheels;
     }
 
     private void Update()
@@ -113,5 +117,10 @@ public class NetMessageParser : MonoBehaviour
         }
 
         _ = SerialManager.Instance.SendSerialMessage(MICRO.XIAOMI_MOTORS, signalStream[^2] + "," + signalStream[^1]);
+    }
+
+    private void StopWheels()
+    {
+        _ = SerialManager.Instance.SendSerialMessage(MICRO.XIAOMI_MOTORS, "0,0");
     }
 }

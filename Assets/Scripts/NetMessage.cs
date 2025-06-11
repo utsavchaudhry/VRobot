@@ -56,14 +56,13 @@ public class NetMessage : MonoBehaviour
     {
         ServoJoint[] servoJoints = FindObjectsOfType<ServoJoint>().OrderBy(j => j.GetMotorID()).ToArray();
         Clamp[] clamps = FindObjectsOfType<Clamp>();
-        CallAppUi _callAppobj = FindObjectOfType<CallAppUi>();
-        CallApp _callApp = FindObjectOfType<CallApp>();
+        ConferenceApp conference = FindObjectOfType<ConferenceApp>();
         XRJoystickDifferentialDrive differentialDrive = FindObjectOfType<XRJoystickDifferentialDrive>();
         KeyboardInputTargetMover keyboardMover = FindObjectOfType<KeyboardInputTargetMover>();
         bool online = !(FindObjectOfType<SerialHandler>() || FindObjectOfType<SerialManager>() || FindObjectOfType<SerialPortUtilityPro>());
         signals = new();
 
-        while (_callAppobj || !online)
+        while (conference || !online)
         {
             if (!VRobot.IsPaused)
             {
@@ -94,7 +93,7 @@ public class NetMessage : MonoBehaviour
                         //send at last index
                         if (i == servoJoints.Length - 1)
                         {
-                            if (_callAppobj && _callApp && _callApp.IsCallActive)
+                            if (conference && conference.IsActiveClient())
                             {
                                 _ = _msg.Append(",f,");
                                 _ = _msg.Append(JoystickFingerSignalGenerator.Signal);
@@ -122,7 +121,7 @@ public class NetMessage : MonoBehaviour
                                     _ = _msg.Append(keyboardMover.RightWheelSpeed.ToString("F1"));
                                     _ = _logmsg.Append(keyboardMover.RightWheelSpeed.ToString("F1"));
                                 }
-                                _callAppobj.SendMsg(_msg.ToString());
+                                conference.SendMsg(_msg.ToString());
                                 DataLoggerManager.SaveSignal(_logmsg.ToString());
                             }
 

@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using Byn.Unity.Examples;
 
 public class KeyboardInputTargetMover : MonoBehaviour
 {
@@ -37,8 +38,20 @@ public class KeyboardInputTargetMover : MonoBehaviour
     private Vector3 moveVector;
     private float forwardSpeed;
 
+    private ConferenceApp conference;
+
+    private void Start()
+    {
+        conference = FindObjectOfType<ConferenceApp>();
+    }
+
     private void Update()
     {
+        if (conference && !conference.IsActiveClient())
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(toggle))
         {
             if (currentState == State.Right)

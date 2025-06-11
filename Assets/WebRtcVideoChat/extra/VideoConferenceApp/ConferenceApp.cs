@@ -173,7 +173,7 @@ namespace Byn.Unity.Examples
         private ConnectionId? mCurrentClient = null; // Currently controlling client (null if none)
         private Queue<ConnectionId> mClientQueue = new Queue<ConnectionId>(); // Waiting clients
         private float mControlTimer = 0f;
-        private float mControlTimeLimit = 10f;
+        [SerializeField] private float mControlTimeLimit = 1200f;
         private bool isIdAssigned = false;
         private bool mIsActiveClient = false;
         private const float MUTED_VOLUME = 0.0f;
@@ -197,6 +197,7 @@ namespace Byn.Unity.Examples
         public static event Action OnUserChanged,OnUserDisconnected;
 
         private Coroutine timerRoutine;
+
         private void Start()
         {
             UnityCallFactory.RequestLogLevelStatic(UnityCallFactory.LogLevel.Info);
@@ -204,7 +205,23 @@ namespace Byn.Unity.Examples
             //lets just give them a random number for now. 
             mOwnUserName = mOwnUserName + "_" + (int)UnityEngine.Random.Range(0, 10000);
             mIdToUser = new Dictionary<ConnectionId, string>();
+
+            _ = StartCoroutine(JoinWithDelay());
         }
+
+        private IEnumerator JoinWithDelay()
+        {
+            yield return new WaitForSeconds(0.5f);
+
+            AudioToggle(true);
+            VideoToggle(true);
+
+            JoinButtonPressed();
+        }
+
+        [Space]
+
+        [SerializeField] private string defaultRoomName = "ShopMetal_1";
 
         protected virtual void OnCallFactoryReady()
         {
@@ -220,7 +237,7 @@ namespace Byn.Unity.Examples
             NetConfig.IceServers.Add(ExampleGlobals.DefaultIceServer);
             NetConfig.SignalingUrl = ExampleGlobals.SignalingConference;
             NetConfig.IsConference = true;
-            this.uRoomName.text = Application.productName + "_con";
+            uRoomName.text = defaultRoomName;
         }
 
         protected virtual void OnCallFactoryFailed(string error)
@@ -532,6 +549,11 @@ namespace Byn.Unity.Examples
             UpdateQueueUI();
         }
 
+        public bool IsActiveClient()
+        {
+            return mIsActiveClient;
+        }
+
         private void AssignNextClient()
         {
 
@@ -608,6 +630,18 @@ namespace Byn.Unity.Examples
             }
         }
 
+        private string FormatTimeMmSs(float timeSeconds)
+        {
+            if (timeSeconds < 0)
+                throw new ArgumentOutOfRangeException(nameof(timeSeconds), "Time must be non-negative.");
+
+            int totalSeconds = Mathf.FloorToInt(timeSeconds);
+            int minutes = totalSeconds / 60;
+            int seconds = totalSeconds % 60;
+
+            return string.Format("{0:00}:{1:00}", minutes, seconds);
+        }
+
         private IEnumerator HandleRobotCommand(ConnectionId _id)
         {
             float lastMsgTime = 0f;
@@ -620,11 +654,11 @@ namespace Byn.Unity.Examples
 
                     if (mControlTimer - lastMsgTime >= 1f)
                     {
-                        SendMsg($"Sending command to {_id}");
+                        //SendMsg($"Sending command to {_id}");
                         lastMsgTime = mControlTimer;
                     }
-                 
-                    uTimeRemainingText.text = $"Time Remaining : {mControlTimeLimit - mControlTimer:0}";
+
+                    uTimeRemainingText.text = "Time Remaining : " + FormatTimeMmSs(mControlTimeLimit - mControlTimer);
                     yield return null;
                 }
                 mCall.Send($"SWITCH_CONTROL");
@@ -645,7 +679,7 @@ namespace Byn.Unity.Examples
 
                     if (waitTimer - lastMsgTime >= 1f)
                     {
-                        uQueueTimeText.text = $"Please Wait {baseTime - waitTimer:0} Seconds";
+                        uQueueTimeText.text = "Please Wait " + FormatTimeMmSs(baseTime - waitTimer);
                         lastMsgTime = waitTimer;
                     }
                     yield return null;
@@ -815,12 +849,16 @@ namespace Byn.Unity.Examples
             MediaConfig.Video = state;
         }
 
+        public static event Action<string> OnMsgReceived;
+
         /// <summary>
         /// Adds a new message to the message view
         /// </summary>
         /// <param name="text"></param>
         private void Append(string text)
         {
+            OnMsgReceived?.Invoke(text);
+
             if (uOutput != null)
             {
                 uOutput.AddTextEntry(text);
@@ -830,6 +868,8 @@ namespace Byn.Unity.Examples
                 Debug.Log("Chat: " + text);
             }
         }
+
+        private float assignClientFreezeTimer;
 
         /// <summary>
         /// The call object needs to be updated regularly to sync data received via webrtc with
@@ -846,12 +886,20 @@ namespace Byn.Unity.Examples
                 //command test
                 if (mIsHost)
                 {
-                    if (Input.GetKeyDown(KeyCode.X))
+                    if (mCurrentClient == null)
                     {
 
                         if (mClientQueue.Count > 0)
                         {
-                            AssignNextClient();
+                            if (assignClientFreezeTimer > 2f)
+                            {
+                                AssignNextClient();
+                                assignClientFreezeTimer = 0f;
+                            }
+                            else
+                            {
+                                assignClientFreezeTimer += Time.deltaTime;
+                            }
                         }
                     }
                 }
@@ -923,7 +971,7 @@ namespace Byn.Unity.Examples
         /// Sends a message to the other end
         /// </summary>
         /// <param name="msg"></param>
-        private void SendMsg(string msg)
+        public void SendMsg(string msg)
         {
             if (String.IsNullOrEmpty(msg))
             {
