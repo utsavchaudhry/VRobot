@@ -20,6 +20,7 @@ public class VRobot : MonoBehaviour
     [Space]
 
     [SerializeField] private bool allowReset;
+    [SerializeField] private bool noCalibration;
     [SerializeField] private bool pauseOnStart = true;
 
     private static Quaternion rot;
@@ -41,7 +42,7 @@ public class VRobot : MonoBehaviour
             InputManager.RightController.SecondaryBtn.OnDown += TogglePauseState;
         }
 
-        if (PlayerPrefs.HasKey("VRobotSize"))
+        if (!noCalibration && PlayerPrefs.HasKey("VRobotSize"))
         {
             transform.localScale = Vector3.one * PlayerPrefs.GetFloat("VRobotSize");
         }
@@ -93,6 +94,11 @@ public class VRobot : MonoBehaviour
 
     private void Calibrate()
     {
+        if (noCalibration)
+        {
+            return;
+        }
+
         float avgArmSpan = (Vector3.Distance(rTarget.position, transform.position + (transform.right * 0.1f)) +
             Vector3.Distance(lTarget.position, transform.position + (transform.right * -0.1f))) / 2f;
         transform.localScale = Vector3.one * avgArmSpan / 0.5f;

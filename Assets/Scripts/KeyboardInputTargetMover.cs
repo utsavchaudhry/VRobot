@@ -33,6 +33,12 @@ public class KeyboardInputTargetMover : MonoBehaviour
     [Tooltip("Percentage of forward speed to apply when moving backward (0-100).")]
     [Range(0f, 1f)] [SerializeField] private float backwardSpeedPercentage = .2f;
 
+    [SerializeField] private bool useBounds;
+    [SerializeField] private Vector3 minLeftHandPosition;
+    [SerializeField] private Vector3 maxLeftHandPosition;
+    [SerializeField] private Vector3 minRightHandPosition;
+    [SerializeField] private Vector3 maxRightHandPosition;
+
     private enum State { Wheels, Left, Right }
     private State currentState;
     private Vector3 moveVector;
@@ -100,9 +106,23 @@ public class KeyboardInputTargetMover : MonoBehaviour
                 break;
             case State.Left:
                 leftIkTarget.Translate(handMoveSpeed * Time.deltaTime * moveVector);
+                if (useBounds)
+                {
+                    leftIkTarget.transform.position = new Vector3(
+                        Mathf.Clamp(leftIkTarget.transform.position.x, minLeftHandPosition.x, maxLeftHandPosition.x),
+                        Mathf.Clamp(leftIkTarget.transform.position.y, minLeftHandPosition.y, maxLeftHandPosition.y),
+                        Mathf.Clamp(leftIkTarget.transform.position.z, minLeftHandPosition.z, maxLeftHandPosition.z));
+                }
                 break;
             case State.Right:
                 rightIkTarget.Translate(handMoveSpeed * Time.deltaTime * moveVector);
+                if (useBounds)
+                {
+                    rightIkTarget.transform.position = new Vector3(
+                        Mathf.Clamp(rightIkTarget.transform.position.x, minRightHandPosition.x, maxRightHandPosition.x),
+                        Mathf.Clamp(rightIkTarget.transform.position.y, minRightHandPosition.y, maxRightHandPosition.y),
+                        Mathf.Clamp(rightIkTarget.transform.position.z, minRightHandPosition.z, maxRightHandPosition.z));
+                }
                 break;
             default:
                 break;

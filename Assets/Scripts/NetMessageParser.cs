@@ -35,15 +35,18 @@ public class NetMessageParser : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             paused = !paused;
-            if (statusText)
-            {
-                statusText.text = paused ? "Paused" : string.Empty;
-            }
+            StopWheels();
         }
 
         if (Input.GetKeyDown(KeyCode.D))
         {
             Parse(defaultPosition);
+            StopWheels();
+        }
+
+        if (statusText)
+        {
+            statusText.text = paused ? "Paused" : string.Empty;
         }
     }
 
