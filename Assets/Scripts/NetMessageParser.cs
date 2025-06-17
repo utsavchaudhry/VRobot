@@ -10,38 +10,30 @@ public class NetMessageParser : MonoBehaviour
     [SerializeField] private bool log;
 
     private Dictionary<int, int> signals;
-    public static bool paused;
+    private bool paused = true;
 
     private void Start()
     {
         signals = new Dictionary<int, int>();
 
         ConferenceApp.OnMsgReceived += Parse;
-        ConferenceApp.OnUserChanged += StopWheels;
-        ConferenceApp.OnUserDisconnected += StopWheels;
-
-        paused = false;
+        ConferenceApp.OnUserChanged += ResetRobot;
+        ConferenceApp.OnUserDisconnected += ResetRobot;
     }
 
     private void OnDestroy()
     {
         ConferenceApp.OnMsgReceived -= Parse;
-        ConferenceApp.OnUserChanged -= StopWheels;
-        ConferenceApp.OnUserDisconnected -= StopWheels;
+        ConferenceApp.OnUserChanged -= ResetRobot;
+        ConferenceApp.OnUserDisconnected -= ResetRobot;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
+            ResetRobot();
             paused = !paused;
-            StopWheels();
-        }
-
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            Parse(defaultPosition);
-            StopWheels();
         }
 
         if (statusText)
@@ -122,8 +114,8 @@ public class NetMessageParser : MonoBehaviour
         _ = SerialManager.Instance.SendSerialMessage(MICRO.XIAOMI_MOTORS, signalStream[^2] + "," + signalStream[^1]);
     }
 
-    private void StopWheels()
+    private void ResetRobot()
     {
-        _ = SerialManager.Instance.SendSerialMessage(MICRO.XIAOMI_MOTORS, "0,0");
+        Parse(defaultPosition);
     }
 }
