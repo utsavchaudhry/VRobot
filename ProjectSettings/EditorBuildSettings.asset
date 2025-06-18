@@ -6,11 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/HopeLite/ShopMetal/HopeLite_Robot_ShopMetal.unity
-    guid: 47d8a7732784f1f4bbcb9c231ece3f02
-  - enabled: 0
     path: Assets/Scenes/HopeLite/ShopMetal/HopeLite_PCOperator_ShopMetal.unity
     guid: f0e6e5148e4b70e46bf814e0605b7e6e
+  - enabled: 0
+    path: Assets/Scenes/HopeLite/ShopMetal/HopeLite_Robot_ShopMetal.unity
+    guid: 47d8a7732784f1f4bbcb9c231ece3f02
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: bfa1182bd221b4ca89619141f66f1260, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 5c40b7b0019cb9c44a7cd85882052293, type: 2}
