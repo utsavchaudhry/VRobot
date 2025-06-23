@@ -33,6 +33,7 @@ public class KeyboardInputTargetMover : MonoBehaviour
     [Tooltip("Percentage of forward speed to apply when moving backward (0-100).")]
     [Range(0f, 1f)] [SerializeField] private float backwardSpeedPercentage = .2f;
 
+    [SerializeField] private bool phoneMode;
     [SerializeField] private bool useBounds;
     [SerializeField] private Vector3 minLeftHandPosition;
     [SerializeField] private Vector3 maxLeftHandPosition;
@@ -51,6 +52,23 @@ public class KeyboardInputTargetMover : MonoBehaviour
         conference = FindObjectOfType<ConferenceApp>();
     }
 
+    public void CycleControlMode()
+    {
+        if (conference && !conference.IsActiveClient())
+        {
+            return;
+        }
+
+        if (currentState == State.Right)
+        {
+            currentState = 0;
+        }
+        else
+        {
+            currentState++;
+        }
+    }
+
     private void Update()
     {
         if (conference && !conference.IsActiveClient())
@@ -60,24 +78,27 @@ public class KeyboardInputTargetMover : MonoBehaviour
 
         if (Input.GetKeyDown(toggle))
         {
-            if (currentState == State.Right)
-            {
-                currentState = 0;
-            }
-            else
-            {
-                currentState++;
-            }
+            CycleControlMode();
         }
 
         if (status)
         {
-            status.text = string.Format("Control Mode:\n<color=green>{0}</color>\n<size=50%><i>Press {1} to Toggle", currentState.ToString(), toggle.ToString());
+            status.text = phoneMode ? string.Format("Control Mode:\n<color=green>{0}", currentState.ToString()) :
+                string.Format("Control Mode:\n<color=green>{0}</color>\n<size=50%><i>Press {1} to Toggle", currentState.ToString(), toggle.ToString());
         }
 
-        moveVector.x = Input.GetAxis("Horizontal");
-        moveVector.y = Input.GetAxis("Vertical");
-        moveVector.z = Input.GetAxis("Mouse ScrollWheel") * scrollSpeed;
+        if (phoneMode)
+        {
+            moveVector.x = UltimateJoystick.GetHorizontalAxis("Movement");
+            moveVector.y = UltimateJoystick.GetVerticalAxis("Movement");
+            moveVector.z = 0f;
+        }
+        else
+        {
+            moveVector.x = Input.GetAxis("Horizontal");
+            moveVector.y = Input.GetAxis("Vertical");
+            moveVector.z = Input.GetAxis("Mouse ScrollWheel") * scrollSpeed;
+        }
 
         switch (currentState)
         {
