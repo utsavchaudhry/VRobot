@@ -346,7 +346,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &71827714
 GameObject:
@@ -553,7 +553,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &158675945
 GameObject:
@@ -840,6 +840,130 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!1 &439014505
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 439014507}
+  - component: {fileID: 439014506}
+  m_Layer: 0
+  m_Name: FingerSignals
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &439014506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439014505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d2f67b39305ed947935eb6f7d91fdb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index:
+    motors:
+    - id: 1
+      minPWM: 300
+      maxPWM: 850
+      flip: 1
+    - id: 2
+      minPWM: 250
+      maxPWM: 750
+      flip: 1
+    - id: 10
+      minPWM: 0
+      maxPWM: 650
+      flip: 0
+  middle:
+    motors:
+    - id: 3
+      minPWM: 250
+      maxPWM: 1000
+      flip: 1
+    - id: 4
+      minPWM: 100
+      maxPWM: 950
+      flip: 0
+    - id: 11
+      minPWM: 0
+      maxPWM: 600
+      flip: 0
+  ring:
+    motors:
+    - id: 5
+      minPWM: 100
+      maxPWM: 600
+      flip: 0
+    - id: 6
+      minPWM: 0
+      maxPWM: 500
+      flip: 1
+    - id: 12
+      minPWM: 600
+      maxPWM: 1000
+      flip: 1
+  pinky:
+    motors:
+    - id: 7
+      minPWM: 400
+      maxPWM: 750
+      flip: 1
+    - id: 8
+      minPWM: 450
+      maxPWM: 700
+      flip: 0
+    - id: 13
+      minPWM: 0
+      maxPWM: 400
+      flip: 0
+  thumb:
+    motors:
+    - id: 9
+      minPWM: 500
+      maxPWM: 600
+      flip: 0
+    - id: 14
+      minPWM: 300
+      maxPWM: 900
+      flip: 1
+    - id: 15
+      minPWM: 750
+      maxPWM: 1000
+      flip: 1
+    - id: 16
+      minPWM: 100
+      maxPWM: 650
+      flip: 0
+  xrDevice: 580
+  log: 0
+  logText: {fileID: 0}
+  btnText: {fileID: 0}
+  btnImage: {fileID: 0}
+  mode: 1
+--- !u!4 &439014507
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439014505}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &461059523
 GameObject:
   m_ObjectHideFlags: 0
@@ -1478,7 +1602,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &606387396
 GameObject:
@@ -1514,6 +1638,7 @@ MonoBehaviour:
   yawLimit: 45
   maxUpPitch: 45
   maxDownPitch: 75
+  phoneMode: 0
 --- !u!4 &606387398
 Transform:
   m_ObjectHideFlags: 0
@@ -1529,59 +1654,7 @@ Transform:
   - {fileID: 551820863}
   - {fileID: 551495351}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &637250131
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 637250133}
-  - component: {fileID: 637250132}
-  m_Layer: 0
-  m_Name: Clamp_R
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &637250132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 637250131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71de884fed0d43a4bb78c01ade9e4345, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  btnText: {fileID: 0}
-  btnImage: {fileID: 0}
-  motorID: 10
-  minPWM: 2048
-  maxPWM: 2500
-  flip: 1
-  side: 1
-  mode: 1
---- !u!4 &637250133
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 637250131}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &649380476
 GameObject:
@@ -2222,7 +2295,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btnText: {fileID: 0}
   btnImage: {fileID: 0}
-  motorID: 17
+  motorID: 10
   minPWM: 2048
   maxPWM: 2500
   flip: 1
@@ -2241,7 +2314,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &946555850
 GameObject:
@@ -2787,7 +2860,7 @@ MonoBehaviour:
   uTimeRemainingText: {fileID: 1067807043}
   uQueueTimeText: {fileID: 684647586}
   uUserNameText: {fileID: 892625198}
-  defaultRoomName: ShopMetal_1
+  defaultRoomName: VRobot_1
 --- !u!114 &1037693103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2855,7 +2928,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1067807041
 GameObject:
@@ -2979,7 +3052,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1083240399
 GameObject:
@@ -3167,7 +3240,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1283350617
 GameObject:
@@ -4208,7 +4281,7 @@ Transform:
   - {fileID: 1327407594}
   - {fileID: 1301559208}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1680025110
 GameObject:

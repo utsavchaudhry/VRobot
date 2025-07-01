@@ -14,25 +14,24 @@ public class MouseHead : MonoBehaviour
     [SerializeField] private float maxUpPitch = 45f;  // Maximum upward tilt (look up).
     [SerializeField] private float maxDownPitch = 60f; // Maximum downward tilt (look down).
 
-    [Space]
-
-    [SerializeField] private bool phoneMode;
-
     private ConferenceApp conference;
+
     // Accumulated rotation values.
     private float yaw = 0f;   // Horizontal rotation (around Y-axis).
     private float pitch = 0f; // Vertical rotation (around X-axis).
     private float mouseX, mouseY;
     private bool connectionActive;
+    private bool phoneMode;
 
     void Start()
     {
         conference = FindObjectOfType<ConferenceApp>();
+        phoneMode = FindObjectOfType<JoystickInputTargetMover>();
     }
 
     void Update()
     {
-        if (conference && !conference.IsActiveClient())
+        if (TargetMover.FreezeCamera || (conference && !conference.IsActiveClient()))
         {
             connectionActive = false;
             return;
@@ -47,8 +46,8 @@ public class MouseHead : MonoBehaviour
         if (phoneMode)
         {
             // Get joystick input.
-            mouseX = UltimateJoystick.GetHorizontalAxis("Camera") * sensitivityX;
-            mouseY = UltimateJoystick.GetVerticalAxis("Camera") * sensitivityY;
+            mouseX = UltimateJoystick.GetHorizontalAxis("Right") * sensitivityX;
+            mouseY = UltimateJoystick.GetVerticalAxis("Right") * sensitivityY;
         }
         else
         {

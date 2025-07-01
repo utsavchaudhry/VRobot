@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
 using UnityEngine.XR;
 using System.Linq;
 using TMPro;
@@ -61,19 +63,8 @@ public class JoystickFingerSignalGenerator : MonoBehaviour
     [SerializeField] private Finger pinky;
     [SerializeField] private Finger thumb;
     [SerializeField] private InputDeviceCharacteristics xrDevice;
-    [SerializeField] private bool pcMode;
 
     private List<FingerMotor> motorListSorted;
-
-    private void Start()
-    {
-        motorListSorted = index.motors.Concat(middle.motors)
-            .Concat(ring.motors)
-            .Concat(pinky.motors)
-            .Concat(thumb.motors)
-            .OrderBy(m => m.GetID())
-            .ToList();
-    }
 
     private InputDevice targetDevice;
 
@@ -84,10 +75,50 @@ public class JoystickFingerSignalGenerator : MonoBehaviour
     public float TriggerValue { get; private set; }
     public float GripValue { get; private set; }
 
-    /// <summary>
-    /// Attempt to initialize the XR input device.
-    /// Here, we search for a device with the characteristics of a held-in-hand controller.
-    /// </summary>
+    [SerializeField] private bool log;
+    [SerializeField] private TextMeshProUGUI logText;
+
+    [SerializeField] private TextMeshProUGUI btnText;
+    [SerializeField] private Image btnImage;
+
+    private enum Mode { VR, PC, Mobile }
+    [SerializeField] private Mode mode;
+
+    private Color openColor;
+    private Color closedColor;
+
+    private void Start()
+    {
+        if (btnImage)
+        {
+            openColor = btnImage.color;
+        }
+        closedColor = new Color(1f, 0f, 0f, Mathf.Clamp01(openColor.a * 3f));
+
+        motorListSorted = index.motors.Concat(middle.motors)
+            .Concat(ring.motors)
+            .Concat(pinky.motors)
+            .Concat(thumb.motors)
+            .OrderBy(m => m.GetID())
+            .ToList();
+
+        UpdateBtnText();
+    }
+
+    private void UpdateBtnText()
+    {
+        if (btnText)
+        {
+            btnText.text = (TriggerValue == 0f ? "Close\n" : "Open\n") + (xrDevice == InputDeviceCharacteristics.Left ? "Left " : "Right ") + "Hand";
+        }
+
+        if (btnImage)
+        {
+            _ = btnImage.DOKill();
+            _ = btnImage.DOColor(TriggerValue == 0f ? openColor : closedColor, 0.15f);
+        }
+    }
+
     private void InitializeDevice()
     {
         List<InputDevice> devices = new();
@@ -100,32 +131,39 @@ public class JoystickFingerSignalGenerator : MonoBehaviour
         }
     }
 
-    [SerializeField] private bool log;
-    [SerializeField] private TextMeshProUGUI logText;
+    public void Toggle()
+    {
+        TriggerValue = TriggerValue == 0f ? 1f : 0f;
+        UpdateBtnText();
+    }
 
-    /// <summary>
-    /// In each frame, the script queries the XR device for the current sensor values.
-    /// </summary>
     private void Update()
     {
-        if (pcMode)
+        switch (mode)
         {
-            TriggerValue = Input.GetMouseButton(xrDevice == InputDeviceCharacteristics.Left ? 0 : 1) ? 1f : 0f;
+            case Mode.VR:
+                if (!deviceInitialized)
+                {
+                    InitializeDevice();
+                }
+                if (deviceInitialized)
+                {
+                    TriggerValue = targetDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerVal) ? triggerVal : 0f;
+                    GripValue = targetDevice.TryGetFeatureValue(CommonUsages.grip, out float gripValue) ? gripValue : 0f;
+                }
+                break;
+            case Mode.PC:
+                TriggerValue = Input.GetMouseButton(xrDevice == InputDeviceCharacteristics.Left ? 0 : 1) ? 1f : 0f;
+                break;
+            case Mode.Mobile:
+                break;
+            default:
+                break;
         }
-        else
-        {
-            // If the device has not been initialized yet, attempt to locate it.
-            if (!deviceInitialized)
-            {
-                InitializeDevice();
-            }
 
-            if (deviceInitialized)
-            {
-                // Retrieve the analog trigger and grip value (0 to 1).
-                TriggerValue = targetDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerVal) ? triggerVal : 0f;
-                GripValue = targetDevice.TryGetFeatureValue(CommonUsages.grip, out float gripValue) ? gripValue : 0f;
-            }
+        if (mode != Mode.VR)
+        {
+            GripValue = TriggerValue;
         }
 
         index.CalculateSignal(TriggerValue);

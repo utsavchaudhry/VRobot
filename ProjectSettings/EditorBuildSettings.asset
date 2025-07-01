@@ -5,15 +5,30 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/HopeLite/ShopMetal/HopeLite_MobileOperator_ShopMetal.unity
-    guid: c5348869ca7e2a745a11d3a1c1242168
   - enabled: 0
     path: Assets/Scenes/HopeLite/ShopMetal/HopeLite_Robot_ShopMetal.unity
     guid: 47d8a7732784f1f4bbcb9c231ece3f02
   - enabled: 0
+    path: Assets/Scenes/HopeLite/ShopMetal/PlatformDetector.unity
+    guid: ad858edced7cc1c4ab412e35d74b2e1c
+  - enabled: 0
+    path: Assets/Scenes/HopeLite/ShopMetal/HopeLite_MobileOperator_ShopMetal.unity
+    guid: c5348869ca7e2a745a11d3a1c1242168
+  - enabled: 0
     path: Assets/Scenes/HopeLite/ShopMetal/HopeLite_PCOperator_ShopMetal.unity
     guid: f0e6e5148e4b70e46bf814e0605b7e6e
+  - enabled: 0
+    path: Assets/Scenes/HopeLite/VRobot/VRobot_Robot.unity
+    guid: 0300c8161a898984ea2769392d47fa5f
+  - enabled: 1
+    path: Assets/Scenes/HopeLite/VRobot/PlatformDetector.unity
+    guid: ff49afba5fc972e48aa3be42d48e6527
+  - enabled: 1
+    path: Assets/Scenes/HopeLite/VRobot/VRobot_MobileOperator.unity
+    guid: 08453487b151f1c4f985705cdf46fe27
+  - enabled: 1
+    path: Assets/Scenes/HopeLite/VRobot/VRobot_PCOperator.unity
+    guid: 4586931ffcf57ff48942240ba7adaebf
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: bfa1182bd221b4ca89619141f66f1260, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 5c40b7b0019cb9c44a7cd85882052293, type: 2}

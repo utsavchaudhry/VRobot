@@ -58,7 +58,7 @@ public class NetMessage : MonoBehaviour
         Clamp[] clamps = FindObjectsOfType<Clamp>();
         ConferenceApp conference = FindObjectOfType<ConferenceApp>();
         XRJoystickDifferentialDrive differentialDrive = FindObjectOfType<XRJoystickDifferentialDrive>();
-        KeyboardInputTargetMover keyboardMover = FindObjectOfType<KeyboardInputTargetMover>();
+        TargetMover targetMover = FindObjectOfType<TargetMover>();
         bool online = !(FindObjectOfType<SerialHandler>() || FindObjectOfType<SerialManager>() || FindObjectOfType<SerialPortUtilityPro>());
         signals = new();
 
@@ -110,16 +110,16 @@ public class NetMessage : MonoBehaviour
                                     _ = _msg.Append(differentialDrive.RightWheelSpeed.ToString("F1"));
                                     _ = _logmsg.Append(differentialDrive.RightWheelSpeed.ToString("F1"));
                                 }
-                                else if (keyboardMover)
+                                else if (targetMover)
                                 {
-                                    _ = _msg.Append(keyboardMover.LeftWheelSpeed.ToString("F1"));
-                                    _ = _logmsg.Append(keyboardMover.LeftWheelSpeed.ToString("F1"));
+                                    _ = _msg.Append(targetMover.LeftWheelSpeed.ToString("F1"));
+                                    _ = _logmsg.Append(targetMover.LeftWheelSpeed.ToString("F1"));
 
                                     _ = _msg.Append(",");
                                     _ = _logmsg.Append(",");
 
-                                    _ = _msg.Append(keyboardMover.RightWheelSpeed.ToString("F1"));
-                                    _ = _logmsg.Append(keyboardMover.RightWheelSpeed.ToString("F1"));
+                                    _ = _msg.Append(targetMover.RightWheelSpeed.ToString("F1"));
+                                    _ = _logmsg.Append(targetMover.RightWheelSpeed.ToString("F1"));
                                 }
                                 conference.SendMsg(_msg.ToString());
                                 DataLoggerManager.SaveSignal(_logmsg.ToString());

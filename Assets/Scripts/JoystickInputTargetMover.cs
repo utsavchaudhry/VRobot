@@ -1,18 +1,16 @@
 using UnityEngine;
 
-public class KeyboardInputTargetMover : TargetMover
+public class JoystickInputTargetMover : TargetMover
 {
-    [SerializeField] private KeyCode toggle = KeyCode.T;
-    [SerializeField] private float scrollSpeed = 15f;
-
-    private enum State { Wheels, Left, Right }
+    private enum State { Wheels, Arms }
     private State currentState;
-    private Vector3 moveVector;
+    private float leftX, leftY, rightX, rightY;
     private float forwardSpeed;
 
     protected override void Start()
     {
         base.Start();
+        FreezeCamera = currentState == State.Arms;
     }
 
     protected override void UpdateStatusUI()
@@ -22,7 +20,7 @@ public class KeyboardInputTargetMover : TargetMover
             return;
         }
 
-        status.text = string.Format("Control Mode:\n<color=green>{0}</color>\n<size=50%><i>Press {1} to Toggle", currentState.ToString(), toggle.ToString());
+        status.text = status.text = string.Format("Control Mode:\n<color=green>{0}", currentState.ToString());
     }
 
     public void CycleControlMode()
@@ -32,7 +30,7 @@ public class KeyboardInputTargetMover : TargetMover
             return;
         }
 
-        if (currentState == State.Right)
+        if (currentState == State.Arms)
         {
             currentState = 0;
         }
@@ -40,6 +38,8 @@ public class KeyboardInputTargetMover : TargetMover
         {
             currentState++;
         }
+
+        FreezeCamera = currentState == State.Arms;
 
         UpdateStatusUI();
     }
@@ -51,32 +51,27 @@ public class KeyboardInputTargetMover : TargetMover
             return;
         }
 
-        if (Input.GetKeyDown(toggle))
-        {
-            CycleControlMode();
-        }
-
-        moveVector.x = Input.GetAxis("Horizontal");
-        moveVector.y = Input.GetAxis("Vertical");
-        moveVector.z = Input.GetAxis("Mouse ScrollWheel") * scrollSpeed;
+        leftX = UltimateJoystick.GetHorizontalAxis("Left");
+        leftY = UltimateJoystick.GetVerticalAxis("Left");
+        rightX = UltimateJoystick.GetHorizontalAxis("Right");
+        rightY = UltimateJoystick.GetVerticalAxis("Right");
 
         switch (currentState)
         {
             case State.Wheels:
-
-                if (moveVector.y < 0)
+                if (leftY < 0)
                 {
                     // For backward motion, scale the speed by backwardSpeedPercentage
-                    forwardSpeed = moveVector.y * maxLinearSpeed * backwardSpeedPercentage;
+                    forwardSpeed = leftY * maxLinearSpeed * backwardSpeedPercentage;
                 }
                 else
                 {
                     // For forward motion, use the full maxLinearSpeed
-                    forwardSpeed = moveVector.y * maxLinearSpeed;
+                    forwardSpeed = leftY * maxLinearSpeed;
                 }
 
                 // The turn speed remains unaffected
-                float turnSpeed = moveVector.x * maxTurnSpeed;
+                float turnSpeed = leftX * maxTurnSpeed;
 
                 // Differential drive logic:
                 //   Left  wheel = forwardSpeed + turnSpeed
@@ -85,12 +80,14 @@ public class KeyboardInputTargetMover : TargetMover
                 RightWheelSpeed = forwardSpeed - turnSpeed;
 
                 break;
-            case State.Left:
-                TranslateAndClamp(leftIkTarget, moveVector, minLeftHandPosition, maxLeftHandPosition);
+
+            case State.Arms:
+
+                TranslateAndClamp(leftIkTarget, new Vector3(leftX, leftY, 0f), minLeftHandPosition, maxLeftHandPosition);
+                TranslateAndClamp(rightIkTarget, new Vector3(rightX, rightY, 0f), minLeftHandPosition, maxLeftHandPosition);
+
                 break;
-            case State.Right:
-                TranslateAndClamp(rightIkTarget, moveVector, minLeftHandPosition, maxLeftHandPosition);
-                break;
+
             default:
                 break;
         }
