@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -696,12 +696,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71de884fed0d43a4bb78c01ade9e4345, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  btnText: {fileID: 0}
+  btnImage: {fileID: 0}
   motorID: 10
   minPWM: 2048
   maxPWM: 2500
   flip: 1
-  pcMode: 0
   side: 0
+  mode: 0
 --- !u!4 &1114127007
 Transform:
   m_ObjectHideFlags: 0
@@ -905,9 +907,11 @@ MonoBehaviour:
       maxPWM: 650
       flip: 0
   xrDevice: 580
-  pcMode: 0
   log: 0
   logText: {fileID: 0}
+  btnText: {fileID: 0}
+  btnImage: {fileID: 0}
+  mode: 0
 --- !u!4 &1294481652
 Transform:
   m_ObjectHideFlags: 0
@@ -1723,7 +1727,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -162.00002}
+  m_AnchoredPosition: {x: 0, y: -162}
   m_SizeDelta: {x: -480.00012, y: -120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1927937297
@@ -1959,7 +1963,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -162.00002}
+  m_AnchoredPosition: {x: 0, y: -162}
   m_SizeDelta: {x: -480.00012, y: -120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2048247056
@@ -2416,7 +2420,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224469193533178148, guid: f40071bb3b9da854d85ad3c363192151, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0009765625
+      value: -0.0033569336
       objectReference: {fileID: 0}
     - target: {fileID: 224499968744116904, guid: f40071bb3b9da854d85ad3c363192151, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2678,7 +2682,7 @@ MonoBehaviour:
   initDelay: 0.1
   shutdownHoldTime: 1.5
   roomName: HopeJr
-  enableAudio: 0
+  enableAudio: 1
   enableVideo: 0
   settingsPanel: {fileID: 2065012885}
   roomNameField: {fileID: 2065012884}
@@ -3022,6 +3026,18 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6344992501876801760, guid: 21edbf1f15e06a246802e199ad276038, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 6344992501876801760, guid: 21edbf1f15e06a246802e199ad276038, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 6344992501876801760, guid: 21edbf1f15e06a246802e199ad276038, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 6344992501876801760, guid: 21edbf1f15e06a246802e199ad276038, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -3061,6 +3077,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6344992501876801760, guid: 21edbf1f15e06a246802e199ad276038, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6344992501876801761, guid: 21edbf1f15e06a246802e199ad276038, type: 3}
       propertyPath: m_Name
       value: HopeLite
@@ -3077,6 +3097,10 @@ PrefabInstance:
       propertyPath: rTarget
       value: 
       objectReference: {fileID: 1828766444}
+    - target: {fileID: 6344992501876801775, guid: 21edbf1f15e06a246802e199ad276038, type: 3}
+      propertyPath: noCalibration
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6344992501876801775, guid: 21edbf1f15e06a246802e199ad276038, type: 3}
       propertyPath: statusTexts.Array.data[0]
       value: 

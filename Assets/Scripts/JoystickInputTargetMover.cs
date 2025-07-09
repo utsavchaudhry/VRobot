@@ -84,7 +84,7 @@ public class JoystickInputTargetMover : TargetMover
             case State.Arms:
 
                 TranslateAndClamp(leftIkTarget, new Vector3(leftX, leftY, 0f), minLeftHandPosition, maxLeftHandPosition);
-                TranslateAndClamp(rightIkTarget, new Vector3(rightX, rightY, 0f), minLeftHandPosition, maxLeftHandPosition);
+                TranslateAndClamp(rightIkTarget, new Vector3(rightX, rightY, 0f), minRightHandPosition, maxRightHandPosition);
 
                 break;
 

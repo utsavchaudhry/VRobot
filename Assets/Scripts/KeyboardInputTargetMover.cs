@@ -89,7 +89,7 @@ public class KeyboardInputTargetMover : TargetMover
                 TranslateAndClamp(leftIkTarget, moveVector, minLeftHandPosition, maxLeftHandPosition);
                 break;
             case State.Right:
-                TranslateAndClamp(rightIkTarget, moveVector, minLeftHandPosition, maxLeftHandPosition);
+                TranslateAndClamp(rightIkTarget, moveVector, minRightHandPosition, maxRightHandPosition);
                 break;
             default:
                 break;
