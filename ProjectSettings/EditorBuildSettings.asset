@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Scenes/HopeLite/ShopMetal/HopeLite_Robot_ShopMetal.unity
+  path: Assets/Scenes/HopeLite/ShopMetal/HopeLite_Robot_ShopMetal.unity
     guid: 47d8a7732784f1f4bbcb9c231ece3f02
   - enabled: 0
     path: Assets/Scenes/HopeLite/ShopMetal/PlatformDetector.unity
@@ -27,7 +27,7 @@ EditorBuildSettings:
     path: Assets/Scenes/HopeLite/VRobot/PlatformDetector.unity
     guid: ff49afba5fc972e48aa3be42d48e6527
   - enabled: 0
-    path: Assets/Scenes/HopeLite/VRobot/VRobot_MobileOperator.unity
+  path: Assets/Scenes/HopeLite/VRobot/VRobot_MobileOperator.unity
     guid: 08453487b151f1c4f985705cdf46fe27
   - enabled: 0
     path: Assets/Scenes/HopeLite/VRobot/VRobot_PCOperator.unity
