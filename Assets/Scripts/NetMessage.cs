@@ -56,13 +56,14 @@ public class NetMessage : MonoBehaviour
     {
         ServoJoint[] servoJoints = FindObjectsOfType<ServoJoint>().OrderBy(j => j.GetMotorID()).ToArray();
         Clamp[] clamps = FindObjectsOfType<Clamp>();
-        ChatApp _chatAppobj = FindObjectOfType<ChatApp>();
+        ConferenceApp conference = FindObjectOfType<ConferenceApp>();
+        CallAppUi callApp = FindObjectOfType<CallAppUi>();
         XRJoystickDifferentialDrive differentialDrive = FindObjectOfType<XRJoystickDifferentialDrive>();
-        KeyboardInputTargetMover keyboardMover = FindObjectOfType<KeyboardInputTargetMover>();
-        bool online = !(FindObjectOfType<SerialHandler>() || FindObjectOfType<SerialCommunicator>() || FindObjectOfType<SerialPortUtilityPro>());
+        TargetMover targetMover = FindObjectOfType<TargetMover>();
+        bool online = !(FindObjectOfType<SerialHandler>() || FindObjectOfType<SerialManager>() || FindObjectOfType<SerialPortUtilityPro>());
         signals = new();
 
-        while (_chatAppobj || !online)
+        while (conference || !online || callApp)
         {
             if (!VRobot.IsPaused)
             {
@@ -93,35 +94,41 @@ public class NetMessage : MonoBehaviour
                         //send at last index
                         if (i == servoJoints.Length - 1)
                         {
-                            if (_chatAppobj)
+                            _ = _msg.Append(",f,");
+                            _ = _msg.Append(JoystickFingerSignalGenerator.Signal);
+                            _ = _msg.Append(",");
+                            _ = _logmsg.Append(",");
+                            if (differentialDrive)
                             {
-                                _ = _msg.Append(",f,");
-                                _ = _msg.Append(JoystickFingerSignalGenerator.Signal);
+                                _ = _msg.Append(differentialDrive.LeftWheelSpeed.ToString("F1"));
+                                _ = _logmsg.Append(differentialDrive.LeftWheelSpeed.ToString("F1"));
+
                                 _ = _msg.Append(",");
                                 _ = _logmsg.Append(",");
-                                if (differentialDrive)
-                                {
-                                    _ = _msg.Append(differentialDrive.LeftWheelSpeed.ToString("F1"));
-                                    _ = _logmsg.Append(differentialDrive.LeftWheelSpeed.ToString("F1"));
 
-                                    _ = _msg.Append(",");
-                                    _ = _logmsg.Append(",");
+                                _ = _msg.Append(differentialDrive.RightWheelSpeed.ToString("F1"));
+                                _ = _logmsg.Append(differentialDrive.RightWheelSpeed.ToString("F1"));
+                            }
+                            else if (targetMover)
+                            {
+                                _ = _msg.Append(targetMover.LeftWheelSpeed.ToString("F1"));
+                                _ = _logmsg.Append(targetMover.LeftWheelSpeed.ToString("F1"));
 
-                                    _ = _msg.Append(differentialDrive.RightWheelSpeed.ToString("F1"));
-                                    _ = _logmsg.Append(differentialDrive.RightWheelSpeed.ToString("F1"));
-                                }
-                                else if (keyboardMover)
-                                {
-                                    _ = _msg.Append(keyboardMover.LeftWheelSpeed.ToString("F1"));
-                                    _ = _logmsg.Append(keyboardMover.LeftWheelSpeed.ToString("F1"));
+                                _ = _msg.Append(",");
+                                _ = _logmsg.Append(",");
 
-                                    _ = _msg.Append(",");
-                                    _ = _logmsg.Append(",");
+                                _ = _msg.Append(targetMover.RightWheelSpeed.ToString("F1"));
+                                _ = _logmsg.Append(targetMover.RightWheelSpeed.ToString("F1"));
+                            }
 
-                                    _ = _msg.Append(keyboardMover.RightWheelSpeed.ToString("F1"));
-                                    _ = _logmsg.Append(keyboardMover.RightWheelSpeed.ToString("F1"));
-                                }
-                                _chatAppobj.SendButtonPressed(_msg.ToString());
+                            if (conference && conference.IsActiveClient())
+                            {
+                                conference.SendMsg(_msg.ToString());
+                                DataLoggerManager.SaveSignal(_logmsg.ToString());
+                            }
+                            else if (callApp)
+                            {
+                                callApp.SendMsg(_msg.ToString());
                                 DataLoggerManager.SaveSignal(_logmsg.ToString());
                             }
 

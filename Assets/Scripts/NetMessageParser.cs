@@ -10,52 +10,57 @@ public class NetMessageParser : MonoBehaviour
     [SerializeField] private bool log;
 
     private Dictionary<int, int> signals;
-    public static bool paused;
+    private bool paused = true;
 
     private void Start()
     {
         signals = new Dictionary<int, int>();
 
-        ChatApp.OnMsgReceived += Parse;
-
-        paused = false;
+        ConferenceApp.OnMsgReceived += Parse;
+        ConferenceApp.OnUserChanged += ResetRobot;
+        ConferenceApp.OnUserDisconnected += ResetRobot;
     }
 
     private void OnDestroy()
     {
-        ChatApp.OnMsgReceived -= Parse;
+        ConferenceApp.OnMsgReceived -= Parse;
+        ConferenceApp.OnUserChanged -= ResetRobot;
+        ConferenceApp.OnUserDisconnected -= ResetRobot;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
+            ResetRobot();
             paused = !paused;
-            if (statusText)
-            {
-                statusText.text = paused ? "Paused" : string.Empty;
-            }
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (statusText)
         {
-            Parse(defaultPosition);
+            statusText.text = paused ? "Paused" : string.Empty;
         }
     }
 
     private void Parse(string msg)
     {
-        if (string.IsNullOrWhiteSpace(msg) || !msg.Contains(',') || paused)
+        if (paused)
         {
             return;
         }
 
         msg = msg[(msg.IndexOf(':') + 1)..];
 
-        int id = 1;
-
         string[] signalStream = msg.Split(',');
+
+        if (signalStream.Length <= 15)
+        {
+            return;
+        }
+
+        int id = 1;
         bool fingers = false;
+
         for (int i = 0; i < signalStream.Length - 2; i++)
         {
             string part = signalStream[i];
@@ -112,6 +117,14 @@ public class NetMessageParser : MonoBehaviour
             id++;
         }
 
-        _ = SerialManager.Instance.SendSerialMessage(MICRO.XIAOMI_MOTORS, signalStream[^2] + "," + signalStream[^1]);
+        if (float.TryParse(signalStream[^2], out float lSpeed) && float.TryParse(signalStream[^2], out float rSpeed) && lSpeed <= 5f && rSpeed <= 5f)
+        {
+            _ = SerialManager.Instance.SendSerialMessage(MICRO.XIAOMI_MOTORS, signalStream[^2] + "," + signalStream[^1]);
+        }
+    }
+
+    private void ResetRobot()
+    {
+        Parse(defaultPosition);
     }
 }

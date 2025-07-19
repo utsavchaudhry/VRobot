@@ -1,4 +1,5 @@
 using UnityEngine;
+using Byn.Unity.Examples;
 
 public class MouseHead : MonoBehaviour
 {
@@ -13,21 +14,47 @@ public class MouseHead : MonoBehaviour
     [SerializeField] private float maxUpPitch = 45f;  // Maximum upward tilt (look up).
     [SerializeField] private float maxDownPitch = 60f; // Maximum downward tilt (look down).
 
+    private ConferenceApp conference;
+
     // Accumulated rotation values.
     private float yaw = 0f;   // Horizontal rotation (around Y-axis).
     private float pitch = 0f; // Vertical rotation (around X-axis).
+    private float mouseX, mouseY;
+    private bool connectionActive;
+    private bool phoneMode;
 
     void Start()
     {
-        // Lock the cursor to the center of the screen.
-        Cursor.lockState = CursorLockMode.Locked;
+        conference = FindObjectOfType<ConferenceApp>();
+        phoneMode = FindObjectOfType<JoystickInputTargetMover>();
     }
 
     void Update()
     {
-        // Get mouse input.
-        float mouseX = Input.GetAxis("Mouse X") * sensitivityX;
-        float mouseY = Input.GetAxis("Mouse Y") * sensitivityY;
+        if (TargetMover.FreezeCamera || (conference && !conference.IsActiveClient()))
+        {
+            connectionActive = false;
+            return;
+        }
+
+        if (!phoneMode && !connectionActive)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            connectionActive = true;
+        }
+        
+        if (phoneMode)
+        {
+            // Get joystick input.
+            mouseX = UltimateJoystick.GetHorizontalAxis("Right") * sensitivityX;
+            mouseY = UltimateJoystick.GetVerticalAxis("Right") * sensitivityY;
+        }
+        else
+        {
+            // Get mouse input.
+            mouseX = Input.GetAxis("Mouse X") * sensitivityX;
+            mouseY = Input.GetAxis("Mouse Y") * sensitivityY;
+        }
 
         // Update yaw (horizontal rotation). 
         yaw += mouseX;

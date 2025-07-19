@@ -6,7 +6,9 @@
 using Byn.Awrtc;
 using Byn.Awrtc.Unity;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -143,7 +145,6 @@ namespace Byn.Unity.Examples
             public GameObject uiObject;
             public Texture2D texture;
             public RawImage image;
-
         }
 
         /// <summary>
@@ -167,6 +168,39 @@ namespace Byn.Unity.Examples
         /// <summary>
         /// Unity start.
         /// </summary>
+       //Robot controller variables ------------------------------
+        public bool mIsHost;
+        private ConnectionId? mCurrentClient = null; // Currently controlling client (null if none)
+        private Queue<ConnectionId> mClientQueue = new Queue<ConnectionId>(); // Waiting clients
+        private float mControlTimer = 0f;
+        [SerializeField] private float mControlTimeLimit = 1200f;
+        [SerializeField] private float baseQueueWaitTime = 1200f; // total wait time in queue
+        private float myWaitTime = 0f;
+        private bool isIdAssigned;
+        private bool mIsActiveClient = false;
+        private const float MUTED_VOLUME = 0.0f;
+        private const float UNMUTED_VOLUME = 1.0f;
+        private bool timerStarted, isTimeoverFlag;
+
+        private List<ConnectionId> mConnectedClients = new List<ConnectionId>();
+
+        [Header("Robot Control UI")]
+        public Text uCurrentTimeText;
+        public Text uCurrentControllerText;
+        public Text uQueueCountText;
+        public Text uQueueListText;
+        public Text uTimeRemainingText;
+        public Text uQueueTimeText;
+        public Text uUserNameText;
+        private ConnectionId? mHostConnectionId = null;
+        private string mIdRequestToken;
+        private ConnectionId mMyConnectionId, mRearId;
+        private ConnectionId lastDisconnectId;
+
+        public static event Action OnUserChanged, OnUserDisconnected;
+
+        private Coroutine timerRoutine;
+
         private void Start()
         {
             UnityCallFactory.RequestLogLevelStatic(UnityCallFactory.LogLevel.Info);
@@ -174,15 +208,31 @@ namespace Byn.Unity.Examples
             //lets just give them a random number for now. 
             mOwnUserName = mOwnUserName + "_" + (int)UnityEngine.Random.Range(0, 10000);
             mIdToUser = new Dictionary<ConnectionId, string>();
+
+            _ = StartCoroutine(JoinWithDelay());
         }
-        
+
+        private IEnumerator JoinWithDelay()
+        {
+            yield return new WaitForSeconds(0.5f);
+
+            AudioToggle(true);
+            VideoToggle(true);
+
+            JoinButtonPressed();
+        }
+
+        [Space]
+
+        [SerializeField] private string defaultRoomName = "ShopMetal_1";
+
         protected virtual void OnCallFactoryReady()
         {
             //to trigger android permission requests
             StartCoroutine(ExampleGlobals.RequestPermissions());
-            //use video and audio by default (the UI is toggled on by default as well it will change on click )
-            MediaConfig.Video = false;
-            MediaConfig.Audio = false;
+
+            MediaConfig.Video = true;
+            MediaConfig.Audio = true;
             MediaConfig.VideoDeviceName = UnityCallFactory.Instance.GetDefaultVideoDevice();
 
             NetConfig.KeepSignalingAlive = true;
@@ -190,7 +240,7 @@ namespace Byn.Unity.Examples
             NetConfig.IceServers.Add(ExampleGlobals.DefaultIceServer);
             NetConfig.SignalingUrl = ExampleGlobals.SignalingConference;
             NetConfig.IsConference = true;
-            this.uRoomName.text = Application.productName + "_con";
+            uRoomName.text = defaultRoomName;
         }
 
         protected virtual void OnCallFactoryFailed(string error)
@@ -208,7 +258,7 @@ namespace Byn.Unity.Examples
         /// <param name="useVideo">Uses a local camera for the call. The camera will start
         /// generating new frames after this call so the user can see himself before
         /// the call is connected.</param>
-        private void Setup(bool useAudio = true, bool useVideo = true)
+        private void Setup(bool useAudio = false, bool useVideo = false)
         {
             Append("Setting up ...");
 
@@ -225,9 +275,7 @@ namespace Byn.Unity.Examples
             mCall.CallEvent += Call_CallEvent;
 
             //setup local video element
-            SetupVideoUi(ConnectionId.INVALID);
             mCall.Configure(MediaConfig);
-
 
             SetGuiState(false);
         }
@@ -289,10 +337,10 @@ namespace Byn.Unity.Examples
                     {
                         //text message received
                         MessageEventArgs args = e as MessageEventArgs;
-                        
+
                         //due to timing issues it can happen that a message arrives before we get the NewUser notification
                         //if we get a message from a not yet known user we add them here
-                        if(mIdToUser.ContainsKey(args.ConnectionId) == false)
+                        if (mIdToUser.ContainsKey(args.ConnectionId) == false)
                         {
                             AddNewConnection(args.ConnectionId);
                         }
@@ -309,6 +357,131 @@ namespace Byn.Unity.Examples
                             string name = mIdToUser[args.ConnectionId];
                             Append(name + ":" + args.Content);
                         }
+
+                        if (args.Content.StartsWith("REQUEST_ID:"))
+                        {
+                            if (mIsHost)
+                            {
+                                string token = args.Content.Substring(11);
+                                mCall.Send($"YOUR_ID:{token}:{args.ConnectionId}");
+                                uUserNameText.text = $" connection ID: {mMyConnectionId}";
+                                Debug.Log($"Sent connection ID {args.ConnectionId} to client");
+                            }
+                        }
+
+                        if (args.Content.StartsWith("YOUR_ID:"))
+                        {
+                            if (!mIsHost)
+                            {
+                                if (!isIdAssigned)
+                                {
+                                    string[] parts = args.Content.Split(':');
+                                    mMyConnectionId = new ConnectionId(short.Parse(parts[2]));
+                                    uUserNameText.text = $" connection ID: {mMyConnectionId}";
+                                    isIdAssigned = true;
+
+                                    Debug.Log($"Received our connection ID: {mMyConnectionId}");
+                                }
+
+                            }
+                        }
+                        if (args.Content.StartsWith("REAR:"))
+                        {
+                            string rearInQueue = args.Content.Substring(5);
+                            mRearId = new ConnectionId(short.Parse(rearInQueue));
+
+                            if (isTimeoverFlag)
+                            {
+                                isTimeoverFlag = false;
+                                mCall.Send($"SWITCH_CONTROL:{mMyConnectionId}");
+                                RemoveVideo(mHostConnectionId.Value);
+                            }
+                        }
+
+                        if (args.Content.StartsWith("CONTROL_GRANTED:"))
+                        {
+                            string _id = args.Content.Substring(16);
+                            if (short.TryParse(_id, out short connId))
+                            {
+                                ConnectionId roleAssignedId = new ConnectionId(connId);
+
+                                if (roleAssignedId == mMyConnectionId)
+                                {
+                                    Append("Control granted to you! You can now control the robot.");
+                                    if (mHostConnectionId.HasValue)
+                                    {
+                                        mCall.SetVolume(UNMUTED_VOLUME, mHostConnectionId.Value);
+                                    }
+                                    mIsActiveClient = true;
+                                    if (!mIsHost)
+                                    {
+                                        if (timerRoutine != null)
+                                        {
+                                            uQueueTimeText.enabled = false;
+                                            StopCoroutine(timerRoutine);
+                                        }
+
+                                        StartCoroutine(HandleRobotCommand());
+
+                                    }
+                                }
+                                else
+                                {
+                                    if (mIsActiveClient)
+                                    {
+                                        mIsActiveClient = false;
+
+                                        if (mHostConnectionId.HasValue)
+                                        {
+                                            mCall.SetVolume(MUTED_VOLUME, mHostConnectionId.Value);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (args.Content.StartsWith("WAIT_TIME:"))
+                        {
+                            string[] parts = args.Content.Split(':');
+
+                            myWaitTime = float.Parse(parts[1]);
+                            if (myWaitTime < 0)
+                            {
+                                uQueueTimeText.text = "Not in queue";
+                            }
+
+                            if (!timerStarted)
+                            {
+                                timerStarted = true;
+                                timerRoutine = StartCoroutine(SetWaitTime(myWaitTime));
+                            }
+
+                        }
+
+                        float discardedQueueTime = 0;
+                        if (args.Content.StartsWith("DISCONNECTED:"))
+                        {
+                            discardedQueueTime = float.Parse(args.Content.Substring(13));
+                            DecreaseQueueTime(discardedQueueTime, lastDisconnectId);
+                        }
+
+                        if (args.Content.StartsWith("EXTEND_TIME:"))
+                        {
+                            float extraTime = float.Parse(args.Content.Substring(12));
+                            myWaitTime -= extraTime;
+                            StopCoroutine(timerRoutine);
+                            timerRoutine = StartCoroutine(SetWaitTime(myWaitTime));
+                        }
+
+                        if (args.Content.StartsWith("SWITCH_CONTROL"))
+                        {
+                            if (mIsHost)
+                            {
+                                AssignNextClient();
+                            }
+
+                        }
+
                         break;
                     }
                 case CallEventType.WaitForIncomingCall:
@@ -329,10 +502,29 @@ namespace Byn.Unity.Examples
         /// <param name="args"></param>
         private void OnNewCall(CallAcceptedEventArgs args)
         {
-            SetupVideoUi(args.ConnectionId);
             AddNewConnection(args.ConnectionId);
-            //let them know our username!
-            mCall.Send(mOwnUserName);
+
+            if (mIsHost)
+            {
+                mCall.Send("HOST:" + mOwnUserName);
+                Append("Robot is ready. Waiting for clients...");
+            }
+            else
+            {
+                mCall.Send("CLIENT:" + mOwnUserName);
+                if (!isIdAssigned)
+                {
+                    mIdRequestToken = Guid.NewGuid().ToString().Substring(0, 8);
+                    mCall.Send($"REQUEST_ID:{mIdRequestToken}");
+                    Debug.Log("Requested our connection ID from host");
+                }
+
+                if (mHostConnectionId.HasValue && !mIsActiveClient)
+                {
+                    mCall.SetVolume(MUTED_VOLUME, mHostConnectionId.Value);
+                }
+            }
+
         }
 
         /// <summary>
@@ -344,10 +536,10 @@ namespace Byn.Unity.Examples
         private void AddNewConnection(ConnectionId id)
         {
             //new connection. we do not know who that is yet until we get the first message!
-            if(mIdToUser.ContainsKey(id) == false)
+            if (mIdToUser.ContainsKey(id) == false)
             {
                 mIdToUser[id] = "unknown";
-                Append("New connection with ID " + id + " username not yet known");
+                Append("New connection with ID " + id);
             }
 
         }
@@ -355,17 +547,171 @@ namespace Byn.Unity.Examples
         private void OnNewUserDiscovered(string name, ConnectionId id)
         {
             Debug.Log("Received first message from ConnectionId " + id + "! Their username is " + name);
-            //store for later use
-            mIdToUser[id] = name;
-            Append("New user discovered name: " + name + " and connection id: " + id);
+
+
+            if (name.StartsWith("CLIENT:")) //host reads this
+            {
+                mIdToUser[id] = name.Substring(7);
+                Append("Client connected: " + mIdToUser[id]);
+                mConnectedClients.Add(id);
+
+                if (mIsHost)
+                {
+                    // Add client to queue
+                    mClientQueue.Enqueue(id);
+                    Append($"{id} Added To Queue");
+                    ConnectionId lastId = mClientQueue.Last();
+                    mCall.Send("REAR:" + lastId);
+                    UpdateClientWaitTimes();
+                }
+            }
+
+            if (name.StartsWith("HOST:")) // client reads this
+            {
+                mIdToUser[id] = name.Substring(5);
+                Append("HOST connected: " + mIdToUser[id]);
+                mHostConnectionId = id;
+            }
+
+
+            UpdateQueueUI();
         }
 
+        public bool IsActiveClient()
+        {
+            return mIsActiveClient;
+        }
+
+        private void AssignNextClient()
+        {
+            if (mClientQueue.Count == 0)
+            {
+                mCurrentClient = null;
+                Append("No clients in queue.");
+                return;
+            }
+
+            if (mCurrentClient.HasValue)
+            {
+                // Mute the previous client if there was one
+                mCall.SetVolume(MUTED_VOLUME, mCurrentClient.Value);
+                RemoveVideo(mCurrentClient.Value);
+            }
+
+
+            // Dequeue next client
+            ConnectionId nextClient = mClientQueue.Dequeue();
+            mCurrentClient = nextClient;
+            mControlTimer = 0f;
+            SetupVideoUi(mCurrentClient.Value);
+            mCall.Send($"CONTROL_GRANTED:{nextClient}");
+            mCall.SetVolume(UNMUTED_VOLUME, mCurrentClient.Value);
+
+            UpdateQueueUI();
+
+            OnUserChanged?.Invoke();
+        }
+        int i = 0;
+        private void UpdateClientWaitTimes()
+        {
+            if (!mIsHost) return;
+
+            float timePerClient = baseQueueWaitTime;
+            float currentWaitTime = 0;
+
+            currentWaitTime = i * timePerClient;
+            if (mClientQueue.Count != 0)
+            {
+                mCall.Send($"WAIT_TIME:{currentWaitTime}");
+            }
+            i++;
+        }
+        void RemoveVideo(ConnectionId _id)
+        {
+            VideoData data;
+            if (mVideoUiElements.TryGetValue(_id, out data))
+            {
+                if (data.texture != null)
+                    Destroy(data.texture);
+                Destroy(data.uiObject);
+                mVideoUiElements.Remove(_id);
+            }
+        }
+
+        private string FormatTimeMmSs(float timeSeconds)
+        {
+            //if (timeSeconds < 0)
+            //    throw new ArgumentOutOfRangeException(nameof(timeSeconds), "Time must be non-negative.");
+            if (timeSeconds < 0)
+            {
+                return "Timer Over";
+            }
+
+            int totalSeconds = Mathf.FloorToInt(timeSeconds);
+            int minutes = totalSeconds / 60;
+            int seconds = totalSeconds % 60;
+
+            return string.Format("{0:00}:{1:00}", minutes, seconds);
+        }
+
+        private IEnumerator HandleRobotCommand()
+        {
+            float lastMsgTime = 0f;
+
+            if (!mIsHost)
+            {
+                SetupVideoUi(mHostConnectionId.Value);
+                while (mControlTimer < mControlTimeLimit)
+                {
+                    mControlTimer += Time.deltaTime;
+
+                    if (mControlTimer - lastMsgTime >= 1f)
+                    {
+                        //SendMsg($"Sending command to {_id}");
+                        lastMsgTime = mControlTimer;
+                    }
+
+                    uTimeRemainingText.text = "Time Remaining : " + FormatTimeMmSs(mControlTimeLimit - mControlTimer);
+                    yield return null;
+                }
+
+                isTimeoverFlag = true;
+
+                if (mMyConnectionId != mRearId)
+                {
+                    mCall.Send($"SWITCH_CONTROL:{mMyConnectionId}");
+                    RemoveVideo(mHostConnectionId.Value);
+                }
+            }
+        }
+
+
+        float waitTimer = 0f;
+        private IEnumerator SetWaitTime(float baseTime)
+        {
+            float lastMsgTime = 0f;
+            if (!mIsHost)
+            {
+                while (waitTimer <= baseTime)
+                {
+                    waitTimer += Time.deltaTime;
+
+                    if (waitTimer - lastMsgTime >= 1f)
+                    {
+                        uQueueTimeText.text = "Please Wait " + FormatTimeMmSs(baseTime - waitTimer);
+                        lastMsgTime = waitTimer;
+                    }
+                    yield return null;
+                }
+                uQueueTimeText.enabled = false;
+            }
+        }
         private void OnUserLeft(ConnectionId id)
         {
             if (mIdToUser.ContainsKey(id))
             {
                 string name = mIdToUser[id];
-                Append("User with name " + name + " and local ID " + id + " got disconnected");
+                Append("User with name " + name + "got disconnected");
             }
         }
 
@@ -379,6 +725,7 @@ namespace Byn.Unity.Examples
             VideoData vd = new VideoData();
             vd.uiObject = Instantiate(uVideoPrefab);
             vd.uiObject.transform.SetParent(uVideoLayout.transform, false);
+
             vd.image = vd.uiObject.GetComponentInChildren<RawImage>();
             vd.image.texture = uNoImgTexture;
             mVideoUiElements[id] = vd;
@@ -390,20 +737,94 @@ namespace Byn.Unity.Examples
         /// <param name="args"></param>
         private void OnCallEnded(CallEndedEventArgs args)
         {
-            VideoData data;
-            if (mVideoUiElements.TryGetValue(args.ConnectionId, out data))
+            if (!mIsHost)
             {
-                if (data.texture != null)
-                    Destroy(data.texture);
-                Destroy(data.uiObject);
-                mVideoUiElements.Remove(args.ConnectionId);
+                float remainingTime = baseQueueWaitTime - waitTimer;
+                mCall.Send($"DISCONNECTED:{remainingTime}", true, mHostConnectionId.Value); //send disconnected message to host to reorder queue wait time
             }
 
+            lastDisconnectId = args.ConnectionId;
+            //if (mIsHost)
+            //{
+            //    if (mClientQueue.Contains(args.ConnectionId))
+            //    {
+            //        lastDisconnectId = args.ConnectionId;
+            //        var newQueue = new Queue<ConnectionId>(mClientQueue.Where(id => id != args.ConnectionId)); //remove the disconencted client from clientQueue and make new queue
+            //        mClientQueue = newQueue;
+            //    }
+
+            //    // If current client disconnected, assign next
+            //    if (mCurrentClient == args.ConnectionId)
+            //    {
+            //        AssignNextClient();
+            //    }
+            //    UpdateQueueUI();
+            //}
+
+            RemoveVideo(args.ConnectionId);
+
             OnUserLeft(args.ConnectionId);
+            OnUserDisconnected?.Invoke();
         }
 
+        void DecreaseQueueTime(float seconds, ConnectionId disconnectClientId)
+        {
+            List<ConnectionId> connectionIdList = mClientQueue.ToList();
+            int index = connectionIdList.IndexOf(disconnectClientId); //disconnectedid is already kickedoutfrom queue
 
+            if (index >= 0)
+            {
+                List<ConnectionId> remainingNextId = connectionIdList.Skip(index + 1).ToList();
 
+                foreach (var id in remainingNextId)
+                {
+                    mCall.Send($"EXTEND_TIME:{seconds}", true, id);
+                }
+            }
+
+            if (mClientQueue.Contains(disconnectClientId))
+            {
+                lastDisconnectId = disconnectClientId;
+                var newQueue = new Queue<ConnectionId>(mClientQueue.Where(id => id != disconnectClientId)); //remove the disconencted client from clientQueue and make new queue
+                mClientQueue = newQueue;
+            }
+
+            // If current client disconnected, assign next
+            if (mCurrentClient == disconnectClientId)
+            {
+                AssignNextClient();
+            }
+            UpdateQueueUI();
+        }
+
+        private void UpdateQueueUI()
+        {
+            if (!mIsHost) return;
+
+            if (mCurrentClient != null && mIdToUser.ContainsKey(mCurrentClient.Value))
+            {
+                uCurrentControllerText.text = $"Current controller: {mIdToUser[mCurrentClient.Value]}";
+            }
+            else
+            {
+                uCurrentControllerText.text = "Current controller: None";
+            }
+
+            uQueueCountText.text = $"Clients in queue: {mClientQueue.Count}";
+
+            // Update queue list (reorder incase of/after disconnection)
+            string queueList = "";
+            int position = 1;
+            foreach (var clientId in mClientQueue)
+            {
+                if (mIdToUser.ContainsKey(clientId))
+                {
+                    queueList += $"{position}. {mIdToUser[clientId]}\n";
+                    position++;
+                }
+            }
+            uQueueListText.text = queueList;
+        }
 
         /// <summary>
         /// Updates the frame for a connection id. If the id is new it will create a
@@ -467,12 +888,16 @@ namespace Byn.Unity.Examples
             MediaConfig.Video = state;
         }
 
+        public static event Action<string> OnMsgReceived;
+
         /// <summary>
         /// Adds a new message to the message view
         /// </summary>
         /// <param name="text"></param>
         private void Append(string text)
         {
+            OnMsgReceived?.Invoke(text);
+
             if (uOutput != null)
             {
                 uOutput.AddTextEntry(text);
@@ -482,6 +907,8 @@ namespace Byn.Unity.Examples
                 Debug.Log("Chat: " + text);
             }
         }
+
+        private float assignClientFreezeTimer;
 
         /// <summary>
         /// The call object needs to be updated regularly to sync data received via webrtc with
@@ -494,6 +921,28 @@ namespace Byn.Unity.Examples
             {
                 //update the call
                 mCall.Update();
+
+                //command test
+                if (mIsHost)
+                {
+
+                    if (mCurrentClient == null)
+                    {
+
+                        if (mClientQueue.Count > 0)
+                        {
+                            if (assignClientFreezeTimer > 2f)
+                            {
+                                AssignNextClient();
+                                assignClientFreezeTimer = 0f;
+                            }
+                            else
+                            {
+                                assignClientFreezeTimer += Time.deltaTime;
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -520,6 +969,8 @@ namespace Byn.Unity.Examples
             Setup();
             EnsureLength();
             mCall.Listen(uRoomName.text);
+            //setup host (first joiner is host)
+
         }
 
         /// <summary>
@@ -560,7 +1011,7 @@ namespace Byn.Unity.Examples
         /// Sends a message to the other end
         /// </summary>
         /// <param name="msg"></param>
-        private void SendMsg(string msg)
+        public void SendMsg(string msg)
         {
             if (String.IsNullOrEmpty(msg))
             {

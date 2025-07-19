@@ -1,59 +1,59 @@
 using UnityEngine;
-using TMPro;
 
-public class KeyboardInputTargetMover : MonoBehaviour
+public class KeyboardInputTargetMover : TargetMover
 {
-    public float LeftWheelSpeed { get; private set; }
-    public float RightWheelSpeed { get; private set; }
-
-    [SerializeField] private TextMeshProUGUI status;
-
-    [Space]
-    [Header("IK Target Transforms")]
-    [Space]
-
-    [SerializeField] private Transform leftIkTarget;
-    [SerializeField] private Transform rightIkTarget;
-
-    [Space]
-    [Header("Settings")]
-    [Space]
-
-    [SerializeField] private KeyCode toggle = KeyCode.Space;
-    [SerializeField] private float handMoveSpeed = 0.1f;
-    [SerializeField] private float scrollSpeed = 50f;
-
-    [Tooltip("Max linear speed for forward movement.")]
-    [SerializeField] private float maxLinearSpeed = 1.0f;
-
-    [Tooltip("Max turn speed (higher = faster turns).")]
-    [SerializeField] private float maxTurnSpeed = 1.0f;
-
-    [Tooltip("Percentage of forward speed to apply when moving backward (0-100).")]
-    [Range(0f, 1f)] [SerializeField] private float backwardSpeedPercentage = .2f;
+    [SerializeField] private KeyCode toggle = KeyCode.T;
+    [SerializeField] private float scrollSpeed = 15f;
 
     private enum State { Wheels, Left, Right }
     private State currentState;
     private Vector3 moveVector;
     private float forwardSpeed;
 
-    private void Update()
+    protected override void Start()
     {
-        if (Input.GetKeyDown(toggle))
+        base.Start();
+    }
+
+    protected override void UpdateStatusUI()
+    {
+        if (!status)
         {
-            if (currentState == State.Right)
-            {
-                currentState = 0;
-            }
-            else
-            {
-                currentState++;
-            }
+            return;
         }
 
-        if (status)
+        status.text = string.Format("Control Mode:\n<color=green>{0}</color>\n<size=50%><i>Press {1} to Toggle", currentState.ToString(), toggle.ToString());
+    }
+
+    public void CycleControlMode()
+    {
+        if (IsMovementFrozen())
         {
-            status.text = string.Format("Control Mode:\n<color=green>{0}</color>\n<size=50%><i>Press {1} to Toggle", currentState.ToString(), toggle.ToString());
+            return;
+        }
+
+        if (currentState == State.Right)
+        {
+            currentState = 0;
+        }
+        else
+        {
+            currentState++;
+        }
+
+        UpdateStatusUI();
+    }
+
+    private void Update()
+    {
+        if (IsMovementFrozen())
+        {
+            return;
+        }
+
+        if (Input.GetKeyDown(toggle))
+        {
+            CycleControlMode();
         }
 
         moveVector.x = Input.GetAxis("Horizontal");
@@ -86,13 +86,18 @@ public class KeyboardInputTargetMover : MonoBehaviour
 
                 break;
             case State.Left:
-                leftIkTarget.Translate(handMoveSpeed * Time.deltaTime * moveVector);
+                TranslateAndClamp(leftIkTarget, moveVector, minLeftHandPosition, maxLeftHandPosition);
                 break;
             case State.Right:
-                rightIkTarget.Translate(handMoveSpeed * Time.deltaTime * moveVector);
+                TranslateAndClamp(rightIkTarget, moveVector, minRightHandPosition, maxRightHandPosition);
                 break;
             default:
                 break;
+        }
+
+        if (currentState != State.Wheels)
+        {
+            LeftWheelSpeed = RightWheelSpeed = 0f;
         }
     }
 }

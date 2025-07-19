@@ -100,7 +100,6 @@ namespace Byn.Unity.Examples
         protected bool mLocalFrameEvents = true;
         private FrameProcessor mFrameProcessor = null;
 
-
         #region Calls from unity
         //
         protected virtual void Awake()
@@ -289,11 +288,13 @@ namespace Byn.Unity.Examples
                 case CallEventType.CallEnded:
                     {
                         //Call was ended / one of the users hung up -> reset the app
+
                         Append("Call ended");
 
                         var args = e as CallEndedEventArgs;
                         mFrameProcessor.FreeConnection(args.ConnectionId);
                         InternalResetCall();
+
                         break;
                     }
                 case CallEventType.ListeningFailed:
@@ -409,7 +410,7 @@ namespace Byn.Unity.Examples
 #endif
 
             //use video and audio by default (the UI is toggled on by default as well it will change on click )
-            mediaConfig.Audio = true;
+            mediaConfig.Audio = false;
             mediaConfig.Video = true;
             mediaConfig.VideoDeviceName = null;
 

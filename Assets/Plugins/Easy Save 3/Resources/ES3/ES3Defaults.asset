@@ -46,7 +46,7 @@ MonoBehaviour:
     - Unity.XR.Interaction.Toolkit.Samples.StarterAssets
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
-  autoUpdateReferences: 0
+  autoUpdateReferences: 1
   addAllPrefabsToManager: 1
   collectDependenciesDepth: 4
   collectDependenciesTimeout: 10
