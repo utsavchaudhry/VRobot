@@ -95,7 +95,7 @@ namespace Byn.Unity.Examples
         /// <summary>
         /// Space used for video images
         /// </summary>
-        public GameObject uVideoLayout;
+        public GameObject uVideoLayout, uSelfVideoLayout;
 
         /// <summary>
         /// Prefab used for new user screen / video image
@@ -200,6 +200,7 @@ namespace Byn.Unity.Examples
         public static event Action OnUserChanged, OnUserDisconnected;
 
         private Coroutine timerRoutine;
+        public Texture2D clientVideoTexture, HostVideoTexture;
 
         private void Start()
         {
@@ -333,6 +334,7 @@ namespace Byn.Unity.Examples
                     FrameUpdateEventArgs frameargs = e as FrameUpdateEventArgs;
                     UpdateFrame(frameargs);
                     break;
+
                 case CallEventType.Message:
                     {
                         //text message received
@@ -343,6 +345,42 @@ namespace Byn.Unity.Examples
                         if (mIdToUser.ContainsKey(args.ConnectionId) == false)
                         {
                             AddNewConnection(args.ConnectionId);
+                        }
+
+                        //Check if message contains system messages
+                        bool isSystemMessage = args.Content.StartsWith("REQUEST_ID:") ||
+                         args.Content.StartsWith("YOUR_ID:") ||
+                         args.Content.StartsWith("REAR:") ||
+                         args.Content.StartsWith("CONTROL_GRANTED:") ||
+                         args.Content.StartsWith("WAIT_TIME:") ||
+                         args.Content.StartsWith("DISCONNECTED:") ||
+                         args.Content.StartsWith("EXTEND_TIME:") ||
+                         args.Content.StartsWith("SWITCH_CONTROL") ||
+                         args.Content.StartsWith("CLIENT:") ||
+                         args.Content.StartsWith("HOST:");
+
+                        if (!isSystemMessage)
+                        {
+                            if (mIsHost)
+                            {
+                                // Host only accepts messages from current controlling client
+                                if (mCurrentClient == null || args.ConnectionId != mCurrentClient.Value)
+                                {
+                                    // Optionally send a notification to the blocked client
+                                    mCall.Send("MESSAGE_BLOCKED:You are not the active controller", true, args.ConnectionId);
+                                    Debug.Log($"Blocked message from non-active client {args.ConnectionId}: {args.Content}");
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                // Client only accepts messages from host
+                                if (mHostConnectionId == null || args.ConnectionId != mHostConnectionId.Value)
+                                {
+                                    Debug.Log($"Client blocked message from non-host {args.ConnectionId}: {args.Content}");
+                                    return;
+                                }
+                            }
                         }
 
                         if (mIdToUser[args.ConnectionId] == "unknown")
@@ -458,6 +496,19 @@ namespace Byn.Unity.Examples
 
                         }
 
+                        if (args.Content.StartsWith("CONTROL_REVOKED:"))
+                        {
+                            if (!mIsHost)
+                            {
+                                mIsActiveClient = false;
+                                if (mHostConnectionId.HasValue)
+                                {
+                                    mCall.SetVolume(MUTED_VOLUME, mHostConnectionId.Value);
+                                }
+                                Append("Control has been revoked - you can no longer send messages or speak");
+                            }
+                        }
+
                         float discardedQueueTime = 0;
                         if (args.Content.StartsWith("DISCONNECTED:"))
                         {
@@ -508,6 +559,7 @@ namespace Byn.Unity.Examples
             {
                 mCall.Send("HOST:" + mOwnUserName);
                 Append("Robot is ready. Waiting for clients...");
+                SetupVideoUi(ConnectionId.INVALID, uSelfVideoLayout);
             }
             else
             {
@@ -571,6 +623,11 @@ namespace Byn.Unity.Examples
                 mIdToUser[id] = name.Substring(5);
                 Append("HOST connected: " + mIdToUser[id]);
                 mHostConnectionId = id;
+                SetupVideoUi(id,uVideoLayout);
+                if (!mIsActiveClient)
+                {
+                    mCall.SetVolume(MUTED_VOLUME, id);
+                }
             }
 
 
@@ -596,6 +653,8 @@ namespace Byn.Unity.Examples
                 // Mute the previous client if there was one
                 mCall.SetVolume(MUTED_VOLUME, mCurrentClient.Value);
                 RemoveVideo(mCurrentClient.Value);
+
+                mCall.Send("CONTROL_REVOKED:Control transferred to next client", true, mCurrentClient.Value);
             }
 
 
@@ -603,7 +662,7 @@ namespace Byn.Unity.Examples
             ConnectionId nextClient = mClientQueue.Dequeue();
             mCurrentClient = nextClient;
             mControlTimer = 0f;
-            SetupVideoUi(mCurrentClient.Value);
+            SetupVideoUi(mCurrentClient.Value,uVideoLayout);
             mCall.Send($"CONTROL_GRANTED:{nextClient}");
             mCall.SetVolume(UNMUTED_VOLUME, mCurrentClient.Value);
 
@@ -660,7 +719,7 @@ namespace Byn.Unity.Examples
 
             if (!mIsHost)
             {
-                SetupVideoUi(mHostConnectionId.Value);
+              
                 while (mControlTimer < mControlTimeLimit)
                 {
                     mControlTimer += Time.deltaTime;
@@ -680,7 +739,6 @@ namespace Byn.Unity.Examples
                 if (mMyConnectionId != mRearId)
                 {
                     mCall.Send($"SWITCH_CONTROL:{mMyConnectionId}");
-                    RemoveVideo(mHostConnectionId.Value);
                 }
             }
         }
@@ -719,12 +777,12 @@ namespace Byn.Unity.Examples
         /// Creates the connection specific data / ui
         /// </summary>
         /// <param name="id"></param>
-        private void SetupVideoUi(ConnectionId id)
+        private void SetupVideoUi(ConnectionId id, GameObject parentobj)
         {
             //create texture + ui element
             VideoData vd = new VideoData();
             vd.uiObject = Instantiate(uVideoPrefab);
-            vd.uiObject.transform.SetParent(uVideoLayout.transform, false);
+            vd.uiObject.transform.SetParent(parentobj.transform, false);
 
             vd.image = vd.uiObject.GetComponentInChildren<RawImage>();
             vd.image.texture = uNoImgTexture;
@@ -845,6 +903,12 @@ namespace Byn.Unity.Examples
                 //converts the frame data to a texture and sets it to the raw image
                 UnityMediaHelper.UpdateRawImageTransform(videoData.image, args.Frame, mirror);
                 videoData.texture = videoData.image.texture as Texture2D;
+
+                if (mIsHost)
+                {
+                    if (args.IsRemote) clientVideoTexture = videoData.texture;
+                    else HostVideoTexture = videoData.texture;
+                }
             }
         }
 
@@ -1016,6 +1080,15 @@ namespace Byn.Unity.Examples
             if (String.IsNullOrEmpty(msg))
             {
                 //never send null or empty messages. webrtc can't deal with that
+                return;
+            }
+
+            // Check if client is allowed to send messages
+            if (!mIsHost && !mIsActiveClient)
+            {
+                Append("Message blocked - You are not the active controller");
+                uMessageField.text = "";
+                uMessageField.Select();
                 return;
             }
 
