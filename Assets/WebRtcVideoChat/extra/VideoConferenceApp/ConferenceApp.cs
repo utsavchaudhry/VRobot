@@ -612,9 +612,16 @@ namespace Byn.Unity.Examples
                     // Add client to queue
                     mClientQueue.Enqueue(id);
                     Append($"{id} Added To Queue");
+
                     ConnectionId lastId = mClientQueue.Last();
                     mCall.Send("REAR:" + lastId);
+
                     UpdateClientWaitTimes();
+
+                    if (mCurrentClient == null && mClientQueue.Count == 1)   // If this is the first client and no one is currently controlling, start immediately
+                    {
+                        StartCoroutine(AssignFirstClientAfterDelay());
+                    }
                 }
             }
 
@@ -634,6 +641,17 @@ namespace Byn.Unity.Examples
             UpdateQueueUI();
         }
 
+        private IEnumerator AssignFirstClientAfterDelay()
+        {
+            // Small delay to ensure client is fully connected
+            yield return new WaitForSeconds(3f);
+
+            if (mClientQueue.Count > 0 && mCurrentClient == null)
+            {
+                AssignNextClient();
+            }
+        }
+
         public bool IsActiveClient()
         {
             return mIsActiveClient;
@@ -645,6 +663,8 @@ namespace Byn.Unity.Examples
             {
                 mCurrentClient = null;
                 Append("No clients in queue.");
+
+                i = 0;
                 return;
             }
 
@@ -662,27 +682,33 @@ namespace Byn.Unity.Examples
             ConnectionId nextClient = mClientQueue.Dequeue();
             mCurrentClient = nextClient;
             mControlTimer = 0f;
+
             SetupVideoUi(mCurrentClient.Value,uVideoLayout);
             mCall.Send($"CONTROL_GRANTED:{nextClient}");
             mCall.SetVolume(UNMUTED_VOLUME, mCurrentClient.Value);
 
+            UpdateClientWaitTimes();
             UpdateQueueUI();
 
             OnUserChanged?.Invoke();
         }
+
         int i = 0;
         private void UpdateClientWaitTimes()
         {
             if (!mIsHost) return;
 
-            float timePerClient = baseQueueWaitTime;
-            float currentWaitTime = 0;
-
-            currentWaitTime = i * timePerClient;
-            if (mClientQueue.Count != 0)
+            if (mClientQueue.Count == 1)
             {
-                mCall.Send($"WAIT_TIME:{currentWaitTime}");
+                i = 0;
             }
+
+            float timePerClient = baseQueueWaitTime;
+            float currentWaitTime = i * timePerClient;
+
+            ConnectionId lastClient = mClientQueue.Last();
+            mCall.Send($"WAIT_TIME:{currentWaitTime}", true, lastClient);
+
             i++;
         }
         void RemoveVideo(ConnectionId _id)
@@ -759,9 +785,15 @@ namespace Byn.Unity.Examples
                         uQueueTimeText.text = "Please Wait " + FormatTimeMmSs(baseTime - waitTimer);
                         lastMsgTime = waitTimer;
                     }
+
+                    if (mIsActiveClient)
+                    {
+                        uQueueTimeText.enabled = false;
+                        yield break; 
+                    }
+
                     yield return null;
                 }
-                uQueueTimeText.enabled = false;
             }
         }
         private void OnUserLeft(ConnectionId id)
@@ -802,25 +834,26 @@ namespace Byn.Unity.Examples
             }
 
             lastDisconnectId = args.ConnectionId;
-            //if (mIsHost)
-            //{
-            //    if (mClientQueue.Contains(args.ConnectionId))
-            //    {
-            //        lastDisconnectId = args.ConnectionId;
-            //        var newQueue = new Queue<ConnectionId>(mClientQueue.Where(id => id != args.ConnectionId)); //remove the disconencted client from clientQueue and make new queue
-            //        mClientQueue = newQueue;
-            //    }
 
-            //    // If current client disconnected, assign next
-            //    if (mCurrentClient == args.ConnectionId)
-            //    {
-            //        AssignNextClient();
-            //    }
-            //    UpdateQueueUI();
-            //}
+            if (mIsHost)
+            {
+                // Adjust the counter when clients disconnect
+                if (mClientQueue.Contains(args.ConnectionId) ||
+                    (mCurrentClient.HasValue && mCurrentClient.Value == args.ConnectionId))
+                {
+                    i = Mathf.Max(0, i - 1); 
+                }
+            }
+
+            if (mConnectedClients.Contains(args.ConnectionId))
+            {
+                mConnectedClients.Remove(args.ConnectionId);
+
+            }
+
+            mCurrentClient = null;
 
             RemoveVideo(args.ConnectionId);
-
             OnUserLeft(args.ConnectionId);
             OnUserDisconnected?.Invoke();
         }

@@ -401,7 +401,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 649427156}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -859,7 +859,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 649427156}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1408,8 +1408,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 121682341}
   - {fileID: 294801022}
+  - {fileID: 121682341}
   - {fileID: 1125851559}
   - {fileID: 1842169067}
   m_Father: {fileID: 1752205604}
@@ -2253,6 +2253,10 @@ PrefabInstance:
     - target: {fileID: 1477427471153750, guid: 8fa59c0c9387c3d428a0a4989b7d1cb3, type: 3}
       propertyPath: m_Name
       value: VideoCaptureClient
+      objectReference: {fileID: 0}
+    - target: {fileID: 1477427471153750, guid: 8fa59c0c9387c3d428a0a4989b7d1cb3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4618479025953142, guid: 8fa59c0c9387c3d428a0a4989b7d1cb3, type: 3}
       propertyPath: m_RootOrder

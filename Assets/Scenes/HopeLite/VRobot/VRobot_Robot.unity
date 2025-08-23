@@ -3439,6 +3439,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VideoCaptureClient
       objectReference: {fileID: 0}
+    - target: {fileID: 1477427471153750, guid: 8fa59c0c9387c3d428a0a4989b7d1cb3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4618479025953142, guid: 8fa59c0c9387c3d428a0a4989b7d1cb3, type: 3}
       propertyPath: m_RootOrder
       value: 0
