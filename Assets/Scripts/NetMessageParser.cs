@@ -9,12 +9,15 @@ public class NetMessageParser : MonoBehaviour
     [SerializeField] [TextArea] private string defaultPosition;
     [SerializeField] private bool log;
 
+    private ConferenceApp conferenceApp;
     private Dictionary<int, int> signals;
     private bool paused = true;
 
     private void Start()
     {
         signals = new Dictionary<int, int>();
+
+        conferenceApp = FindObjectOfType<ConferenceApp>();
 
         ConferenceApp.OnMsgReceived += Parse;
         ConferenceApp.OnUserChanged += ResetRobot;
@@ -125,6 +128,11 @@ public class NetMessageParser : MonoBehaviour
 
     private void ResetRobot()
     {
+        if (conferenceApp.GetClientCount() != 0)
+        {
+            return;
+        }
+
         Parse(defaultPosition);
     }
 }

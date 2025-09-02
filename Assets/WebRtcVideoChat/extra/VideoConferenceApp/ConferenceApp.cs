@@ -202,6 +202,13 @@ namespace Byn.Unity.Examples
         private Coroutine timerRoutine;
         public Texture2D clientVideoTexture, HostVideoTexture;
 
+       //Host Availability variables;
+        private float mLastHostPingTime;
+        private const float HOST_PING_INTERVAL = 5f; // Send ping every 3 seconds
+        private const float HOST_TIMEOUT_DURATION = 15f; // Consider host dead after 15 seconds
+        public bool mIsHostAvailable = false;
+        private Coroutine mHeartbeatCoroutine;
+
         private void Start()
         {
             UnityCallFactory.RequestLogLevelStatic(UnityCallFactory.LogLevel.Info);
@@ -211,6 +218,62 @@ namespace Byn.Unity.Examples
             mIdToUser = new Dictionary<ConnectionId, string>();
 
             _ = StartCoroutine(JoinWithDelay());
+            //if (!mIsHost)
+            //{
+            //    mHeartbeatCoroutine = StartCoroutine(PingSystem());
+            //}
+        }
+
+        //private IEnumerator PingSystem()
+        //{
+        //    while (mCall != null && !mIsHost)
+        //    {
+        //        yield return new WaitForSeconds(HOST_PING_INTERVAL);
+
+        //        // Send ping to host if we know the host ID
+        //        if (mHostConnectionId.HasValue)
+        //        {
+        //            mCall.Send("PING", true, mHostConnectionId.Value);
+
+        //            // Check if host hasn't responded in timeout duration
+        //            if (Time.time - mLastHostPingTime > HOST_TIMEOUT_DURATION && mIsHostAvailable)
+        //            {
+        //                OnHostDisconnected();
+        //            }
+        //        }
+        //    }
+        //}
+
+        //private void HandleHeartbeatMessages(MessageEventArgs args)
+        //{
+        //    if (args.Content == "PING")
+        //    {
+        //        if (mIsHost)
+        //        {
+        //            // Host responds to ping
+        //            mCall.Send("PONG", true, args.ConnectionId);
+        //        }
+        //    }
+        //    else if (args.Content == "PONG")
+        //    {
+        //        if (!mIsHost && args.ConnectionId == mHostConnectionId)
+        //        {
+        //            // Client received response from host
+        //            mLastHostPingTime = Time.time;
+
+        //        }
+        //    }
+        //}
+
+        private void OnHostDisconnected() //handle host disconenction events here
+        {
+            mIsHostAvailable = false;
+            Append("Warning: Host appears to be disconnected!");
+
+            if (mIsActiveClient)
+            {
+                mIsActiveClient = false;
+            }
         }
 
         private IEnumerator JoinWithDelay()
@@ -242,6 +305,11 @@ namespace Byn.Unity.Examples
             NetConfig.SignalingUrl = ExampleGlobals.SignalingConference;
             NetConfig.IsConference = true;
             uRoomName.text = defaultRoomName;
+        }
+
+        public int GetClientCount()
+        {
+            return mClientQueue.Count;
         }
 
         protected virtual void OnCallFactoryFailed(string error)
@@ -630,6 +698,7 @@ namespace Byn.Unity.Examples
                 mIdToUser[id] = name.Substring(5);
                 Append("HOST connected: " + mIdToUser[id]);
                 mHostConnectionId = id;
+                mIsHostAvailable = true;
                 SetupVideoUi(id,uVideoLayout);
                 if (!mIsActiveClient)
                 {
@@ -661,7 +730,7 @@ namespace Byn.Unity.Examples
         {
             if (mClientQueue.Count == 0)
             {
-                mCurrentClient = null;
+               // mCurrentClient = null;
                 Append("No clients in queue.");
 
                 i = 0;
@@ -687,7 +756,7 @@ namespace Byn.Unity.Examples
             mCall.Send($"CONTROL_GRANTED:{nextClient}");
             mCall.SetVolume(UNMUTED_VOLUME, mCurrentClient.Value);
 
-            UpdateClientWaitTimes();
+           // UpdateClientWaitTimes();
             UpdateQueueUI();
 
             OnUserChanged?.Invoke();
@@ -698,18 +767,21 @@ namespace Byn.Unity.Examples
         {
             if (!mIsHost) return;
 
-            if (mClientQueue.Count == 1)
+            if (mClientQueue.Count == 0)
             {
                 i = 0;
             }
 
-            float timePerClient = baseQueueWaitTime;
-            float currentWaitTime = i * timePerClient;
+            float currentWaitTime = i * baseQueueWaitTime;
 
-            ConnectionId lastClient = mClientQueue.Last();
-            mCall.Send($"WAIT_TIME:{currentWaitTime}", true, lastClient);
+            if (mClientQueue.Count != 0)
+            {
+                ConnectionId lastClient = mClientQueue.Last();
+                mCall.Send($"WAIT_TIME:{currentWaitTime}", true, lastClient);
 
-            i++;
+                i++;
+            }
+           
         }
         void RemoveVideo(ConnectionId _id)
         {
@@ -851,8 +923,6 @@ namespace Byn.Unity.Examples
 
             }
 
-            mCurrentClient = null;
-
             RemoveVideo(args.ConnectionId);
             OnUserLeft(args.ConnectionId);
             OnUserDisconnected?.Invoke();
@@ -881,8 +951,9 @@ namespace Byn.Unity.Examples
             }
 
             // If current client disconnected, assign next
-            if (mCurrentClient == disconnectClientId)
+            if (mCurrentClient.HasValue && mCurrentClient.Value == disconnectClientId)
             {
+                mCurrentClient = null; // Clear current client 
                 AssignNextClient();
             }
             UpdateQueueUI();
