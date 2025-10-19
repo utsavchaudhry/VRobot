@@ -28,7 +28,7 @@ public class Clamp : MonoBehaviour
         {
             openColor = btnImage.color;
         }
-        closedColor = new Color(1f, 0f, 0f, Mathf.Clamp01(openColor.a * 3f));
+        closedColor = new Color(0f, 0.749f, 1f, Mathf.Clamp01(openColor.a * 3f));
 
         _ = StartCoroutine(CalculateSignal());
         UpdateBtnText();

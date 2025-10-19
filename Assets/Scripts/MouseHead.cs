@@ -20,7 +20,6 @@ public class MouseHead : MonoBehaviour
     private float yaw = 0f;   // Horizontal rotation (around Y-axis).
     private float pitch = 0f; // Vertical rotation (around X-axis).
     private float mouseX, mouseY;
-    private bool connectionActive;
     private bool phoneMode;
 
     void Start()
@@ -33,27 +32,18 @@ public class MouseHead : MonoBehaviour
     {
         if (TargetMover.FreezeCamera || (conference && !conference.IsActiveClient()))
         {
-            connectionActive = false;
             return;
-        }
-
-        if (!phoneMode && !connectionActive)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            connectionActive = true;
         }
         
         if (phoneMode)
         {
-            // Get joystick input.
             mouseX = UltimateJoystick.GetHorizontalAxis("Right") * sensitivityX;
             mouseY = UltimateJoystick.GetVerticalAxis("Right") * sensitivityY;
         }
         else
         {
-            // Get mouse input.
-            mouseX = Input.GetAxis("Mouse X") * sensitivityX;
-            mouseY = Input.GetAxis("Mouse Y") * sensitivityY;
+            mouseX = UltimateJoystick.GetHorizontalAxis("Middle") * sensitivityX;
+            mouseY = UltimateJoystick.GetVerticalAxis("Middle") * sensitivityY;
         }
 
         // Update yaw (horizontal rotation). 
