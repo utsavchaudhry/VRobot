@@ -372,7 +372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   phoneScene: HopeLite_MobileOperator_ShopMetal
-  computerScene: HopeLite_PCOperator_ShopMetal
+  computerScene: HopeLite_PCOperator_ShopMetal_Mouse
   delay: 1
 --- !u!4 &1039400039
 Transform:
