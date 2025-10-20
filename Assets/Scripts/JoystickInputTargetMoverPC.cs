@@ -1,5 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using Michsky.MUIP;
 
 public class JoystickInputTargetMoverPC : TargetMover
 {
@@ -12,17 +13,65 @@ public class JoystickInputTargetMoverPC : TargetMover
 
     [SerializeField] private Button[] modeButtons;
 
+    [Space]
+
+    [SerializeField] private SliderManager leftSlider;
+    [SerializeField] private SliderManager rightSlider;
+
+    [Space]
+
+    [Header("Z Smoothing")]
+    [Tooltip("Time (seconds) to reach ~63% of the step; ~4.6×smoothTime to get within ~1% (critically-damped model).")]
+    [SerializeField, Min(0.0001f)] private float smoothTime = 0.08f;
+
+    [Tooltip("Optional cap on Z speed (units/second). Use Mathf.Infinity for no cap.")]
+    [SerializeField] private float maxSpeedZ = 1;
+
+    [Tooltip("Use localPosition instead of world position (recommended if targets are under moving parents).")]
+    [SerializeField] private bool useLocalSpace = false;
+
     private enum State { Wheels, Camera, Arms }
     private State currentState;
     private float leftX, leftY, rightX, rightY, middleX, middleY;
     private float forwardSpeed;
     private bool buttonsConfigured;
 
+    private float leftSliderValue, rightSliderValue;
+
+    private float _leftVelZ = 0f;
+    private float _rightVelZ = 0f;
+
     protected override void Start()
     {
         base.Start();
         FreezeCamera = currentState != State.Camera;
         ChangeControlMode(0);
+        SetUpSlider();
+    }
+
+    private void SetUpSlider()
+    {
+        if (leftSlider)
+        {
+            leftSliderValue = leftSlider.mainSlider.value;
+            leftSlider.mainSlider.onValueChanged.AddListener(LeftSliderUpdate);
+        }
+
+        if (rightSlider)
+        {
+            rightSliderValue = rightSlider.mainSlider.value;
+            rightSlider.mainSlider.onValueChanged.AddListener(RightSliderUpdate);
+        }
+    }
+
+    private void LeftSliderUpdate(float value)
+    {
+        leftSliderValue = value;
+    }
+
+    private void RightSliderUpdate(float value)
+    {
+        rightSliderValue = value;
     }
 
     private void ToggleJoystick()
@@ -88,9 +137,11 @@ public class JoystickInputTargetMoverPC : TargetMover
             //return;
         }
 
+        ResetDamping();
+
         currentState = (State)mode;
 
-        FreezeCamera = currentState == State.Arms;
+        FreezeCamera = currentState != State.Camera;
 
         UpdateStatusUI();
 
@@ -104,53 +155,95 @@ public class JoystickInputTargetMoverPC : TargetMover
             //return;
         }
 
+        if (currentState == State.Wheels)
+        {
+            middleX = UltimateJoystick.GetHorizontalAxis("Middle");
+            middleY = UltimateJoystick.GetVerticalAxis("Middle");
+
+            if (middleY < 0)
+            {
+                forwardSpeed = middleY * maxLinearSpeed * backwardSpeedPercentage;
+            }
+            else
+            {
+                forwardSpeed = middleY * maxLinearSpeed;
+            }
+
+            float turnSpeed = middleX * maxTurnSpeed;
+            LeftWheelSpeed = forwardSpeed + turnSpeed;
+            RightWheelSpeed = forwardSpeed - turnSpeed;
+        }
+        else
+        {
+            LeftWheelSpeed = RightWheelSpeed = 0f;
+        }
+
         leftX = UltimateJoystick.GetHorizontalAxis("Left");
         leftY = UltimateJoystick.GetVerticalAxis("Left");
         rightX = UltimateJoystick.GetHorizontalAxis("Right");
         rightY = UltimateJoystick.GetVerticalAxis("Right");
-        middleX = UltimateJoystick.GetHorizontalAxis("Middle");
-        middleY = UltimateJoystick.GetVerticalAxis("Middle");
 
-        switch (currentState)
-        {
-            case State.Wheels:
-                if (middleY < 0)
-                {
-                    // For backward motion, scale the speed by backwardSpeedPercentage
-                    forwardSpeed = middleY * maxLinearSpeed * backwardSpeedPercentage;
-                }
-                else
-                {
-                    // For forward motion, use the full maxLinearSpeed
-                    forwardSpeed = middleY * maxLinearSpeed;
-                }
+        TranslateAndClamp(leftIkTarget, new Vector3(leftX, leftY, 0f), minLeftHandPosition, maxLeftHandPosition);
+        TranslateAndClamp(rightIkTarget, new Vector3(rightX, rightY, 0f), minRightHandPosition, maxRightHandPosition);
 
-                // The turn speed remains unaffected
-                float turnSpeed = middleX * maxTurnSpeed;
+        UpdateIKZOnlySmooth(
+            leftIkTarget,
+            minLeftHandPosition.z,
+            maxLeftHandPosition.z,
+            leftSliderValue,
+            ref _leftVelZ
+        );
 
-                // Differential drive logic:
-                //   Left  wheel = forwardSpeed + turnSpeed
-                //   Right wheel = forwardSpeed - turnSpeed
-                LeftWheelSpeed = forwardSpeed + turnSpeed;
-                RightWheelSpeed = forwardSpeed - turnSpeed;
+        UpdateIKZOnlySmooth(
+            rightIkTarget,
+            minRightHandPosition.z,
+            maxRightHandPosition.z,
+            rightSliderValue,
+            ref _rightVelZ
+        );
+    }
 
-                break;
+    private void UpdateIKZOnlySmooth(
+        Transform target,
+        float minZ,
+        float maxZ,
+        float slider01,
+        ref float velZ
+    )
+    {
+        if (target == null) return;
 
-            case State.Arms:
+        // 1) Map slider ∈ [0,1] to target Z range (handles minZ > maxZ as well).
+        float t = Mathf.Clamp01(slider01);
+        float targetZ = Mathf.Lerp(minZ, maxZ, t);
 
-                TranslateAndClamp(leftIkTarget, new Vector3(leftX, leftY, 0f), minLeftHandPosition, maxLeftHandPosition);
-                TranslateAndClamp(rightIkTarget, new Vector3(rightX, rightY, 0f), minRightHandPosition, maxRightHandPosition);
+        // 2) Read current Z in chosen space.
+        Vector3 p = useLocalSpace ? target.localPosition : target.position;
+        float currentZ = p.z;
 
-                break;
-            case State.Camera:
-                break;
-            default:
-                break;
-        }
+        // 3) Critically-damped step towards targetZ (only Z axis).
+        float newZ = Mathf.SmoothDamp(
+            currentZ,
+            targetZ,
+            ref velZ,
+            smoothTime,
+            maxSpeedZ,
+            Time.deltaTime
+        );
 
-        if (currentState != State.Wheels)
-        {
-            LeftWheelSpeed = RightWheelSpeed = 0f;
-        }
+        // 4) Write back Z, preserving X and Y.
+        p.z = newZ;
+        if (useLocalSpace) target.localPosition = p;
+        else target.position = p;
+    }
+
+    /// <summary>
+    /// If you change ranges at runtime and want to avoid “spring” from stale velocity,
+    /// call this to reset damping state (e.g., on range reconfiguration).
+    /// </summary>
+    public void ResetDamping()
+    {
+        _leftVelZ = 0f;
+        _rightVelZ = 0f;
     }
 }
