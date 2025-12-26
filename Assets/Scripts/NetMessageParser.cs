@@ -20,6 +20,7 @@ public class NetMessageParser : MonoBehaviour
         conferenceApp = FindObjectOfType<ConferenceApp>();
 
         ConferenceApp.OnMsgReceived += Parse;
+        CallAppUi.OnMsgReceived += Parse;
         ConferenceApp.OnUserChanged += ResetRobot;
         ConferenceApp.OnUserDisconnected += ResetRobot;
     }
@@ -27,6 +28,7 @@ public class NetMessageParser : MonoBehaviour
     private void OnDestroy()
     {
         ConferenceApp.OnMsgReceived -= Parse;
+        CallAppUi.OnMsgReceived -= Parse;
         ConferenceApp.OnUserChanged -= ResetRobot;
         ConferenceApp.OnUserDisconnected -= ResetRobot;
     }
@@ -128,7 +130,7 @@ public class NetMessageParser : MonoBehaviour
 
     private void ResetRobot()
     {
-        if (conferenceApp.GetClientCount() != 0)
+        if (conferenceApp && conferenceApp.GetClientCount() != 0)
         {
             return;
         }

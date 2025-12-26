@@ -20,12 +20,15 @@ public class MouseHead : MonoBehaviour
     private float yaw = 0f;   // Horizontal rotation (around Y-axis).
     private float pitch = 0f; // Vertical rotation (around X-axis).
     private float mouseX, mouseY;
-    private bool phoneMode;
+    private enum InputState { JoystickPhone, JoystickPC, MousePC }
+    private InputState input;
 
     void Start()
     {
         conference = FindObjectOfType<ConferenceApp>();
-        phoneMode = FindObjectOfType<JoystickInputTargetMover>();
+        input = FindObjectOfType<JoystickInputTargetMoverPC>()
+            ? InputState.JoystickPC
+            : FindObjectOfType<KeyboardInputTargetMover>() ? InputState.MousePC : InputState.JoystickPhone;
     }
 
     void Update()
@@ -34,16 +37,23 @@ public class MouseHead : MonoBehaviour
         {
             return;
         }
-        
-        if (phoneMode)
+
+        switch (input)
         {
-            mouseX = UltimateJoystick.GetHorizontalAxis("Right") * sensitivityX;
-            mouseY = UltimateJoystick.GetVerticalAxis("Right") * sensitivityY;
-        }
-        else
-        {
-            mouseX = UltimateJoystick.GetHorizontalAxis("Middle") * sensitivityX;
-            mouseY = UltimateJoystick.GetVerticalAxis("Middle") * sensitivityY;
+            case InputState.JoystickPhone:
+                mouseX = UltimateJoystick.GetHorizontalAxis("Right") * sensitivityX;
+                mouseY = UltimateJoystick.GetVerticalAxis("Right") * sensitivityY;
+                break;
+            case InputState.JoystickPC:
+                mouseX = UltimateJoystick.GetHorizontalAxis("Middle") * sensitivityX;
+                mouseY = UltimateJoystick.GetVerticalAxis("Middle") * sensitivityY;
+                break;
+            case InputState.MousePC:
+                mouseX = Input.GetAxis("Mouse X");
+                mouseY = Input.GetAxis("Mouse Y");
+                break;
+            default:
+                break;
         }
 
         // Update yaw (horizontal rotation). 

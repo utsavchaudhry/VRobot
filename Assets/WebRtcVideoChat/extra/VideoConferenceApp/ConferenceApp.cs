@@ -290,7 +290,7 @@ namespace Byn.Unity.Examples
 
         [Space]
 
-        [SerializeField] private string defaultRoomName = "ShopMetal_1";
+        [SerializeField] private string defaultRoomName = "VRobot_1";
 
         protected virtual void OnCallFactoryReady()
         {
@@ -306,7 +306,7 @@ namespace Byn.Unity.Examples
             NetConfig.IceServers.Add(ExampleGlobals.DefaultIceServer);
             NetConfig.SignalingUrl = ExampleGlobals.SignalingConference;
             NetConfig.IsConference = true;
-            uRoomName.text = "ShopMetal";
+            uRoomName.text = defaultRoomName;
         }
 
         public int GetClientCount()

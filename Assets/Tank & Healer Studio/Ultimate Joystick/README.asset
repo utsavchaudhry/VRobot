@@ -17,5 +17,5 @@ MonoBehaviour:
   scriptReference: {fileID: 2800000, guid: 99fdd6b55d3be9c479ee755c2634dab1, type: 3}
   colorDefault: {r: 1, g: 1, b: 1, a: 0.5019608}
   colorValueChanged: {r: 0, g: 1, b: 0, a: 1}
-  pageHistory: 0000000002000000
+  pageHistory: 000000000200000005000000
   scrollValue: {x: 0, y: 0}

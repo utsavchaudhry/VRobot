@@ -3212,7 +3212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statusText: {fileID: 858863413}
-  defaultPosition: 2008,1915,1435,2070,2240,2013,1992,2048,2048,2500,1984,2178,2659,2027,1857,2034,2500,2107,f,,0.0,0.0
+  defaultPosition: 2053,1932,1442,2017,2298,1977,2037,2048,2048,2500,2038,2166,2657,2081,1795,1986,,2054,f,850,750,1000,100,100,500,750,450,500,0,0,1000,0,900,1000,100,0.0,0.0
   log: 0
 --- !u!4 &1587232475
 Transform:
@@ -3389,6 +3389,7 @@ MonoBehaviour:
   uUserNameText: {fileID: 1416761160}
   clientVideoTexture: {fileID: 0}
   HostVideoTexture: {fileID: 0}
+  mIsHostAvailable: 0
   defaultRoomName: VRobot_1
 --- !u!114 &1752205606
 MonoBehaviour:

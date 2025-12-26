@@ -188,7 +188,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &387016528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2420,7 +2420,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224469193533178148, guid: f40071bb3b9da854d85ad3c363192151, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0033569336
+      value: -0.0018920898
       objectReference: {fileID: 0}
     - target: {fileID: 224499968744116904, guid: f40071bb3b9da854d85ad3c363192151, type: 3}
       propertyPath: m_SizeDelta.y
@@ -3026,18 +3026,6 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6344992501876801760, guid: 21edbf1f15e06a246802e199ad276038, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 6344992501876801760, guid: 21edbf1f15e06a246802e199ad276038, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 6344992501876801760, guid: 21edbf1f15e06a246802e199ad276038, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 6344992501876801760, guid: 21edbf1f15e06a246802e199ad276038, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -3077,10 +3065,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6344992501876801760, guid: 21edbf1f15e06a246802e199ad276038, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6344992501876801761, guid: 21edbf1f15e06a246802e199ad276038, type: 3}
       propertyPath: m_Name
       value: HopeLite
@@ -3097,10 +3081,6 @@ PrefabInstance:
       propertyPath: rTarget
       value: 
       objectReference: {fileID: 1828766444}
-    - target: {fileID: 6344992501876801775, guid: 21edbf1f15e06a246802e199ad276038, type: 3}
-      propertyPath: noCalibration
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6344992501876801775, guid: 21edbf1f15e06a246802e199ad276038, type: 3}
       propertyPath: statusTexts.Array.data[0]
       value: 

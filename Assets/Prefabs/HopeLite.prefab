@@ -7265,11 +7265,11 @@ MonoBehaviour:
   startAngle: -180
   offset: 0
   range: 180
-  minPWM: 2048
-  maxPWM: 4096
+  minPWM: 0
+  maxPWM: 2048
   motorID: 4
   axis: 0
-  flip: 1
+  flip: 0
   useCustomAngleConversion: 1
 --- !u!1 &6344992501065096002
 GameObject:
@@ -11936,8 +11936,8 @@ Transform:
   m_GameObject: {fileID: 6344992501876801761}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.1, z: -0.075}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4700275650429597641}
   - {fileID: 6344992502005585567}
@@ -11964,6 +11964,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   allowReset: 0
+  noCalibration: 0
   pauseOnStart: 1
 --- !u!1 &6344992501901304148
 GameObject:
@@ -15969,11 +15970,11 @@ MonoBehaviour:
   startAngle: -180
   offset: 0
   range: 180
-  minPWM: 0
-  maxPWM: 2048
+  minPWM: 2048
+  maxPWM: 4096
   motorID: 14
   axis: 0
-  flip: 0
+  flip: 1
   useCustomAngleConversion: 1
 --- !u!1 &6344992502429742203
 GameObject:

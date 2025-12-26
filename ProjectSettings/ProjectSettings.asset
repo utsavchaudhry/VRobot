@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: VRobotx
-  productName: ShopMetal_1
+  productName: VRobot_1
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.12156863, g: 0.12156863, b: 0.1254902, a: 1}
@@ -137,7 +137,8 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleVersion: 1.0
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: 6735539031893553762, guid: 5c40b7b0019cb9c44a7cd85882052293, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -634,18 +635,23 @@ PlayerSettings:
   webGLDecompressionFallback: 0
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI
-    EmbeddedLinux: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI
-    LinuxHeadlessSimulation: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI
-    Nintendo Switch: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI
-    PS4: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI
+    Android: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI;DOTWEEN
+    EmbeddedLinux: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI;DOTWEEN
+    GameCoreScarlett: DOTWEEN
+    GameCoreXboxOne: DOTWEEN
+    LinuxHeadlessSimulation: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI;DOTWEEN
+    Lumin: DOTWEEN
+    Nintendo Switch: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI;DOTWEEN
+    PS4: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI;DOTWEEN
+    PS5: DOTWEEN
     Server: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI
-    Standalone: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI
-    WebGL: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI
-    Windows Store Apps: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI
-    XboxOne: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI
-    iPhone: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI
-    tvOS: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI
+    Stadia: DOTWEEN
+    Standalone: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI;DOTWEEN
+    WebGL: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI;DOTWEEN
+    Windows Store Apps: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI;DOTWEEN
+    XboxOne: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI;DOTWEEN
+    iPhone: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI;DOTWEEN
+    tvOS: UNITY_VISUAL_SCRIPTING;ES3_TMPRO;ES3_UGUI;DOTWEEN
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
@@ -666,7 +672,7 @@ PlayerSettings:
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: VRobot
-  metroPackageVersion: 
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -674,7 +680,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: VRobot
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: ShopMetal_1
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0
