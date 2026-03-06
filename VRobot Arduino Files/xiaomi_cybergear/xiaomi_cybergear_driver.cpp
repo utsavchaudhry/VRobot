@@ -205,7 +205,7 @@ void XiaomiCyberGearDriver::_send_can_package(uint8_t can_id, uint8_t cmd_id, ui
     }
 
     // Queue message for transmission
-    if (twai_transmit(&message, pdMS_TO_TICKS(1000)) == ESP_OK) {
+    if (twai_transmit(&message, pdMS_TO_TICKS(100)) == ESP_OK) {
         // if (_use_serial_debug) Serial.println("Message queued for transmission\n");
     } else {
         if (_use_serial_debug) Serial.println("Failed to queue message for transmission\n");
